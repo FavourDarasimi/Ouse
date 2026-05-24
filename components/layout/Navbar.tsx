@@ -18,8 +18,10 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { getInitials } from "@/lib/utils/getInitials";
+import { useAddListing } from "@/context/AddListingContext";
 
 export function Navbar() {
+  const { openPanel } = useAddListing();
   const { user, profile, role, isAuthInitialized, isLoggingOut, signOut } =
     useAuth();
   const pathname = usePathname();
@@ -28,10 +30,15 @@ export function Navbar() {
   const avatarRef = useRef<HTMLDivElement>(null);
 
   const isActive = (href: string) => {
+    if (href === "/landlord/dashboard") return pathname === href;
+    if (href === "/landlord/listings")
+      return pathname.startsWith("/landlord/listings");
+    if (href === "/landlord/messages")
+      return pathname.startsWith("/landlord/messages");
     if (href === "/listings") return pathname.startsWith("/listings");
     if (href === "/tenant/saved") return pathname.startsWith("/tenant/saved");
-    if (href === "/tenant/messages" || href === "/landlord/messages")
-      return pathname.startsWith("/messages");
+    if (href === "/tenant/messages")
+      return pathname.startsWith("/tenant/messages");
     return pathname === href;
   };
 
@@ -325,14 +332,16 @@ export function Navbar() {
           <Home className="h-5 w-5 text-primary" />
           Ouse
         </Link>
+
         <div className="flex items-center gap-3 ml-auto">
-          <Link
-            href="/landlord/listings/new"
+          <button
+            type="button"
+            onClick={openPanel}
             className="hidden md:inline-flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-blue-700 active:scale-95 transition-all duration-150"
           >
             <Plus className="h-4 w-4" />
             Add Listing
-          </Link>
+          </button>
 
           <div ref={avatarRef} className="relative">
             <button

@@ -2,9 +2,13 @@ import { redirect } from "next/navigation";
 import { createServerClient } from "@/lib/supabase/server";
 import { Navbar } from "@/components/layout/Navbar";
 import { Sidebar } from "@/components/layout/Sidebar";
-import { LandlordBottomNav } from "@/components/layout/MobileBottomNav";
-import { Plus } from "lucide-react";
-import Link from "next/link";
+import {
+  MobileBottomNav,
+  landlordLinks,
+} from "@/components/layout/MobileBottomNav";
+import { AddListingProvider } from "@/context/AddListingContext";
+import { AddListingPanel } from "@/components/listings/AddListingPanel";
+import { AddListingFAB } from "@/components/listings/AddListingFAB";
 
 export default async function LandlordLayout({
   children,
@@ -22,7 +26,7 @@ export default async function LandlordLayout({
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("role")
+    .select("role, full_name")
     .eq("id", user.id)
     .maybeSingle();
 
@@ -30,21 +34,32 @@ export default async function LandlordLayout({
     redirect("/tenant/dashboard");
   }
 
+  let unreadCount = 0;
+  const { data: conversations } = await supabase
+    .from("conversations")
+    .select("id")
+    .eq("landlord_id", user.id);
+
+  if (conversations && conversations.length > 0) {
+    const { count } = await supabase
+      .from("messages")
+      .select("id", { count: "exact", head: true })
+      .in("conversation_id", conversations.map((c) => c.id))
+      .eq("read", false)
+      .neq("sender_id", user.id);
+    unreadCount = count ?? 0;
+  }
+
   return (
-    <>
-      <Sidebar />
+    <AddListingProvider>
+      <Sidebar profile={profile} unreadCount={unreadCount} />
       <Navbar />
       <main className="min-h-[calc(100vh-4rem)] bg-background lg:ml-64 pb-16 md:pb-0">
         {children}
       </main>
-      <LandlordBottomNav />
-      <Link
-        href="/landlord/listings/new"
-        className="fixed bottom-20 right-5 z-50 md:hidden flex items-center justify-center w-14 h-14 rounded-full bg-primary text-white shadow-lg hover:bg-blue-700 active:scale-95 transition-all duration-150"
-        aria-label="Add listing"
-      >
-        <Plus className="h-6 w-6" />
-      </Link>
-    </>
+      <MobileBottomNav links={landlordLinks} unreadCount={unreadCount} />
+      <AddListingFAB />
+      <AddListingPanel />
+    </AddListingProvider>
   );
 }

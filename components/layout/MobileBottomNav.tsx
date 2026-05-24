@@ -6,9 +6,9 @@ import {
   Home,
   Heart,
   MessageCircle,
-  User,
   LayoutDashboard,
-  List,
+  Building2,
+  Search,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -25,13 +25,22 @@ const tenantLinks: BottomNavLink[] = [
   { label: "Inbox", href: "/tenant/messages", icon: MessageCircle },
 ];
 
-const landlordLinks: BottomNavLink[] = [
-  { label: "Overview", href: "/landlord/dashboard", icon: Home },
-  { label: "My Listings", href: "/landlord/listings", icon: List },
-  { label: "Inbox", href: "/landlord/messages", icon: MessageCircle },
+export const landlordLinks: BottomNavLink[] = [
+  { label: "Overview", href: "/landlord/dashboard", icon: LayoutDashboard },
+  { label: "My Properties", href: "/landlord/listings", icon: Building2 },
+  { label: "Enquiries", href: "/landlord/messages", icon: MessageCircle },
+  { label: "Explore", href: "/listings", icon: Search },
 ];
 
-export function MobileBottomNav({ links }: { links?: BottomNavLink[] }) {
+interface MobileBottomNavProps {
+  links?: BottomNavLink[];
+  unreadCount?: number;
+}
+
+export function MobileBottomNav({
+  links,
+  unreadCount = 0,
+}: MobileBottomNavProps) {
   const pathname = usePathname();
   const items = links ?? tenantLinks;
 
@@ -39,6 +48,7 @@ export function MobileBottomNav({ links }: { links?: BottomNavLink[] }) {
     if (href === "/listings") return pathname.startsWith("/listings");
     if (href === "/landlord/listings")
       return pathname.startsWith("/landlord/listings");
+    if (href === "/landlord/dashboard") return pathname === href;
     if (href === "/tenant/saved") return pathname.startsWith("/tenant/saved");
     if (href === "/tenant/messages" || href === "/landlord/messages")
       return pathname.startsWith("/messages");
@@ -52,14 +62,19 @@ export function MobileBottomNav({ links }: { links?: BottomNavLink[] }) {
           <Link
             key={link.href}
             href={link.href}
-            className={`flex flex-col items-center gap-0.5 px-3 py-2 text-xs font-medium transition-colors ${
+            className={`relative flex flex-col items-center gap-0.5 px-3 py-2 text-xs font-medium transition-colors ${
               isActive(link.href)
                 ? "text-primary"
                 : "text-slate-400 hover:text-text-main"
             }`}
           >
             <link.icon className="h-5 w-5" />
-            {link.label}
+            <span>{link.label}</span>
+            {link.label === "Enquiries" && unreadCount > 0 && (
+              <span className="absolute -top-0.5 right-1.5 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center leading-tight">
+                {unreadCount > 99 ? "99+" : unreadCount}
+              </span>
+            )}
           </Link>
         ))}
       </div>

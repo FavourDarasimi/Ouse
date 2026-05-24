@@ -20,15 +20,15 @@ export interface BottomNavLink {
 
 const tenantLinks: BottomNavLink[] = [
   { label: "Home", href: "/tenant/dashboard", icon: Home },
-  { label: "Browse", href: "/listings", icon: LayoutDashboard },
+  { label: "Explore", href: "/listings", icon: LayoutDashboard },
   { label: "Saved", href: "/tenant/saved", icon: Heart },
-  { label: "Messages", href: "/tenant/messages", icon: MessageCircle },
+  { label: "Inbox", href: "/tenant/messages", icon: MessageCircle },
 ];
 
 const landlordLinks: BottomNavLink[] = [
-  { label: "Dashboard", href: "/landlord/dashboard", icon: Home },
-  { label: "Listings", href: "/landlord/listings", icon: List },
-  { label: "Messages", href: "/landlord/messages", icon: MessageCircle },
+  { label: "Overview", href: "/landlord/dashboard", icon: Home },
+  { label: "My Listings", href: "/landlord/listings", icon: List },
+  { label: "Inbox", href: "/landlord/messages", icon: MessageCircle },
 ];
 
 export function MobileBottomNav({ links }: { links?: BottomNavLink[] }) {

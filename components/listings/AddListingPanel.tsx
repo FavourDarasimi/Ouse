@@ -11,7 +11,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Plus, Loader2, GripVertical, Upload } from "lucide-react";
 import { useAddListing } from "@/context/AddListingContext";
 import { createClient } from "@/lib/supabase/client";
-import type { PropertyType, Listing } from "@/types";
+import type { PropertyType, RentType, Listing } from "@/types";
 
 const propertyTypes: { value: PropertyType; label: string }[] = [
   { value: "house", label: "House" },
@@ -34,12 +34,9 @@ function nextImageId(): string {
   return `img_${++imageIdCounter}`;
 }
 
-interface AddListingPanelProps {
-  listing?: Listing;
-}
-
-export function AddListingPanel({ listing }: AddListingPanelProps) {
-  const { open, closePanel } = useAddListing();
+export function AddListingPanel() {
+  const { open, editingListing, closePanel } = useAddListing();
+  const listing = editingListing;
   const supabase = createClient();
   const formRef = useRef<HTMLFormElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -48,6 +45,7 @@ export function AddListingPanel({ listing }: AddListingPanelProps) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
+  const [rentType, setRentType] = useState<RentType>("monthly");
   const [location, setLocation] = useState("");
   const [area, setArea] = useState("");
   const [type, setType] = useState<PropertyType>("apartment");
@@ -66,6 +64,7 @@ export function AddListingPanel({ listing }: AddListingPanelProps) {
       setTitle(listing.title);
       setDescription(listing.description ?? "");
       setPrice(String(listing.price));
+      setRentType(listing.rent_type);
       setLocation(listing.location);
       setArea(listing.area ?? "");
       setType(listing.type);
@@ -102,6 +101,7 @@ export function AddListingPanel({ listing }: AddListingPanelProps) {
     setTitle("");
     setDescription("");
     setPrice("");
+    setRentType("monthly");
     setLocation("");
     setArea("");
     setType("apartment");
@@ -245,6 +245,7 @@ export function AddListingPanel({ listing }: AddListingPanelProps) {
           title: title.trim(),
           description: description.trim() || null,
           price: Number(price),
+          rent_type: rentType,
           location: location.trim(),
           area: area.trim() || null,
           type,
@@ -270,6 +271,7 @@ export function AddListingPanel({ listing }: AddListingPanelProps) {
           title: title.trim(),
           description: description.trim() || null,
           price: Number(price),
+          rent_type: rentType,
           location: location.trim(),
           area: area.trim() || null,
           type,
@@ -372,7 +374,7 @@ export function AddListingPanel({ listing }: AddListingPanelProps) {
                 />
               </fieldset>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-3 gap-4">
                 <fieldset>
                   <label
                     htmlFor="price"
@@ -389,6 +391,36 @@ export function AddListingPanel({ listing }: AddListingPanelProps) {
                     placeholder="250000"
                     className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-text-main placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
                   />
+                </fieldset>
+
+                <fieldset>
+                  <label className="block text-sm font-medium text-text-main mb-1.5">
+                    Period <span className="text-red-500">*</span>
+                  </label>
+                  <div className="flex rounded-xl border border-slate-200 overflow-hidden">
+                    <button
+                      type="button"
+                      onClick={() => setRentType("monthly")}
+                      className={`flex-1 px-3 py-3 text-sm font-medium transition ${
+                        rentType === "monthly"
+                          ? "bg-primary text-white"
+                          : "bg-white text-text-main hover:bg-slate-50"
+                      }`}
+                    >
+                      /mo
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setRentType("yearly")}
+                      className={`flex-1 px-3 py-3 text-sm font-medium transition ${
+                        rentType === "yearly"
+                          ? "bg-primary text-white"
+                          : "bg-white text-text-main hover:bg-slate-50"
+                      }`}
+                    >
+                      /yr
+                    </button>
+                  </div>
                 </fieldset>
 
                 <fieldset>
@@ -486,25 +518,23 @@ export function AddListingPanel({ listing }: AddListingPanelProps) {
               </div>
 
               <fieldset>
-                <label className="flex items-center gap-3 cursor-pointer">
-                  <div className="relative">
-                    <input
-                      type="checkbox"
-                      checked={available}
-                      onChange={(e) => setAvailable(e.target.checked)}
-                      className="sr-only"
-                    />
+                <label className="flex items-center gap-3 cursor-pointer select-none">
+                  <input
+                    type="checkbox"
+                    checked={available}
+                    onChange={(e) => setAvailable(e.target.checked)}
+                    className="sr-only"
+                  />
+                  <div
+                    className={`flex items-center shrink-0 w-10 h-6 rounded-full transition-colors ${
+                      available ? "bg-primary" : "bg-slate-200"
+                    }`}
+                  >
                     <div
-                      className={`w-10 h-6 rounded-full transition-colors ${
-                        available ? "bg-primary" : "bg-slate-200"
+                      className={`w-4 h-4 rounded-full bg-white shadow-sm transition-transform ${
+                        available ? "translate-x-5" : "translate-x-1"
                       }`}
-                    >
-                      <div
-                        className={`w-4 h-4 rounded-full bg-white shadow-sm transition-transform  ${
-                          available ? "translate-x-5" : "translate-x-1"
-                        }`}
-                      />
-                    </div>
+                    />
                   </div>
                   <span className="text-sm font-medium text-text-main">
                     Available for rent

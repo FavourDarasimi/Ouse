@@ -3,6 +3,13 @@ import { createServerClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { Building2, MessageCircle, Plus } from "lucide-react";
 import { DashboardStatsCard } from "@/components/shared/DashboardStatsCard";
+import {
+  AnimatedSection,
+} from "@/components/shared/AnimatedSection";
+import {
+  StaggerContainer,
+  StaggerItem,
+} from "@/components/shared/StaggerContainer";
 import { ListingPreviewCard } from "@/components/listings/ListingPreviewCard";
 import { ConversationListItem } from "@/components/chat/ConversationListItem";
 
@@ -21,7 +28,7 @@ export default async function LandlordDashboardPage() {
 
   if (!user) return null;
 
-  const [{ data: profile }, { data: listings, count: listingCount }] =
+  const [{ data: profile }, { data: listings, count: listingCount }, { count: activeCount }] =
     await Promise.all([
       supabase
         .from("profiles")
@@ -34,6 +41,11 @@ export default async function LandlordDashboardPage() {
         .eq("landlord_id", user.id)
         .order("created_at", { ascending: false })
         .limit(5),
+      supabase
+        .from("listings")
+        .select("id", { count: "exact", head: true })
+        .eq("landlord_id", user.id)
+        .eq("available", true),
     ]);
 
   const listingIds = listings?.map((l) => l.id) ?? [];
@@ -123,22 +135,30 @@ export default async function LandlordDashboardPage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 sm:gap-6 mb-8">
-          <DashboardStatsCard
-            variant="hero"
-            label="Active Listings"
-            value={listingCount ?? 0}
-          />
-          <DashboardStatsCard label="New Messages" value={unreadCount ?? 0} />
-          <DashboardStatsCard label="Total Listings" value={listingCount ?? 0} />
-          <DashboardStatsCard
-            label="Saved by Tenants"
-            value={favouritesCount ?? 0}
-          />
-        </div>
+        <StaggerContainer className="grid grid-cols-2 gap-4 sm:grid-cols-4 sm:gap-6 mb-8">
+          <StaggerItem>
+            <DashboardStatsCard
+              variant="hero"
+              label="Active Listings"
+              value={activeCount ?? 0}
+            />
+          </StaggerItem>
+          <StaggerItem>
+            <DashboardStatsCard label="New Messages" value={unreadCount ?? 0} />
+          </StaggerItem>
+          <StaggerItem>
+            <DashboardStatsCard label="Total Listings" value={listingCount ?? 0} />
+          </StaggerItem>
+          <StaggerItem>
+            <DashboardStatsCard
+              label="Saved by Tenants"
+              value={favouritesCount ?? 0}
+            />
+          </StaggerItem>
+        </StaggerContainer>
 
         <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6 mb-8">
-          <div className="bg-white rounded-2xl border border-slate-100 p-4 sm:p-5">
+          <AnimatedSection className="bg-white rounded-2xl border border-slate-100 p-4 sm:p-5">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-text-main">
                 My Listings
@@ -177,9 +197,12 @@ export default async function LandlordDashboardPage() {
                 ))}
               </div>
             )}
-          </div>
+          </AnimatedSection>
 
-          <div className="bg-white rounded-2xl border border-slate-100 p-4 sm:p-5">
+          <AnimatedSection
+            delay={0.15}
+            className="bg-white rounded-2xl border border-slate-100 p-4 sm:p-5"
+          >
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-text-main">
                 Recent Messages
@@ -230,7 +253,7 @@ export default async function LandlordDashboardPage() {
                 })}
               </div>
             )}
-          </div>
+          </AnimatedSection>
         </div>
       </div>
     </div>

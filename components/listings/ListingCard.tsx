@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { formatPrice } from "@/lib/utils/formatPrice";
 import type { Listing } from "@/types";
 
 interface ListingCardProps {
@@ -27,6 +28,7 @@ export function ListingCard({
     area,
     type,
     available,
+    rent_type,
   } = listing;
 
   return (
@@ -64,9 +66,8 @@ export function ListingCard({
             </h3>
             <div className="text-right shrink-0">
               <p className="text-base font-bold text-text-main whitespace-nowrap">
-                ₦{price.toLocaleString()}
+                {formatPrice(price, rent_type)}
               </p>
-              <p className="text-xs text-slate-400">/mo</p>
             </div>
           </div>
 

@@ -1,5 +1,6 @@
 export type Role = "tenant" | "landlord";
 export type PropertyType = "house" | "apartment" | "room" | "duplex" | "flat";
+export type RentType = "monthly" | "yearly";
 
 export interface Profile {
   id: string;
@@ -16,6 +17,7 @@ export interface Listing {
   title: string;
   description: string | null;
   price: number;
+  rent_type: RentType;
   location: string;
   area: string | null;
   type: PropertyType;

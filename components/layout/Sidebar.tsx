@@ -41,13 +41,13 @@ export function Sidebar({ profile, unreadCount = 0 }: SidebarProps) {
       initial={{ x: -20, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.25 }}
-      className="fixed left-0 top-0 bottom-0 hidden lg:flex lg:flex-col w-60 bg-white border-r border-slate-100 z-40 px-4 py-6"
+      className="fixed left-0 top-0 bottom-0 hidden lg:flex lg:flex-col w-72 bg-white border-r border-slate-100 z-40 px-4 py-6"
     >
       <Link
         href="/landlord/dashboard"
-        className="flex items-center gap-2 text-xl font-bold text-secondary mb-8"
+        className="flex items-center gap-2 text-2xl font-bold text-secondary mb-10"
       >
-        <Home className="h-[22px] w-[22px] text-primary" />
+        <Home className="h-[32px] w-[32px] text-primary" />
         Ouse
       </Link>
 
@@ -58,9 +58,9 @@ export function Sidebar({ profile, unreadCount = 0 }: SidebarProps) {
             <motion.div key={link.href} whileTap={{ scale: 0.98 }}>
               <Link
                 href={link.href}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-xl w-full ${
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-full w-full ${
                   active
-                    ? "font-medium text-primary bg-blue-50"
+                    ? "font-medium text-white bg-primary shadow-xl"
                     : "text-slate-500 hover:bg-slate-50 hover:text-text-main transition-all duration-150"
                 }`}
               >

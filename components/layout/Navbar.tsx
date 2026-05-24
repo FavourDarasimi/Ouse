@@ -79,9 +79,7 @@ export function Navbar() {
   // ── Public (unauthenticated) ───────────────────────────────────────
 
   if (!user && !isLoggingOut) {
-    const publicLinks = [
-      { label: "Explore", href: "/listings" },
-    ];
+    const publicLinks = [{ label: "Explore", href: "/listings" }];
 
     return (
       <nav className="sticky top-0 z-50 h-16 bg-white border-b border-slate-100">
@@ -323,7 +321,7 @@ export function Navbar() {
   // ── Authenticated: Landlord (minimal top bar) ──────────────────────
 
   return (
-    <nav className="sticky top-0 z-50 h-16 bg-white border-b border-slate-100 lg:ml-64">
+    <nav className="sticky top-0 z-50 h-16 bg-white border-b border-slate-100 lg:ml-72">
       <div className="mx-auto flex h-full items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link
           href="/landlord/dashboard"

@@ -206,7 +206,18 @@ function LoginForm() {
       return;
     }
 
-    const role = data.user?.user_metadata?.role;
+    const userId = data.user?.id;
+    let role = data.user?.user_metadata?.role as string | undefined;
+
+    if (!role && userId) {
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("role")
+        .eq("id", userId)
+        .maybeSingle();
+      role = profile?.role;
+    }
+
     const destination =
       next ??
       (role === "landlord" ? "/landlord/dashboard" : "/tenant/dashboard");
@@ -222,7 +233,7 @@ function LoginForm() {
     >
       <div className="mx-auto w-full max-w-sm">
         {/* Mobile logo */}
-        <motion.div variants={fadeUp} className="mb-8 lg:hidden">
+        <motion.div variants={fadeUp} className="mb-8 md:hidden">
           <Link
             href="/"
             className="inline-flex items-center gap-2 text-xl font-bold text-secondary"

@@ -179,28 +179,24 @@ function RoleOption({
       type="button"
       id={`role-${value}`}
       onClick={() => onSelect(value)}
-      className={`flex flex-col items-center gap-2 rounded-2xl border-2 p-4 text-center transition-all duration-150 ${
-        selected
-          ? "border-primary bg-primary/5"
-          : "border-slate-200 hover:border-slate-300"
-      }`}
+      className={`flex flex-col items-center gap-2 rounded-2xl border-2 p-4 text-center transition-all duration-150 ${selected
+        ? "border-primary bg-primary/5"
+        : "border-slate-200 hover:border-slate-300"
+        }`}
     >
       <div
-        className={`flex h-10 w-10 items-center justify-center rounded-xl transition-colors ${
-          selected ? "bg-primary/10" : "bg-slate-100"
-        }`}
+        className={`flex h-10 w-10 items-center justify-center rounded-xl transition-colors ${selected ? "bg-primary/10" : "bg-slate-100"
+          }`}
       >
         <Icon
-          className={`h-5 w-5 transition-colors ${
-            selected ? "text-primary" : "text-slate-400"
-          }`}
+          className={`h-5 w-5 transition-colors ${selected ? "text-primary" : "text-slate-400"
+            }`}
         />
       </div>
       <div>
         <p
-          className={`text-sm font-semibold transition-colors ${
-            selected ? "text-primary" : "text-text-main"
-          }`}
+          className={`text-sm font-semibold transition-colors ${selected ? "text-primary" : "text-text-main"
+            }`}
         >
           {label}
         </p>
@@ -311,7 +307,7 @@ function SignupForm() {
     >
       <div className="mx-auto w-full max-w-sm">
         {/* Mobile logo */}
-        <motion.div variants={fadeUp} className="mb-8 lg:hidden">
+        <motion.div variants={fadeUp} className="mb-8 md:hidden">
           <Link
             href="/"
             className="inline-flex items-center gap-2 text-xl font-bold text-secondary"
@@ -322,7 +318,7 @@ function SignupForm() {
         </motion.div>
 
         {/* Heading */}
-        <motion.div variants={fadeUp} className="mb-6">
+        <motion.div variants={fadeUp} className="mb-6 text-center">
           <h1 className="text-2xl font-bold text-text-main">
             Create your account
           </h1>

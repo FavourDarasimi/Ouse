@@ -7,6 +7,7 @@ import {
   useMemo,
   useState,
   useCallback,
+  useRef,
 } from "react";
 import type { User } from "@supabase/supabase-js";
 import { createClient } from "@/lib/supabase/client";
@@ -16,7 +17,8 @@ interface AuthContextValue {
   user: User | null;
   profile: Profile | null;
   role: Profile["role"] | null;
-  loading: boolean;
+  isAuthInitialized: boolean;
+  isLoggingOut: boolean;
   signOut: () => Promise<void>;
 }
 
@@ -24,16 +26,19 @@ const AuthContext = createContext<AuthContextValue>({
   user: null,
   profile: null,
   role: null,
-  loading: true,
+  isAuthInitialized: false,
+  isLoggingOut: false,
   signOut: async () => {},
 });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  // Stable client reference — never recreated across renders
   const supabase = useMemo(() => createClient(), []);
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [isAuthInitialized, setIsAuthInitialized] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const loggingOutRef = useRef(false);
+  const initialHydrationComplete = useRef(false);
 
   const fetchProfile = useCallback(
     async (userId: string) => {
@@ -48,20 +53,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   );
 
   useEffect(() => {
-    // Hydrate session on mount
+    let ignore = false;
+
     supabase.auth.getSession().then(({ data: { session } }) => {
+      if (ignore) return;
       setUser(session?.user ?? null);
       if (session?.user) {
-        fetchProfile(session.user.id).finally(() => setLoading(false));
+        fetchProfile(session.user.id).finally(() => {
+          if (ignore) return;
+          initialHydrationComplete.current = true;
+          setIsAuthInitialized(true);
+        });
       } else {
-        setLoading(false);
+        setProfile(null);
+        initialHydrationComplete.current = true;
+        setIsAuthInitialized(true);
       }
     });
 
-    // Subscribe to auth changes
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (ignore) return;
+      if (loggingOutRef.current) return;
+      if (!initialHydrationComplete.current) return;
       setUser(session?.user ?? null);
       if (session?.user) {
         fetchProfile(session.user.id);
@@ -70,16 +85,29 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      ignore = true;
+      subscription.unsubscribe();
+    };
   }, [fetchProfile, supabase.auth]);
 
   const signOut = async () => {
+    loggingOutRef.current = true;
+    setIsLoggingOut(true);
     await supabase.auth.signOut();
+    window.location.href = "/";
   };
 
   return (
     <AuthContext.Provider
-      value={{ user, profile, role: profile?.role ?? null, loading, signOut }}
+      value={{
+        user,
+        profile,
+        role: profile?.role ?? null,
+        isAuthInitialized,
+        isLoggingOut,
+        signOut,
+      }}
     >
       {children}
     </AuthContext.Provider>

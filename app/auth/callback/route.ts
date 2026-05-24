@@ -17,7 +17,17 @@ export async function GET(request: NextRequest) {
       await supabase.auth.exchangeCodeForSession(code);
 
     if (!error && data.user) {
-      const role = data.user.user_metadata?.role;
+      let role = data.user.user_metadata?.role as string | undefined;
+
+      if (!role) {
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("role")
+          .eq("id", data.user.id)
+          .maybeSingle();
+        role = profile?.role;
+      }
+
       const destination =
         next ??
         (role === "landlord" ? "/landlord/dashboard" : "/tenant/dashboard");

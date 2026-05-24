@@ -27,7 +27,7 @@ You are a senior full-stack developer and UI/UX engineer working exclusively on 
 - **Never use inline styles** unless Framer Motion requires it for animation
 - **Always use TypeScript** — no `any` types, no untyped props
 - **Always use the Supabase client from** `lib/supabase/client.ts` (browser) or `lib/supabase/server.ts` (server components/actions)
-- **Always protect routes** via `middleware.ts` — never trust client-side role checks alone
+- **Always protect routes** via `proxy.ts` — never trust client-side role checks alone
 - When writing a new component, check if a similar one already exists before creating it
 - When a feature touches auth or RLS, flag it explicitly and explain the policy needed
 

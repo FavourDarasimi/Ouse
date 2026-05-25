@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { formatPrice } from "@/lib/utils/formatPrice";
 import type { Listing } from "@/types";
 import { MapPin, BedDouble, Bath, Heart } from "lucide-react";
 
@@ -18,29 +17,17 @@ export function ListingCard({
   isFavourited = false,
   onFavouriteToggle,
 }: ListingCardProps) {
-  const {
-    id,
-    title,
-    location,
-    price,
-    images,
-    bedrooms,
-    bathrooms,
-    area,
-    type,
-    available,
-    rent_type,
-  } = listing;
+  const { id, title, location, price, images, bedrooms, bathrooms } = listing;
 
   return (
     <Link href={`/listings/${id}`}>
       <motion.div
         whileHover={{ y: -6 }}
-        className="bg-white rounded-3xl border border-slate-200 p-2 cursor-pointer"
+        className="bg-white rounded-3xl border border-slate-200 p-2 sm:p-3 cursor-pointer"
       >
         <motion.div
           whileHover={{ scale: 1.03 }}
-          className="relative aspect-[4/3] rounded-2xl overflow-hidden"
+          className="relative aspect-[4/3] rounded-xl sm:rounded-2xl overflow-hidden"
         >
           {images?.[0] ? (
             <Image
@@ -51,7 +38,7 @@ export function ListingCard({
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             />
           ) : (
-            <div className="bg-slate-100 rounded-2xl aspect-[4/3] flex items-center justify-center w-full h-full">
+            <div className="bg-slate-100 rounded-xl sm:rounded-2xl aspect-[4/3] flex items-center justify-center w-full h-full">
               <i
                 className="ti ti-building text-slate-300"
                 style={{ fontSize: 40 }}
@@ -60,37 +47,39 @@ export function ListingCard({
           )}
         </motion.div>
 
-        <div className="px-1 pt-3 pb-1 space-y-3">
-          <div className="flex items-start justify-between gap-2">
-            <h3 className="text-base font-bold text-text-main line-clamp-1">
+        <div className="px-0.5 sm:px-1 pt-2 sm:pt-3 pb-0.5 sm:pb-1">
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 sm:gap-1 mb-1">
+            <h3 className="text-sm font-bold text-text-main truncate leading-tight">
               {title}
             </h3>
-            <div className="text-right shrink-0">
-              <p className="text-base font-bold text-text-main whitespace-nowrap">
-                {formatPrice(price, rent_type)}
-              </p>
-            </div>
+            <span className="text-sm font-bold text-text-main whitespace-nowrap flex-shrink-0">
+              ₦{price.toLocaleString()}
+              <span className="text-xs text-slate-400 font-normal ml-0.5">
+                /mo
+              </span>
+            </span>
           </div>
 
-          <p className="text-xs text-slate-600 flex items-center gap-1">
-            <MapPin size={13} />
+          <p className="text-xs text-slate-600 flex items-center gap-1 truncate mb-2">
+            <MapPin size={13} className="shrink-0" />
             {location}
           </p>
 
-          <div className="flex items-center gap-2 py-2">
-            <span className="bg-slate-50 rounded-full px-3 py-1.5 text-xs text-slate-700 flex items-center gap-1.5">
-              <BedDouble size={13} />
-              {bedrooms ?? "—"} Bedrooms
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-1.5 sm:gap-1 mb-2">
+            <span className="bg-slate-50 rounded-full px-2 py-1 text-xs text-slate-700 flex items-center gap-1">
+              <BedDouble size={11} className="shrink-0" />
+              {bedrooms ?? "—"} Beds
             </span>
-            <span className="bg-slate-50 rounded-full px-3 py-1.5 text-xs text-slate-700 flex items-center gap-1.5">
-              <Bath size={13} />
-              {bathrooms ?? "—"} Bathrooms
+            <span className="bg-slate-50 rounded-full px-2 py-1 text-xs text-slate-700 flex items-center gap-1">
+              <Bath size={11} className="shrink-0" />
+              {bathrooms ?? "—"} Baths
             </span>
           </div>
 
-          <div className="flex items-center gap-2 mt-1">
-            <span className="flex-1 bg-primary text-white rounded-full py-3 text-sm font-medium text-center">
-              View Property
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <span className="flex-1 bg-primary text-white rounded-full py-2 sm:py-3 text-xs sm:text-sm font-medium whitespace-nowrap text-center">
+              <span className="hidden sm:inline">View Property</span>
+              <span className="sm:hidden">View</span>
             </span>
             {onFavouriteToggle && (
               <button
@@ -100,14 +89,18 @@ export function ListingCard({
                   e.preventDefault();
                   onFavouriteToggle(id);
                 }}
-                className={`w-11 h-11 rounded-full border border-slate-200 bg-white flex items-center justify-center flex-shrink-0 transition-colors ${
-                  isFavourited ? "text-red-600 " : "text-slate-400"
+                className={`w-9 h-9 sm:w-11 sm:h-11 rounded-full border border-slate-200 bg-white flex items-center justify-center flex-shrink-0 transition-colors ${
+                  isFavourited ? "text-red-600" : "text-slate-400"
                 }`}
                 aria-label={
                   isFavourited ? "Remove from favourites" : "Add to favourites"
                 }
               >
-                <Heart size={18} fill={isFavourited ? "#dc2626" : "#ffffff"} />
+                <Heart
+                  size={15}
+                  className="sm:w-[18px] sm:h-[18px]"
+                  fill={isFavourited ? "#dc2626" : "none"}
+                />
               </button>
             )}
           </div>

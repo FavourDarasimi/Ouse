@@ -1,25 +1,125 @@
 "use client";
 
-import { Search, RotateCcw } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Search, RotateCcw, ChevronLeft, ChevronRight } from "lucide-react";
 import { ListingCard } from "./ListingCard";
 import { ListingsFilter } from "./ListingsFilter";
+import { SkeletonCard } from "@/components/shared/SkeletonCard";
 import { useFavourites } from "@/context/FavouritesContext";
 import { useAuth } from "@/context/AuthContext";
 import type { Listing } from "@/types";
+
+const ITEMS_PER_PAGE = 12;
 
 interface ExploreListingsProps {
   listings: Listing[];
 }
 
+function PaginatedGrid({
+  items,
+  isFavourited,
+  toggleFavourite,
+  hasUser,
+}: {
+  items: Listing[];
+  isFavourited: (id: string) => boolean;
+  toggleFavourite: (id: string) => Promise<void>;
+  hasUser: boolean;
+}) {
+  const [page, setPage] = useState(1);
+  const totalPages = Math.max(1, Math.ceil(items.length / ITEMS_PER_PAGE));
+  const safePage = Math.min(page, totalPages);
+  const start = (safePage - 1) * ITEMS_PER_PAGE;
+  const end = start + ITEMS_PER_PAGE;
+  const pageItems = items.slice(start, end);
+
+  useEffect(() => {
+    setPage(1);
+  }, [items.length]);
+
+  return (
+    <>
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5">
+        {pageItems.map((listing) => (
+          <div key={listing.id}>
+            <ListingCard
+              listing={listing}
+              isFavourited={hasUser ? isFavourited(listing.id) : false}
+              onFavouriteToggle={hasUser ? toggleFavourite : undefined}
+            />
+          </div>
+        ))}
+      </div>
+
+      {totalPages > 1 && (
+        <div className="flex items-center justify-center gap-2 mt-8">
+          <button
+            onClick={() => setPage((p) => Math.max(1, p - 1))}
+            disabled={safePage <= 1}
+            className="flex items-center gap-1 px-3 py-2 rounded-xl text-sm font-medium border border-slate-200 bg-white text-text-main hover:border-primary/40 hover:text-primary transition-colors disabled:opacity-40 disabled:pointer-events-none"
+          >
+            <ChevronLeft className="h-4 w-4" />
+            <span className="hidden sm:inline">Previous</span>
+          </button>
+
+          <div className="flex items-center gap-1">
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+              <button
+                key={p}
+                onClick={() => setPage(p)}
+                className={`w-9 h-9 rounded-xl text-sm font-medium transition-colors ${
+                  p === safePage
+                    ? "bg-primary text-white"
+                    : "text-slate-500 hover:bg-slate-100 hover:text-text-main"
+                }`}
+              >
+                {p}
+              </button>
+            ))}
+          </div>
+
+          <button
+            onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+            disabled={safePage >= totalPages}
+            className="flex items-center gap-1 px-3 py-2 rounded-xl text-sm font-medium border border-slate-200 bg-white text-text-main hover:border-primary/40 hover:text-primary transition-colors disabled:opacity-40 disabled:pointer-events-none"
+          >
+            <span className="hidden sm:inline">Next</span>
+            <ChevronRight className="h-4 w-4" />
+          </button>
+        </div>
+      )}
+    </>
+  );
+}
+
 export function ExploreListings({ listings }: ExploreListingsProps) {
-  const { user } = useAuth();
-  const { isFavourited, toggleFavourite } = useFavourites();
+  const { user, isAuthInitialized } = useAuth();
+  const {
+    isFavourited,
+    toggleFavourite,
+    loading: favsLoading,
+  } = useFavourites();
+  const [ready, setReady] = useState(false);
+
+  const loading = !isAuthInitialized || (!!user && favsLoading);
+
+  useEffect(() => {
+    if (!loading && !ready) {
+      setReady(true);
+    }
+  }, [loading, ready]);
 
   return (
     <ListingsFilter listings={listings}>
       {({ filtered, hasActiveFilters, clearAll }) => (
         <>
-          {filtered.length === 0 ? (
+          {!ready ? (
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5">
+              {Array.from({ length: 8 }).map((_, i) => (
+                <SkeletonCard key={i} />
+              ))}
+            </div>
+          ) : filtered.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-20 text-center">
               <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-100">
                 <Search className="h-8 w-8 text-slate-400" />
@@ -41,17 +141,12 @@ export function ExploreListings({ listings }: ExploreListingsProps) {
               )}
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-              {filtered.map((listing) => (
-                <div key={listing.id}>
-                  <ListingCard
-                    listing={listing}
-                    isFavourited={user ? isFavourited(listing.id) : false}
-                    onFavouriteToggle={user ? toggleFavourite : undefined}
-                  />
-                </div>
-              ))}
-            </div>
+            <PaginatedGrid
+              items={filtered}
+              isFavourited={isFavourited}
+              toggleFavourite={toggleFavourite}
+              hasUser={!!user}
+            />
           )}
         </>
       )}

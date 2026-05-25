@@ -294,16 +294,15 @@ export function ListingsFilter({ listings, children }: ListingsFilterProps) {
   const btnRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (!open) return;
     const handleClick = (e: MouseEvent) => {
-      if (
-        open &&
-        btnRef.current &&
-        !btnRef.current.contains(e.target as Node)
-      ) {
-        const panel = document.getElementById("filter-panel");
-        if (panel && !panel.contains(e.target as Node)) {
-          setOpen(false);
-        }
+      if (btnRef.current?.contains(e.target as Node)) return;
+      const desktopPanel = document.getElementById("filter-panel");
+      const mobilePanel = document.getElementById("mobile-filter-panel");
+      const inDesktop = desktopPanel?.contains(e.target as Node);
+      const inMobile = mobilePanel?.contains(e.target as Node);
+      if (!inDesktop && !inMobile) {
+        setOpen(false);
       }
     };
     document.addEventListener("mousedown", handleClick);
@@ -554,6 +553,7 @@ export function ListingsFilter({ listings, children }: ListingsFilterProps) {
         {open && (
           <motion.div
             key="mobile-filter"
+            id="mobile-filter-panel"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

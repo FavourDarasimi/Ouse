@@ -35,10 +35,15 @@ export function FavouritesProvider({
   const supabase = useMemo(() => createClient(), []);
   const { user, role } = useAuth();
   const [favourites, setFavourites] = useState<Favourite[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const fetchFavourites = useCallback(async () => {
-    if (!user || role !== "tenant") return;
+    if (!user) return;
+    if (role && role !== "tenant") {
+      setLoading(false);
+      return;
+    }
+    if (role !== "tenant") return;
     setLoading(true);
     const { data } = await supabase
       .from("favourites")

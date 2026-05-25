@@ -23,11 +23,11 @@ export function ListingCard({
     <Link href={`/listings/${id}`}>
       <motion.div
         whileHover={{ y: -6 }}
-        className="bg-white rounded-3xl border border-slate-200 p-2 sm:p-3 cursor-pointer"
+        className="bg-white rounded-3xl border border-slate-200 p-2 sm:p-2 cursor-pointer"
       >
         <motion.div
           whileHover={{ scale: 1.03 }}
-          className="relative aspect-[4/3] rounded-xl sm:rounded-2xl overflow-hidden"
+          className="relative aspect-[4/5] sm:aspect-[4/3] rounded-xl sm:rounded-2xl overflow-hidden"
         >
           {images?.[0] ? (
             <Image
@@ -38,7 +38,7 @@ export function ListingCard({
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             />
           ) : (
-            <div className="bg-slate-100 rounded-xl sm:rounded-2xl aspect-[4/3] flex items-center justify-center w-full h-full">
+            <div className="bg-slate-100 rounded-xl sm:rounded-2xl aspect-[4/5] sm:aspect-[4/3] flex items-center justify-center w-full h-full">
               <i
                 className="ti ti-building text-slate-300"
                 style={{ fontSize: 40 }}

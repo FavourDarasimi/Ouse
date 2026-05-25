@@ -5,7 +5,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Home,
   Menu,
   X,
   LogOut,
@@ -19,6 +18,7 @@ import {
 import { useAuth } from "@/context/AuthContext";
 import { getInitials } from "@/lib/utils/getInitials";
 import { useAddListing } from "@/context/AddListingContext";
+import { Logo } from "@/components/shared/Logo";
 
 export function Navbar() {
   const { openPanel } = useAddListing();
@@ -63,13 +63,7 @@ export function Navbar() {
     return (
       <nav className="sticky top-0 z-50 h-16 bg-white border-b border-slate-100">
         <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <Link
-            href="/"
-            className="flex items-center gap-2 text-xl font-bold text-secondary"
-          >
-            <Home className="h-5 w-5 text-primary" />
-            Ouse
-          </Link>
+          <Logo href="/" />
           <div className="h-8 w-32 bg-slate-100 rounded-xl animate-pulse hidden md:block" />
         </div>
       </nav>
@@ -84,13 +78,7 @@ export function Navbar() {
     return (
       <nav className="sticky top-0 z-50 h-16 bg-white border-b border-slate-100">
         <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <Link
-            href="/"
-            className="flex items-center gap-2 text-xl font-bold text-secondary"
-          >
-            <Home className="h-5 w-5 text-primary" />
-            Ouse
-          </Link>
+          <Logo href="/" />
 
           <div className="hidden md:flex items-center gap-8">
             {publicLinks.map((link) => (
@@ -156,13 +144,7 @@ export function Navbar() {
               >
                 <div className="flex flex-col h-full">
                   <div className="flex items-center justify-between p-4 border-b border-slate-100">
-                    <Link
-                      href="/"
-                      className="flex items-center gap-2 text-xl font-bold text-secondary"
-                    >
-                      <Home className="h-5 w-5 text-primary" />
-                      Ouse
-                    </Link>
+                    <Logo href="/" />
                     <button
                       onClick={() => setMobileOpen(false)}
                       className="p-1 text-slate-500 hover:text-text-main transition"
@@ -223,13 +205,7 @@ export function Navbar() {
     return (
       <nav className="sticky top-0 z-50 h-16 bg-white border-b border-slate-100">
         <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <Link
-            href="/tenant/dashboard"
-            className="flex items-center gap-2 text-xl font-bold text-secondary"
-          >
-            <Home className="h-5 w-5 text-primary" />
-            Ouse
-          </Link>
+          <Logo href="/tenant/dashboard" />
 
           <div className="hidden md:flex items-center gap-8">
             {tenantLinks.map((link) => (
@@ -323,13 +299,9 @@ export function Navbar() {
   return (
     <nav className="sticky top-0 z-50 h-16 bg-white border-b border-slate-100 lg:ml-72">
       <div className="mx-auto flex h-full items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link
-          href="/landlord/dashboard"
-          className="md:hidden flex items-center gap-2 text-xl font-bold text-secondary"
-        >
-          <Home className="h-5 w-5 text-primary" />
-          Ouse
-        </Link>
+        <div className="md:hidden">
+          <Logo href="/landlord/dashboard" />
+        </div>
 
         <div className="flex items-center gap-3 ml-auto">
           <button

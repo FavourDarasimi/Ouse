@@ -14,13 +14,13 @@ export function DashboardStatsCard({
   return (
     <div
       className={`rounded-2xl p-5 ${
-        isHero ? "bg-secondary" : "bg-white border border-slate-100"
+        isHero ? "bg-primary" : "bg-white border border-slate-100"
       }`}
     >
       <div className="flex items-start justify-between">
         <p
           className={`text-sm font-medium ${
-            isHero ? "text-slate-400" : "text-slate-500"
+            isHero ? "text-slate-200" : "text-slate-500"
           }`}
         >
           {label}

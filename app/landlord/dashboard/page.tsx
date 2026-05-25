@@ -3,9 +3,7 @@ import { createServerClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { Building2, MessageCircle, Plus } from "lucide-react";
 import { DashboardStatsCard } from "@/components/shared/DashboardStatsCard";
-import {
-  AnimatedSection,
-} from "@/components/shared/AnimatedSection";
+import { AnimatedSection } from "@/components/shared/AnimatedSection";
 import {
   StaggerContainer,
   StaggerItem,
@@ -28,25 +26,28 @@ export default async function LandlordDashboardPage() {
 
   if (!user) return null;
 
-  const [{ data: profile }, { data: listings, count: listingCount }, { count: activeCount }] =
-    await Promise.all([
-      supabase
-        .from("profiles")
-        .select("full_name")
-        .eq("id", user.id)
-        .maybeSingle(),
-      supabase
-        .from("listings")
-        .select("*", { count: "exact" })
-        .eq("landlord_id", user.id)
-        .order("created_at", { ascending: false })
-        .limit(5),
-      supabase
-        .from("listings")
-        .select("id", { count: "exact", head: true })
-        .eq("landlord_id", user.id)
-        .eq("available", true),
-    ]);
+  const [
+    { data: profile },
+    { data: listings, count: listingCount },
+    { count: activeCount },
+  ] = await Promise.all([
+    supabase
+      .from("profiles")
+      .select("full_name")
+      .eq("id", user.id)
+      .maybeSingle(),
+    supabase
+      .from("listings")
+      .select("*", { count: "exact" })
+      .eq("landlord_id", user.id)
+      .order("created_at", { ascending: false })
+      .limit(5),
+    supabase
+      .from("listings")
+      .select("id", { count: "exact", head: true })
+      .eq("landlord_id", user.id)
+      .eq("available", true),
+  ]);
 
   const listingIds = listings?.map((l) => l.id) ?? [];
 
@@ -126,13 +127,10 @@ export default async function LandlordDashboardPage() {
     <div className="py-8 px-4 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="mb-8">
+          <p className="mt-1 text-sm text-slate-400">{getGreeting()} </p>
           <h1 className="text-2xl font-bold text-text-main">
-            {getGreeting()}
-            {profile?.full_name ? `, ${profile.full_name}` : ""} 👋
+            {profile?.full_name ? `${profile.full_name}` : ""} 👋
           </h1>
-          <p className="mt-1 text-sm text-slate-400">
-            Here&apos;s what&apos;s happening with your properties
-          </p>
         </div>
 
         <StaggerContainer className="grid grid-cols-2 gap-4 sm:grid-cols-4 sm:gap-6 mb-8">
@@ -147,7 +145,10 @@ export default async function LandlordDashboardPage() {
             <DashboardStatsCard label="New Messages" value={unreadCount ?? 0} />
           </StaggerItem>
           <StaggerItem>
-            <DashboardStatsCard label="Total Listings" value={listingCount ?? 0} />
+            <DashboardStatsCard
+              label="Total Listings"
+              value={listingCount ?? 0}
+            />
           </StaggerItem>
           <StaggerItem>
             <DashboardStatsCard

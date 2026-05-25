@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { formatPrice } from "@/lib/utils/formatPrice";
 import type { Listing } from "@/types";
+import { MapPin, BedDouble, Bath, Heart } from "lucide-react";
 
 interface ListingCardProps {
   listing: Listing;
@@ -35,7 +36,7 @@ export function ListingCard({
     <Link href={`/listings/${id}`}>
       <motion.div
         whileHover={{ y: -6 }}
-        className="bg-white rounded-3xl border border-slate-100 p-3 cursor-pointer"
+        className="bg-white rounded-3xl border border-slate-200 p-2 cursor-pointer"
       >
         <motion.div
           whileHover={{ scale: 1.03 }}
@@ -71,47 +72,44 @@ export function ListingCard({
             </div>
           </div>
 
-          <p className="text-xs text-slate-400 flex items-center gap-1">
-            <i className="ti ti-map-pin" style={{ fontSize: 12 }} />
+          <p className="text-xs text-slate-600 flex items-center gap-1">
+            <MapPin size={13} />
             {location}
           </p>
 
-          <div className="flex items-center gap-2">
-            <span className="bg-slate-100 rounded-full px-3 py-1.5 text-xs text-slate-500 flex items-center gap-1.5">
-              <i className="ti ti-bed" />
-              {bedrooms ?? "—"} Beds
+          <div className="flex items-center gap-2 py-2">
+            <span className="bg-slate-50 rounded-full px-3 py-1.5 text-xs text-slate-700 flex items-center gap-1.5">
+              <BedDouble size={13} />
+              {bedrooms ?? "—"} Bedrooms
             </span>
-            <span className="bg-slate-100 rounded-full px-3 py-1.5 text-xs text-slate-500 flex items-center gap-1.5">
-              <i className="ti ti-bath" />
-              {bathrooms ?? "—"} Baths
-            </span>
-            <span className="bg-slate-100 rounded-full px-3 py-1.5 text-xs text-slate-500 flex items-center gap-1.5">
-              <i className={`ti ${area ? "ti-ruler" : "ti-home"}`} />
-              {area ?? type.charAt(0).toUpperCase() + type.slice(1)}
+            <span className="bg-slate-50 rounded-full px-3 py-1.5 text-xs text-slate-700 flex items-center gap-1.5">
+              <Bath size={13} />
+              {bathrooms ?? "—"} Bathrooms
             </span>
           </div>
 
           <div className="flex items-center gap-2 mt-1">
-            <span className="flex-1 bg-secondary text-white rounded-full py-3 text-sm font-medium text-center">
+            <span className="flex-1 bg-primary text-white rounded-full py-3 text-sm font-medium text-center">
               View Property
             </span>
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                e.preventDefault();
-                onFavouriteToggle?.(id);
-              }}
-              className={`w-11 h-11 rounded-full border border-slate-200 bg-white flex items-center justify-center flex-shrink-0 transition-colors ${
-                isFavourited ? "text-accent" : "text-slate-400"
-              }`}
-              aria-label={isFavourited ? "Remove from favourites" : "Add to favourites"}
-            >
-              <i
-                className={`${isFavourited ? "ti ti-heart-filled" : "ti ti-heart"}`}
-                style={{ fontSize: 18 }}
-              />
-            </button>
+            {onFavouriteToggle && (
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  onFavouriteToggle(id);
+                }}
+                className={`w-11 h-11 rounded-full border border-slate-200 bg-white flex items-center justify-center flex-shrink-0 transition-colors ${
+                  isFavourited ? "text-red-600 " : "text-slate-400"
+                }`}
+                aria-label={
+                  isFavourited ? "Remove from favourites" : "Add to favourites"
+                }
+              >
+                <Heart size={18} fill={isFavourited ? "#dc2626" : "#ffffff"} />
+              </button>
+            )}
           </div>
         </div>
       </motion.div>

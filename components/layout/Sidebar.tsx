@@ -4,13 +4,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import {
-  Home,
   LayoutDashboard,
   Building2,
   MessageCircle,
-  Search,
 } from "lucide-react";
 import { getInitials } from "@/lib/utils/getInitials";
+import { Logo } from "@/components/shared/Logo";
 
 interface SidebarProps {
   profile?: { full_name?: string | null } | null;
@@ -21,7 +20,6 @@ const navLinks = [
   { label: "Overview", href: "/landlord/dashboard", icon: LayoutDashboard },
   { label: "My Properties", href: "/landlord/listings", icon: Building2 },
   { label: "Enquiries", href: "/landlord/messages", icon: MessageCircle },
-  { label: "Explore", href: "/listings", icon: Search },
 ];
 
 export function Sidebar({ profile, unreadCount = 0 }: SidebarProps) {
@@ -43,13 +41,9 @@ export function Sidebar({ profile, unreadCount = 0 }: SidebarProps) {
       transition={{ duration: 0.25 }}
       className="fixed left-0 top-0 bottom-0 hidden lg:flex lg:flex-col w-72 bg-white border-r border-slate-100 z-40 px-4 py-6"
     >
-      <Link
-        href="/landlord/dashboard"
-        className="flex items-center gap-2 text-2xl font-bold text-secondary mb-10"
-      >
-        <Home className="h-[32px] w-[32px] text-primary" />
-        Ouse
-      </Link>
+      <div className="mb-10">
+        <Logo href="/landlord/dashboard" size="lg" />
+      </div>
 
       <nav className="flex flex-col gap-1 space-y-5">
         {navLinks.map((link) => {

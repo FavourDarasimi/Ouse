@@ -82,18 +82,18 @@ export function PropertyCard({ listing }: PropertyCardProps) {
           </span>
         </div>
 
-        <p className="text-sm font-semibold text-text-main mt-2">
+        <p className="truncate text-sm font-semibold text-text-main mt-2">
           {formatPrice(listing.price, listing.rent_type)}
         </p>
 
-        <div className="flex items-center gap-3 mt-1 text-xs text-slate-400">
-          {listing.bedrooms && <span>{listing.bedrooms} Beds</span>}
-          {listing.bathrooms && <span>{listing.bathrooms} Baths</span>}
-          <span className="capitalize">{listing.type}</span>
-          {listing.area && <span>{listing.area}</span>}
+        <div className="flex items-center gap-3 mt-1 text-xs text-slate-400 flex-nowrap overflow-hidden">
+          {listing.bedrooms && <span className="whitespace-nowrap">{listing.bedrooms} Beds</span>}
+          {listing.bathrooms && <span className="whitespace-nowrap">{listing.bathrooms} Baths</span>}
+          <span className="whitespace-nowrap capitalize">{listing.type}</span>
+          {listing.area && <span className="whitespace-nowrap">{listing.area}</span>}
         </div>
 
-        <p className="text-xs text-slate-400 mt-1">
+        <p className="truncate text-xs text-slate-400 mt-1">
           Created {formatRelativeTime(listing.created_at)}
         </p>
 

@@ -38,15 +38,15 @@ export function ListingPreviewCard({ listing }: ListingPreviewCardProps) {
       </div>
 
       <div className="min-w-0 flex-1">
-        <div className="flex items-center justify-between gap-2">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-0 sm:gap-2">
           <h4 className="truncate text-sm font-semibold text-text-main">
             {title}
           </h4>
-          <p className="shrink-0 text-sm font-bold text-text-main">
+          <p className="text-sm font-bold text-text-main">
             {formatPrice(price, rent_type)}
           </p>
         </div>
-        <p className="mt-0.5 truncate text-xs text-slate-400">{location}</p>
+        <p className="truncate text-xs text-slate-400">{location}</p>
       </div>
 
       <div className="flex shrink-0 items-start gap-1.5">

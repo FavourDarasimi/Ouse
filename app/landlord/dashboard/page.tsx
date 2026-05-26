@@ -10,6 +10,7 @@ import {
 } from "@/components/shared/StaggerContainer";
 import { ListingPreviewCard } from "@/components/listings/ListingPreviewCard";
 import { ConversationListItem } from "@/components/chat/ConversationListItem";
+import { LiveUnreadCount } from "./LiveUnreadCount";
 
 function getGreeting(): string {
   const hour = new Date().getHours();
@@ -142,7 +143,15 @@ export default async function LandlordDashboardPage() {
             />
           </StaggerItem>
           <StaggerItem>
-            <DashboardStatsCard label="New Messages" value={unreadCount ?? 0} />
+            <DashboardStatsCard
+              label="New Messages"
+              value={
+                <LiveUnreadCount
+                  userId={user.id}
+                  initialCount={unreadCount ?? 0}
+                />
+              }
+            />
           </StaggerItem>
           <StaggerItem>
             <DashboardStatsCard
@@ -159,7 +168,7 @@ export default async function LandlordDashboardPage() {
         </StaggerContainer>
 
         <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6 mb-8">
-          <AnimatedSection className="bg-white rounded-2xl border border-slate-100 p-4 sm:p-5">
+          <AnimatedSection className="bg-white rounded-2xl border border-slate-100 p-3 sm:p-5">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-text-main">
                 My Listings
@@ -202,7 +211,7 @@ export default async function LandlordDashboardPage() {
 
           <AnimatedSection
             delay={0.15}
-            className="bg-white rounded-2xl border border-slate-100 p-4 sm:p-5"
+            className="bg-white rounded-2xl border border-slate-100 p-3 sm:p-5"
           >
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-text-main">

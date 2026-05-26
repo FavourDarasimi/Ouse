@@ -1,6 +1,8 @@
+import type { ReactNode } from "react";
+
 interface DashboardStatsCardProps {
   label: string;
-  value: number | string;
+  value: number | string | ReactNode;
   variant?: "hero" | "white";
 }
 
@@ -19,7 +21,7 @@ export function DashboardStatsCard({
     >
       <div className="flex items-start justify-between">
         <p
-          className={`text-sm font-medium ${
+          className={`truncate text-sm font-medium ${
             isHero ? "text-slate-200" : "text-slate-500"
           }`}
         >

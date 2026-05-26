@@ -8,9 +8,10 @@ import {
   MessageCircle,
   LayoutDashboard,
   Building2,
-  Search,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
+import { useUnreadCount } from "@/hooks/useUnreadCount";
 
 export interface BottomNavLink {
   label: string;
@@ -29,7 +30,6 @@ export const landlordLinks: BottomNavLink[] = [
   { label: "Overview", href: "/landlord/dashboard", icon: LayoutDashboard },
   { label: "My Properties", href: "/landlord/listings", icon: Building2 },
   { label: "Enquiries", href: "/landlord/messages", icon: MessageCircle },
-  { label: "Explore", href: "/listings", icon: Search },
 ];
 
 interface MobileBottomNavProps {
@@ -39,9 +39,11 @@ interface MobileBottomNavProps {
 
 export function MobileBottomNav({
   links,
-  unreadCount = 0,
+  unreadCount: serverUnreadCount = 0,
 }: MobileBottomNavProps) {
   const pathname = usePathname();
+  const { user } = useAuth();
+  const liveUnreadCount = useUnreadCount(user?.id, serverUnreadCount);
   const items = links ?? tenantLinks;
 
   const isActive = (href: string) => {
@@ -56,7 +58,7 @@ export function MobileBottomNav({
   };
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-slate-100 md:hidden safe-area-bottom">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-slate-100 lg:hidden safe-area-bottom">
       <div className="flex items-center justify-around h-16">
         {items.map((link) => (
           <Link
@@ -70,9 +72,9 @@ export function MobileBottomNav({
           >
             <link.icon className="h-5 w-5" />
             <span>{link.label}</span>
-            {link.label === "Enquiries" && unreadCount > 0 && (
+            {(link.label === "Enquiries" || link.label === "Inbox") && liveUnreadCount > 0 && (
               <span className="absolute -top-0.5 right-1.5 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center leading-tight">
-                {unreadCount > 99 ? "99+" : unreadCount}
+                {liveUnreadCount > 99 ? "99+" : liveUnreadCount}
               </span>
             )}
           </Link>

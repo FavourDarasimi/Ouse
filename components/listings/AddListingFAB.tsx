@@ -1,10 +1,18 @@
 "use client";
 
 import { Plus } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { useAddListing } from "@/context/AddListingContext";
 
 export function AddListingFAB() {
   const { openPanel } = useAddListing();
+  const pathname = usePathname();
+
+  const isMessages =
+    pathname.startsWith("/landlord/messages") ||
+    pathname.startsWith("/tenant/messages");
+
+  if (isMessages) return null;
 
   return (
     <button

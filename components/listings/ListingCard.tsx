@@ -23,7 +23,7 @@ export function ListingCard({
     <Link href={`/listings/${id}`}>
       <motion.div
         whileHover={{ y: -6 }}
-        className="bg-white rounded-3xl border border-slate-200 p-2 sm:p-2 cursor-pointer"
+        className="bg-white rounded-2xl border border-slate-200 p-2 sm:p-2 cursor-pointer"
       >
         <motion.div
           whileHover={{ scale: 1.03 }}

@@ -569,7 +569,7 @@ export function ListingsFilter({ listings, children }: ListingsFilterProps) {
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
               transition={{ type: "spring", damping: 28, stiffness: 300 }}
-              className="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl max-h-[85vh] flex flex-col"
+              className="absolute bottom-16 left-0 right-0 bg-white rounded-t-3xl max-h-[calc(85vh-4rem)] flex flex-col"
             >
               <div className="flex items-center justify-between p-4 border-b border-slate-100 shrink-0">
                 <h3 className="text-sm font-semibold text-text-main">

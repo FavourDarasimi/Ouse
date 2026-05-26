@@ -54,7 +54,7 @@ export default async function LandlordLayout({
     <AddListingProvider>
       <Sidebar profile={profile} unreadCount={unreadCount} />
       <Navbar />
-      <main className="min-h-[calc(100vh-4rem)] bg-background lg:ml-64 pb-16 md:pb-0">
+      <main className="min-h-[calc(100vh-4rem)] bg-background lg:ml-64 pb-16 lg:pb-0">
         {children}
       </main>
       <MobileBottomNav links={landlordLinks} unreadCount={unreadCount} />

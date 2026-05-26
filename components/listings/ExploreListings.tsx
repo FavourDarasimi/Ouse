@@ -39,7 +39,7 @@ function PaginatedGrid({
 
   return (
     <>
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-1.5 sm:gap-5">
         {pageItems.map((listing) => (
           <div key={listing.id}>
             <ListingCard
@@ -114,7 +114,7 @@ export function ExploreListings({ listings }: ExploreListingsProps) {
       {({ filtered, hasActiveFilters, clearAll }) => (
         <>
           {!ready ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-1.5 sm:gap-5">
               {Array.from({ length: 8 }).map((_, i) => (
                 <SkeletonCard key={i} />
               ))}

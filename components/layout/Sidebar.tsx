@@ -10,6 +10,8 @@ import {
 } from "lucide-react";
 import { getInitials } from "@/lib/utils/getInitials";
 import { Logo } from "@/components/shared/Logo";
+import { useAuth } from "@/context/AuthContext";
+import { useUnreadCount } from "@/hooks/useUnreadCount";
 
 interface SidebarProps {
   profile?: { full_name?: string | null } | null;
@@ -22,8 +24,10 @@ const navLinks = [
   { label: "Enquiries", href: "/landlord/messages", icon: MessageCircle },
 ];
 
-export function Sidebar({ profile, unreadCount = 0 }: SidebarProps) {
+export function Sidebar({ profile, unreadCount: serverUnreadCount = 0 }: SidebarProps) {
   const pathname = usePathname();
+  const { user } = useAuth();
+  const liveUnreadCount = useUnreadCount(user?.id, serverUnreadCount);
 
   const isActive = (href: string) => {
     if (href === "/landlord/dashboard") return pathname === href;
@@ -60,9 +64,9 @@ export function Sidebar({ profile, unreadCount = 0 }: SidebarProps) {
               >
                 <link.icon className="h-[18px] w-[18px] shrink-0" />
                 <span className="text-base">{link.label}</span>
-                {link.label === "Enquiries" && unreadCount > 0 && (
+                {link.label === "Enquiries" && liveUnreadCount > 0 && (
                   <span className="ml-auto bg-red-600 text-white text-xs font-semibold px-2 py-0.5 rounded-full">
-                    {unreadCount}
+                    {liveUnreadCount}
                   </span>
                 )}
               </Link>

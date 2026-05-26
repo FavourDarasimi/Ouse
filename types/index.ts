@@ -56,3 +56,18 @@ export interface Favourite {
   created_at: string;
   listings?: Listing;
 }
+
+export interface ThreadItem {
+  id: string;
+  listingId: string;
+  listingTitle: string;
+  listingPrice: number;
+  listingLocation: string;
+  listingImage: string | null;
+  otherUserId: string;
+  otherUserName: string | null;
+  otherUserAvatar: string | null;
+  lastMessage: string | null;
+  lastMessageTime: string | null;
+  unreadCount: number;
+}

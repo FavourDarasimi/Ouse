@@ -1,4 +1,4 @@
-export type Role = "tenant" | "landlord";
+export type Role = "tenant" | "landlord" | "admin";
 export type PropertyType = "house" | "apartment" | "room" | "duplex" | "flat";
 export type RentType = "monthly" | "yearly";
 

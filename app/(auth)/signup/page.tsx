@@ -6,8 +6,8 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import {
-  Home as HomeIcon,
   Building2,
+  Home,
   Eye,
   EyeOff,
   ArrowRight,
@@ -17,6 +17,7 @@ import {
   Star,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { Logo } from "@/components/shared/Logo";
 import { fadeUp, staggerContainer } from "@/lib/utils/motionVariants";
 import type { Role } from "@/types";
 
@@ -48,13 +49,7 @@ function ShowcasePanel() {
       />
       <div className="absolute inset-0 bg-gradient-to-t from-secondary/90 via-secondary/40 to-secondary/10" />
       <div className="relative flex h-full flex-col justify-between p-10">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 text-xl font-bold text-white"
-        >
-          <HomeIcon className="h-5 w-5 text-primary" />
-          Ouse
-        </Link>
+        <Logo href="/" variant="light" size="lg" />
         <div className="space-y-6">
           <div className="rounded-2xl bg-white/10 p-5 backdrop-blur-sm border border-white/20">
             <div className="flex items-center gap-1 mb-2">
@@ -179,24 +174,28 @@ function RoleOption({
       type="button"
       id={`role-${value}`}
       onClick={() => onSelect(value)}
-      className={`flex flex-col items-center gap-2 rounded-2xl border-2 p-4 text-center transition-all duration-150 ${selected
-        ? "border-primary bg-primary/5"
-        : "border-slate-200 hover:border-slate-300"
-        }`}
+      className={`flex flex-col items-center gap-2 rounded-2xl border-2 p-4 text-center transition-all duration-150 ${
+        selected
+          ? "border-primary bg-primary/5"
+          : "border-slate-200 hover:border-slate-300"
+      }`}
     >
       <div
-        className={`flex h-10 w-10 items-center justify-center rounded-xl transition-colors ${selected ? "bg-primary/10" : "bg-slate-100"
-          }`}
+        className={`flex h-10 w-10 items-center justify-center rounded-xl transition-colors ${
+          selected ? "bg-primary/10" : "bg-slate-100"
+        }`}
       >
         <Icon
-          className={`h-5 w-5 transition-colors ${selected ? "text-primary" : "text-slate-400"
-            }`}
+          className={`h-5 w-5 transition-colors ${
+            selected ? "text-primary" : "text-slate-400"
+          }`}
         />
       </div>
       <div>
         <p
-          className={`text-sm font-semibold transition-colors ${selected ? "text-primary" : "text-text-main"
-            }`}
+          className={`text-sm font-semibold transition-colors ${
+            selected ? "text-primary" : "text-text-main"
+          }`}
         >
           {label}
         </p>
@@ -284,10 +283,17 @@ function SignupForm() {
     }
 
     if (data.session) {
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("role")
+        .eq("id", data.session.user.id)
+        .maybeSingle();
+
+      const dbRole = profile?.role;
+
       router.push(
-        role === "landlord" ? "/landlord/dashboard" : "/tenant/dashboard",
+        dbRole === "landlord" ? "/landlord/dashboard" : "/tenant/dashboard",
       );
-      return;
     }
 
     setEmailSent(true);
@@ -306,17 +312,6 @@ function SignupForm() {
       className="flex w-full flex-col justify-center px-6 py-10 sm:px-10 lg:w-1/2 xl:w-[65%]"
     >
       <div className="mx-auto w-full max-w-sm">
-        {/* Mobile logo */}
-        <motion.div variants={fadeUp} className="mb-8 md:hidden">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 text-xl font-bold text-secondary"
-          >
-            <HomeIcon className="h-5 w-5 text-primary" />
-            Ouse
-          </Link>
-        </motion.div>
-
         {/* Heading */}
         <motion.div variants={fadeUp} className="mb-6 text-center">
           <h1 className="text-2xl font-bold text-text-main">
@@ -348,7 +343,7 @@ function SignupForm() {
                   value="tenant"
                   label="Tenant"
                   description="Looking for a home"
-                  icon={HomeIcon}
+                  icon={Home}
                   selected={role === "tenant"}
                   onSelect={setRole}
                 />
@@ -493,7 +488,11 @@ export default function SignupPage() {
   return (
     <div className="flex lg:h-screen min-h-screen  bg-white">
       <ShowcasePanel />
-      <div className="flex flex-1 overflow-y-auto justify-center">
+      <div className="relative flex flex-1 overflow-y-auto justify-center">
+        {/* Mobile/tablet logo — top left */}
+        <div className="absolute left-4 top-4 z-10 lg:hidden">
+          <Logo href="/" />
+        </div>
         <SignupForm />
       </div>
     </div>

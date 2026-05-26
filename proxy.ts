@@ -36,6 +36,25 @@ export async function proxy(request: NextRequest) {
 
   const { pathname } = request.nextUrl;
 
+  // ── Root path: redirect authenticated users to their role dashboard ──
+  if (pathname === "/") {
+    if (user) {
+      const role = user.user_metadata?.role as Role | undefined;
+      const dashboardUrl = request.nextUrl.clone();
+
+      if (role === "landlord") {
+        dashboardUrl.pathname = "/landlord/dashboard";
+      } else if (role === "admin") {
+        dashboardUrl.pathname = "/landlord/dashboard";
+      } else {
+        // tenant or undefined role → tenant dashboard (safe default)
+        dashboardUrl.pathname = "/tenant/dashboard";
+      }
+      return NextResponse.redirect(dashboardUrl);
+    }
+    // No user → allow access to public homepage
+  }
+
   if (user && AUTH_ROUTES.some((route) => pathname.startsWith(route))) {
     const role = user.user_metadata?.role as Role | undefined;
     if (!role) {

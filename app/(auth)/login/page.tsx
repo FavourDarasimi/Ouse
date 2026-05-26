@@ -8,13 +8,13 @@ import Image from "next/image";
 import {
   Eye,
   EyeOff,
-  Home as HomeIcon,
   ArrowRight,
   Loader2,
   MapPin,
   Star,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { Logo } from "@/components/shared/Logo";
 import { fadeUp, staggerContainer } from "@/lib/utils/motionVariants";
 
 // ─── Friendly error messages ─────────────────────────────────────────────────
@@ -48,13 +48,7 @@ function ShowcasePanel() {
       {/* Content */}
       <div className="relative flex h-full flex-col justify-between p-10">
         {/* Logo */}
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 text-xl font-bold text-white"
-        >
-          <HomeIcon className="h-5 w-5 text-primary" />
-          Ouse
-        </Link>
+        <Logo href="/" variant="light" size="lg" />
 
         {/* Bottom copy */}
         <div className="space-y-6">
@@ -232,17 +226,6 @@ function LoginForm() {
       className="flex w-full flex-col justify-center px-6 py-10 sm:px-10 lg:w-1/2 xl:w-[65%]"
     >
       <div className="mx-auto w-full max-w-sm">
-        {/* Mobile logo */}
-        <motion.div variants={fadeUp} className="mb-8 md:hidden">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 text-xl font-bold text-secondary"
-          >
-            <HomeIcon className="h-5 w-5 text-primary" />
-            Ouse
-          </Link>
-        </motion.div>
-
         {/* Heading */}
         <motion.div variants={fadeUp} className="mb-8 text-center">
           <h1 className="text-2xl font-bold text-text-main">Welcome back</h1>
@@ -369,7 +352,11 @@ export default function LoginPage() {
   return (
     <div className="flex h-screen overflow-hidden bg-white">
       <ShowcasePanel />
-      <div className="flex flex-1 overflow-y-auto justify-center">
+      <div className="relative flex flex-1 overflow-y-auto justify-center">
+        {/* Mobile/tablet logo — top left */}
+        <div className="absolute left-4 top-4 z-10 lg:hidden">
+          <Logo href="/" />
+        </div>
         <Suspense
           fallback={
             <div className="flex flex-1 items-center justify-center">

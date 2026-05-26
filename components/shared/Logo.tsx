@@ -6,6 +6,7 @@ interface LogoProps {
   href?: string;
   className?: string;
   size?: "sm" | "md" | "lg";
+  variant?: "light" | "dark";
 }
 
 const pinSizes = {
@@ -20,8 +21,14 @@ const fontSizes = {
   lg: "text-3xl",
 };
 
-export function Logo({ href = "/", className = "", size = "md" }: LogoProps) {
+export function Logo({
+  href = "/",
+  className = "",
+  size = "md",
+  variant = "dark",
+}: LogoProps) {
   const s = pinSizes[size];
+  const isLight = variant === "light";
 
   const content = (
     <span
@@ -34,11 +41,25 @@ export function Logo({ href = "/", className = "", size = "md" }: LogoProps) {
         className="shrink-0"
         style={{ marginTop: "-0.08em" }}
       >
-        <circle cx="12" cy="12" r="9" fill="none" stroke="#2563EB" strokeWidth="2.5" />
-        <path d="M8 12L12 8L16 12V16H8Z" fill="#2563EB" />
-        <rect x="11.5" y="14" width="1" height="2" fill="white" />
+        <circle
+          cx="12"
+          cy="12"
+          r="9"
+          fill="none"
+          stroke={isLight ? "#FFFFFF" : "#2563EB"}
+          strokeWidth="2.5"
+        />
+        <path
+          d="M8 12L12 8L16 12V16H8Z"
+          fill={isLight ? "#FFFFFF" : "#2563EB"}
+        />
+        <rect x="11.5" y="14" width="1" height="2" fill={isLight ? "#1E293B" : "white"} />
       </svg>
-      <span className="text-primary tracking-tight">USE</span>
+      <span
+        className={`tracking-tight ${isLight ? "text-white" : "text-primary"}`}
+      >
+        USE
+      </span>
     </span>
   );
 

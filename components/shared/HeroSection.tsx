@@ -8,11 +8,13 @@ import { staggerContainer, fadeUp } from "@/lib/utils/motionVariants";
 const collageImages = {
   col1: {
     top: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=600&q=80",
-    bottom: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&q=80",
+    bottom:
+      "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&q=80",
   },
   col2: {
     top: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=600&q=80",
-    bottom: "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=600&q=80",
+    bottom:
+      "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=600&q=80",
   },
 };
 
@@ -31,8 +33,9 @@ export function HeroSection() {
           >
             <motion.span
               variants={fadeUp}
-              className="text-sm font-medium text-primary uppercase tracking-[0.2em]"
+              className="text-[11px] font-medium bg-primary/10 py-0.5 px-1.5 border border-primary flex items-center gap-2 w-fit rounded-full text-primary uppercase tracking-[0.2em]"
             >
+              <span className="bg-primary h-2 w-2 rounded-full animate-pulse" />
               Rental Properties in Nigeria
             </motion.span>
             <motion.h1
@@ -43,7 +46,7 @@ export function HeroSection() {
             </motion.h1>
             <motion.p
               variants={fadeUp}
-              className="text-lg text-slate-400 mt-6 leading-relaxed max-w-md"
+              className="text-lg text-slate-500 mt-6 leading-relaxed max-w-md"
             >
               Browse verified rental properties across Lagos, Abuja, and Port
               Harcourt. Connect directly with landlords — no agents, no
@@ -58,12 +61,6 @@ export function HeroSection() {
                 className="bg-primary text-white px-8 py-3.5 rounded-xl font-medium hover:bg-blue-700 active:scale-95 transition-all duration-150 text-base"
               >
                 Explore Listings
-              </Link>
-              <Link
-                href="/signup?role=landlord"
-                className="border-2 border-secondary/15 text-secondary px-8 py-3.5 rounded-xl font-medium hover:bg-secondary hover:text-white active:scale-95 transition-all duration-150 text-base"
-              >
-                List Your Property
               </Link>
             </motion.div>
           </motion.div>

@@ -1,40 +1,39 @@
-import { createServerClient } from "@/lib/supabase/server";
+import { createServerClient } from "@supabase/ssr";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-/**
- * Handles the OAuth callback from Supabase after Google sign-in.
- * Exchanges the code for a session, then redirects by role.
- */
 export async function GET(request: NextRequest) {
-  const { searchParams, origin } = new URL(request.url);
+  const { searchParams } = new URL(request.url);
   const code = searchParams.get("code");
-  const next = searchParams.get("next") ?? null;
 
-  if (code) {
-    const supabase = await createServerClient();
-    const { data, error } =
-      await supabase.auth.exchangeCodeForSession(code);
-
-    if (!error && data.user) {
-      let role = data.user.user_metadata?.role as string | undefined;
-
-      if (!role) {
-        const { data: profile } = await supabase
-          .from("profiles")
-          .select("role")
-          .eq("id", data.user.id)
-          .maybeSingle();
-        role = profile?.role;
-      }
-
-      const destination =
-        next ??
-        (role === "landlord" ? "/landlord/dashboard" : "/tenant/dashboard");
-      return NextResponse.redirect(`${origin}${destination}`);
-    }
+  if (!code) {
+    return NextResponse.redirect(new URL("/login?error=auth_failed", request.url));
   }
 
-  // Something went wrong — send back to login with an error hint
-  return NextResponse.redirect(`${origin}/login?error=oauth_failed`);
+  const response = NextResponse.redirect(new URL("/onboarding", request.url));
+
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll();
+        },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value, options }) => {
+            response.cookies.set(name, value, options);
+          });
+        },
+      },
+    },
+  );
+
+  const { error } = await supabase.auth.exchangeCodeForSession(code);
+
+  if (error) {
+    return NextResponse.redirect(new URL("/login?error=auth_failed", request.url));
+  }
+
+  return response;
 }

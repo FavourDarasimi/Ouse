@@ -8,6 +8,7 @@ export interface Profile {
   full_name: string | null;
   avatar_url: string | null;
   phone: string | null;
+  onboarded: boolean;
   created_at: string;
 }
 

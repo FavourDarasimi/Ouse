@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import type { Listing } from "@/types";
-import { MapPin, BedDouble, Bath, Heart } from "lucide-react";
+import { MapPin, BedDouble, Bath, Heart, Building2 } from "lucide-react";
 
 interface ListingCardProps {
   listing: Listing;
@@ -39,10 +39,7 @@ export function ListingCard({
             />
           ) : (
             <div className="bg-slate-100 rounded-xl sm:rounded-2xl aspect-[4/5] sm:aspect-[4/3] flex items-center justify-center w-full h-full">
-              <i
-                className="ti ti-building text-slate-300"
-                style={{ fontSize: 40 }}
-              />
+              <Building2 className="text-slate-300" size={40} />
             </div>
           )}
         </motion.div>

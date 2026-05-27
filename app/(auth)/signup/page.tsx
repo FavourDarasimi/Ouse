@@ -1,13 +1,11 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import {
-  Building2,
-  Home,
   Eye,
   EyeOff,
   ArrowRight,
@@ -19,7 +17,6 @@ import {
 import { createClient } from "@/lib/supabase/client";
 import { Logo } from "@/components/shared/Logo";
 import { fadeUp, staggerContainer } from "@/lib/utils/motionVariants";
-import type { Role } from "@/types";
 
 // ─── Friendly error messages ─────────────────────────────────────────────────
 
@@ -150,64 +147,43 @@ function Divider() {
   );
 }
 
-// ─── Role option card ─────────────────────────────────────────────────────────
-
-interface RoleOptionProps {
-  value: Role;
-  label: string;
-  description: string;
-  icon: React.ElementType;
-  selected: boolean;
-  onSelect: (role: Role) => void;
-}
-
-function RoleOption({
-  value,
-  label,
-  description,
-  icon: Icon,
-  selected,
-  onSelect,
-}: RoleOptionProps) {
-  return (
-    <button
-      type="button"
-      id={`role-${value}`}
-      onClick={() => onSelect(value)}
-      className={`flex flex-col items-center gap-2 rounded-2xl border-2 p-4 text-center transition-all duration-150 ${
-        selected
-          ? "border-primary bg-primary/5"
-          : "border-slate-200 hover:border-slate-300"
-      }`}
-    >
-      <div
-        className={`flex h-10 w-10 items-center justify-center rounded-xl transition-colors ${
-          selected ? "bg-primary/10" : "bg-slate-100"
-        }`}
-      >
-        <Icon
-          className={`h-5 w-5 transition-colors ${
-            selected ? "text-primary" : "text-slate-400"
-          }`}
-        />
-      </div>
-      <div>
-        <p
-          className={`text-sm font-semibold transition-colors ${
-            selected ? "text-primary" : "text-text-main"
-          }`}
-        >
-          {label}
-        </p>
-        <p className="mt-0.5 text-xs text-slate-400">{description}</p>
-      </div>
-    </button>
-  );
-}
-
 // ─── Email sent screen ────────────────────────────────────────────────────────
 
-function EmailSentScreen({ email }: { email: string }) {
+function EmailSentScreen({
+  email,
+  onResend,
+}: {
+  email: string;
+  onResend: () => Promise<void>;
+}) {
+  const [cooldown, setCooldown] = useState(0);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const startCooldown = useCallback(() => {
+    setCooldown(60);
+    timerRef.current = setInterval(() => {
+      setCooldown((prev) => {
+        if (prev <= 1) {
+          if (timerRef.current) clearInterval(timerRef.current);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, []);
+
+  const handleResend = async () => {
+    if (cooldown > 0) return;
+    await onResend();
+    startCooldown();
+  };
+
   return (
     <div className="flex flex-1 items-center justify-center px-6 py-10">
       <motion.div
@@ -219,18 +195,27 @@ function EmailSentScreen({ email }: { email: string }) {
         <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10">
           <Mail className="h-7 w-7 text-primary" />
         </div>
-        <h2 className="text-xl font-bold text-text-main">Check your inbox</h2>
+        <h2 className="text-xl font-bold text-text-main">Check your email</h2>
         <p className="mt-2 text-sm text-slate-400">
-          We&apos;ve sent a verification link to{" "}
-          <span className="font-medium text-text-main">{email}</span>. Click the
-          link to activate your account.
+          We sent a verification link to{" "}
+          <span className="font-medium text-text-main">{email}</span>.
         </p>
-        <Link
-          href="/login"
-          className="mt-6 inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 font-medium text-white transition-all duration-150 hover:bg-emerald-800 active:scale-95"
+        <button
+          type="button"
+          onClick={handleResend}
+          disabled={cooldown > 0}
+          className="mt-6 inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-surface px-5 py-2.5 text-sm font-medium text-text-main transition-all duration-150 hover:bg-slate-50 active:scale-95 disabled:opacity-50"
         >
-          Back to sign in <ArrowRight className="h-4 w-4" />
-        </Link>
+          {cooldown > 0 ? `Resend email (${cooldown}s)` : "Resend email"}
+        </button>
+        <div className="mt-4">
+          <Link
+            href="/login"
+            className="text-sm font-medium text-primary hover:underline"
+          >
+            Back to login
+          </Link>
+        </div>
       </motion.div>
     </div>
   );
@@ -242,7 +227,6 @@ function SignupForm() {
   const router = useRouter();
   const supabase = useMemo(() => createClient(), []);
 
-  const [role, setRole] = useState<Role>("tenant");
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -263,16 +247,24 @@ function SignupForm() {
     });
   };
 
+  const handleResend = async () => {
+    await supabase.auth.resend({
+      type: "signup",
+      email,
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setLoading(true);
 
-    const { data, error: authError } = await supabase.auth.signUp({
+    const { error: authError } = await supabase.auth.signUp({
       email,
       password,
       options: {
-        data: { role, full_name: fullName },
+        data: { full_name: fullName },
+        emailRedirectTo: `${window.location.origin}/auth/callback`,
       },
     });
 
@@ -282,26 +274,12 @@ function SignupForm() {
       return;
     }
 
-    if (data.session) {
-      const { data: profile } = await supabase
-        .from("profiles")
-        .select("role")
-        .eq("id", data.session.user.id)
-        .maybeSingle();
-
-      const dbRole = profile?.role;
-
-      router.push(
-        dbRole === "landlord" ? "/landlord/dashboard" : "/tenant/dashboard",
-      );
-    }
-
     setEmailSent(true);
     setLoading(false);
   };
 
   if (emailSent) {
-    return <EmailSentScreen email={email} />;
+    return <EmailSentScreen email={email} onResend={handleResend} />;
   }
 
   return (
@@ -333,33 +311,6 @@ function SignupForm() {
           <Divider />
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Role picker */}
-            <div>
-              <p className="mb-2 text-xs font-medium uppercase tracking-wide text-slate-400">
-                I am a...
-              </p>
-              <div className="grid grid-cols-2 gap-3">
-                <RoleOption
-                  value="tenant"
-                  label="Tenant"
-                  description="Looking for a home"
-                  icon={Home}
-                  selected={role === "tenant"}
-                  onSelect={setRole}
-                />
-                <RoleOption
-                  value="landlord"
-                  label="Landlord"
-                  description="I have property to rent"
-                  icon={Building2}
-                  selected={role === "landlord"}
-                  onSelect={setRole}
-                />
-              </div>
-            </div>
-
-            <div className="border-t border-slate-100" />
-
             {/* Full name */}
             <div>
               <label

@@ -17,6 +17,7 @@ interface AuthContextValue {
   user: User | null;
   profile: Profile | null;
   role: Profile["role"] | null;
+  onboarded: boolean;
   isAuthInitialized: boolean;
   isLoggingOut: boolean;
   signOut: () => Promise<void>;
@@ -26,6 +27,7 @@ const AuthContext = createContext<AuthContextValue>({
   user: null,
   profile: null,
   role: null,
+  onboarded: false,
   isAuthInitialized: false,
   isLoggingOut: false,
   signOut: async () => {},
@@ -46,7 +48,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         .from("profiles")
         .select("*")
         .eq("id", userId)
-        .single();
+        .maybeSingle();
       setProfile(data ?? null);
     },
     [supabase]
@@ -104,6 +106,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         user,
         profile,
         role: profile?.role ?? null,
+        onboarded: profile?.onboarded ?? false,
         isAuthInitialized,
         isLoggingOut,
         signOut,

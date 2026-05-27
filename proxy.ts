@@ -1,10 +1,5 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
-import type { Role } from "@/types";
-
-const AUTH_ROUTES = ["/login", "/signup"];
-const TENANT_PREFIX = "/tenant";
-const LANDLORD_PREFIX = "/landlord";
 
 export async function proxy(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request });
@@ -19,15 +14,15 @@ export async function proxy(request: NextRequest) {
         },
         setAll(cookiesToSet) {
           cookiesToSet.forEach(({ name, value }) =>
-            request.cookies.set(name, value)
+            request.cookies.set(name, value),
           );
           supabaseResponse = NextResponse.next({ request });
           cookiesToSet.forEach(({ name, value, options }) =>
-            supabaseResponse.cookies.set(name, value, options)
+            supabaseResponse.cookies.set(name, value, options),
           );
         },
       },
-    }
+    },
   );
 
   const {
@@ -36,70 +31,78 @@ export async function proxy(request: NextRequest) {
 
   const { pathname } = request.nextUrl;
 
-  // ── Root path: redirect authenticated users to their role dashboard ──
-  if (pathname === "/") {
-    if (user) {
-      const role = user.user_metadata?.role as Role | undefined;
-      const dashboardUrl = request.nextUrl.clone();
-
-      if (role === "landlord") {
-        dashboardUrl.pathname = "/landlord/dashboard";
-      } else if (role === "admin") {
-        dashboardUrl.pathname = "/landlord/dashboard";
-      } else {
-        // tenant or undefined role → tenant dashboard (safe default)
-        dashboardUrl.pathname = "/tenant/dashboard";
-      }
-      return NextResponse.redirect(dashboardUrl);
+  // ── Rule 1: Unauthenticated → protect /landlord, /tenant, /onboarding ──
+  if (!user) {
+    if (
+      pathname.startsWith("/landlord") ||
+      pathname.startsWith("/tenant") ||
+      pathname.startsWith("/onboarding")
+    ) {
+      const loginUrl = request.nextUrl.clone();
+      loginUrl.pathname = "/login";
+      return NextResponse.redirect(loginUrl);
     }
-    // No user → allow access to public homepage
+    return supabaseResponse;
   }
 
-  if (user && AUTH_ROUTES.some((route) => pathname.startsWith(route))) {
-    const role = user.user_metadata?.role as Role | undefined;
-    if (!role) {
-      const homeUrl = request.nextUrl.clone();
-      homeUrl.pathname = "/";
-      return NextResponse.redirect(homeUrl);
+  // Authenticated from here — fetch profile
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role, onboarded")
+    .eq("id", user.id)
+    .maybeSingle();
+
+  const isOnboarded = profile?.onboarded === true;
+  const role = profile?.role ?? null;
+
+  // ── Rule 2: Authenticated visiting /login or /signup → /onboarding ──
+  if (pathname.startsWith("/login") || pathname.startsWith("/signup")) {
+    const onboardingUrl = request.nextUrl.clone();
+    onboardingUrl.pathname = "/onboarding";
+    return NextResponse.redirect(onboardingUrl);
+  }
+
+  // ── Rule 3: Not onboarded → only allow /onboarding and /auth ──
+  if (!isOnboarded) {
+    if (!pathname.startsWith("/onboarding") && !pathname.startsWith("/auth")) {
+      const onboardingUrl = request.nextUrl.clone();
+      onboardingUrl.pathname = "/onboarding";
+      return NextResponse.redirect(onboardingUrl);
     }
+    return supabaseResponse;
+  }
+
+  // ── Rule 4: Onboarded visiting /onboarding → role dashboard ──
+  if (pathname.startsWith("/onboarding")) {
+    if (role === "landlord" || role === "tenant") {
+      const url = request.nextUrl.clone();
+      url.pathname =
+        role === "landlord" ? "/landlord/dashboard" : "/tenant/dashboard";
+      return NextResponse.redirect(url);
+    }
+    return supabaseResponse;
+  }
+
+  // ── Rule 5: Landlord accessing /tenant → /landlord/dashboard ──
+  if (role === "landlord" && pathname.startsWith("/tenant")) {
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.pathname = "/landlord/dashboard";
+    return NextResponse.redirect(redirectUrl);
+  }
+
+  // ── Rule 6: Tenant accessing /landlord → /tenant/dashboard ──
+  if (role === "tenant" && pathname.startsWith("/landlord")) {
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.pathname = "/tenant/dashboard";
+    return NextResponse.redirect(redirectUrl);
+  }
+
+  // ── Root path: onboarded users → role dashboard ──
+  if (pathname === "/") {
     const dashboardUrl = request.nextUrl.clone();
     dashboardUrl.pathname =
       role === "landlord" ? "/landlord/dashboard" : "/tenant/dashboard";
     return NextResponse.redirect(dashboardUrl);
-  }
-
-  if (pathname.startsWith(TENANT_PREFIX)) {
-    if (!user) {
-      const loginUrl = request.nextUrl.clone();
-      loginUrl.pathname = "/login";
-      loginUrl.searchParams.set("next", pathname);
-      return NextResponse.redirect(loginUrl);
-    }
-
-    const role = user.user_metadata?.role as Role | undefined;
-    if (role && role !== "tenant") {
-      const redirectUrl = request.nextUrl.clone();
-      redirectUrl.pathname = "/landlord/dashboard";
-      return NextResponse.redirect(redirectUrl);
-    }
-    // undefined role: let through — layout checks DB profile
-  }
-
-  if (pathname.startsWith(LANDLORD_PREFIX)) {
-    if (!user) {
-      const loginUrl = request.nextUrl.clone();
-      loginUrl.pathname = "/login";
-      loginUrl.searchParams.set("next", pathname);
-      return NextResponse.redirect(loginUrl);
-    }
-
-    const role = user.user_metadata?.role as Role | undefined;
-    if (role && role !== "landlord") {
-      const redirectUrl = request.nextUrl.clone();
-      redirectUrl.pathname = "/tenant/dashboard";
-      return NextResponse.redirect(redirectUrl);
-    }
-    // undefined role: let through — layout checks DB profile
   }
 
   return supabaseResponse;
@@ -107,6 +110,6 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+    "/((?!_next/static|_next/image|favicon.ico|auth-bg.png|auth/callback|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
   ],
 };

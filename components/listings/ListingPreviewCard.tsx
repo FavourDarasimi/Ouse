@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { Building2 } from "lucide-react";
 import { formatPrice } from "@/lib/utils/formatPrice";
 import type { Listing } from "@/types";
 
@@ -29,10 +30,7 @@ export function ListingPreviewCard({ listing }: ListingPreviewCardProps) {
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center bg-slate-100">
-            <i
-              className="ti ti-building text-slate-300"
-              style={{ fontSize: 20 }}
-            />
+            <Building2 className="text-slate-300" size={20} />
           </div>
         )}
       </div>

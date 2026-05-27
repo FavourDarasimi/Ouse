@@ -12,6 +12,7 @@ import {
   Loader2,
   MapPin,
   Star,
+  X,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { Logo } from "@/components/shared/Logo";
@@ -162,7 +163,8 @@ function Divider() {
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const next = searchParams.get("next");
+  const authFailed = searchParams.get("error") === "auth_failed";
+  const [errorBanner, setErrorBanner] = useState(authFailed);
 
   const supabase = useMemo(() => createClient(), []);
 
@@ -189,7 +191,7 @@ function LoginForm() {
     setError(null);
     setLoading(true);
 
-    const { data, error: authError } = await supabase.auth.signInWithPassword({
+    const { error: authError } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
@@ -200,22 +202,7 @@ function LoginForm() {
       return;
     }
 
-    const userId = data.user?.id;
-    let role = data.user?.user_metadata?.role as string | undefined;
-
-    if (!role && userId) {
-      const { data: profile } = await supabase
-        .from("profiles")
-        .select("role")
-        .eq("id", userId)
-        .maybeSingle();
-      role = profile?.role;
-    }
-
-    const destination =
-      next ??
-      (role === "landlord" ? "/landlord/dashboard" : "/tenant/dashboard");
-    router.push(destination);
+    router.push("/onboarding");
   };
 
   return (
@@ -235,6 +222,21 @@ function LoginForm() {
         </motion.div>
 
         <motion.div variants={fadeUp} className="space-y-4">
+          {errorBanner && (
+            <div className="flex items-start gap-2 rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-sm text-red-600 dark:bg-accent-subtle dark:border-accent-subtle dark:text-accent">
+              <p className="flex-1">
+                Something went wrong with sign in. Please try again.
+              </p>
+              <button
+                type="button"
+                onClick={() => setErrorBanner(false)}
+                className="shrink-0 text-red-400 hover:text-red-600 transition"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+          )}
+
           {/* Google */}
           <GoogleButton
             label="Continue with Google"

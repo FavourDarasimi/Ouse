@@ -16,7 +16,7 @@ export function ListingPreviewCard({ listing }: ListingPreviewCardProps) {
   return (
     <motion.div
       whileHover={{ y: -4 }}
-      className="flex  gap-3 rounded-2xl border border-slate-100 bg-white p-3 transition-colors hover:border-primary/30"
+      className="flex  gap-3 rounded-2xl border border-slate-100 bg-surface p-3 transition-colors hover:border-primary/30"
     >
       <div className="relative h-16 w-20 shrink-0 overflow-hidden rounded-xl">
         {images?.[0] ? (
@@ -52,7 +52,7 @@ export function ListingPreviewCard({ listing }: ListingPreviewCardProps) {
       <div className="flex shrink-0 items-start gap-1.5">
         <Link
           href={`/listings/${id}`}
-          className="rounded-lg bg-secondary px-2.5 py-1 text-xs font-medium text-white transition-colors hover:bg-slate-700"
+          className="rounded-lg bg-secondary px-2.5 py-1 text-xs font-medium text-white dark:bg-surface-elevated dark:text-card-badge-text dark:hover:bg-surface-overlay transition-colors hover:bg-zinc-700"
         >
           View
         </Link>

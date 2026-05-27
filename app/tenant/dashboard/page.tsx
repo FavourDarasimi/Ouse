@@ -27,7 +27,7 @@ export default async function TenantDashboardPage() {
         <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           <Link
             href="/listings"
-            className="rounded-2xl border border-slate-100 bg-white p-6 hover:border-primary/30 transition-colors duration-200"
+            className="rounded-2xl border border-slate-100 bg-surface p-6 hover:border-primary/30 transition-colors duration-200"
           >
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10">
               <Home className="h-5 w-5 text-primary" />
@@ -42,7 +42,7 @@ export default async function TenantDashboardPage() {
 
           <Link
             href="/tenant/saved"
-            className="rounded-2xl border border-slate-100 bg-white p-6 hover:border-primary/30 transition-colors duration-200"
+            className="rounded-2xl border border-slate-100 bg-surface p-6 hover:border-primary/30 transition-colors duration-200"
           >
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent/10">
               <Heart className="h-5 w-5 text-accent" />
@@ -57,9 +57,9 @@ export default async function TenantDashboardPage() {
 
           <Link
             href="/tenant/messages"
-            className="rounded-2xl border border-slate-100 bg-white p-6 hover:border-primary/30 transition-colors duration-200"
+            className="rounded-2xl border border-slate-100 bg-surface p-6 hover:border-primary/30 transition-colors duration-200"
           >
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50">
               <MessageCircle className="h-5 w-5 text-primary" />
             </div>
             <h3 className="mt-4 text-lg font-semibold text-text-main">

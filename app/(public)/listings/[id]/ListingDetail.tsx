@@ -115,12 +115,12 @@ export function ListingDetail({
       <h1 className="text-2xl font-bold text-text-main mb-1">
         {listing.title}
       </h1>
-      <p className="text-xl font-semibold text-primary mb-2">
+      <p className="text-xl font-semibold text-primary dark:text-primary-text mb-2">
         ₦{listing.price.toLocaleString()}
-        <span className="text-sm text-slate-400 font-normal">/{rentLabel}</span>
+        <span className="text-sm text-slate-400 dark:text-card-meta font-normal">/{rentLabel}</span>
       </p>
 
-      <p className="text-sm text-slate-600 flex items-center gap-1 mb-4">
+      <p className="text-sm text-slate-600 dark:text-text-secondary flex items-center gap-1 mb-4">
         <MapPin size={14} />
         {listing.location}
         {listing.area ? `, ${listing.area}` : ""}
@@ -128,15 +128,15 @@ export function ListingDetail({
 
       {/* Features */}
       <div className="flex flex-wrap gap-2 mb-6">
-        <span className="bg-slate-50 rounded-full px-3 py-1.5 text-xs text-slate-700 flex items-center gap-1">
+        <span className="bg-slate-50 dark:bg-surface-elevated rounded-full px-3 py-1.5 text-xs text-slate-700 dark:text-card-badge-text flex items-center gap-1">
           <BedDouble size={13} />
           {listing.bedrooms ?? "—"} Beds
         </span>
-        <span className="bg-slate-50 rounded-full px-3 py-1.5 text-xs text-slate-700 flex items-center gap-1">
+        <span className="bg-slate-50 dark:bg-surface-elevated rounded-full px-3 py-1.5 text-xs text-slate-700 dark:text-card-badge-text flex items-center gap-1">
           <Bath size={13} />
           {listing.bathrooms ?? "—"} Baths
         </span>
-        <span className="bg-slate-50 rounded-full px-3 py-1.5 text-xs text-slate-700 capitalize">
+        <span className="bg-slate-50 dark:bg-surface-elevated rounded-full px-3 py-1.5 text-xs text-slate-700 dark:text-card-badge-text capitalize">
           {listing.type}
         </span>
       </div>
@@ -147,14 +147,14 @@ export function ListingDetail({
           <h2 className="text-base font-semibold text-text-main mb-2">
             Description
           </h2>
-          <p className="text-sm text-slate-600 leading-relaxed whitespace-pre-line">
+          <p className="text-sm text-slate-600 dark:text-text-secondary leading-relaxed whitespace-pre-line">
             {listing.description}
           </p>
         </div>
       )}
 
       {/* Landlord card + Message button */}
-      <div className="bg-white rounded-2xl border border-slate-100 p-4 flex items-center justify-between">
+      <div className="bg-surface rounded-2xl border border-slate-100 p-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold text-sm">
             {landlordProfile?.full_name
@@ -174,12 +174,12 @@ export function ListingDetail({
           </div>
         </div>
 
-        {isAuthInitialized && !isOwnListing && (
+        {isAuthInitialized && user && !isOwnListing && (
           <button
             type="button"
             onClick={handleMessage}
             disabled={sending}
-            className="inline-flex items-center gap-2 bg-primary text-white px-5 py-2.5 rounded-xl text-sm font-medium hover:bg-blue-700 active:scale-95 transition-all duration-150 disabled:opacity-50"
+            className="inline-flex items-center gap-2 bg-primary text-white px-5 py-2.5 rounded-xl text-sm font-medium hover:bg-emerald-800 active:scale-95 transition-all duration-150 disabled:opacity-50"
           >
             <MessageCircle className="h-4 w-4" />
             {sending ? "..." : "chat"}

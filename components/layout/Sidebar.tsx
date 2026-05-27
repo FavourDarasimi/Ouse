@@ -43,7 +43,7 @@ export function Sidebar({ profile, unreadCount: serverUnreadCount = 0 }: Sidebar
       initial={{ x: -20, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.25 }}
-      className="fixed left-0 top-0 bottom-0 hidden lg:flex lg:flex-col w-72 bg-white border-r border-slate-100 z-40 px-4 py-6"
+      className="fixed left-0 top-0 bottom-0 hidden lg:flex lg:flex-col w-72 bg-surface border-r border-slate-100 z-40 px-4 py-6"
     >
       <div className="mb-10">
         <Logo href="/landlord/dashboard" size="lg" />

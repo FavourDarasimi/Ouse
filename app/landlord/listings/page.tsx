@@ -37,7 +37,7 @@ export default async function LandlordListingsPage() {
           </div>
         </div>
 
-        <StaggerContainer className="grid grid-cols-3 gap-4 sm:gap-6 mb-8">
+        <StaggerContainer className="grid grid-cols-3 gap-2 sm:gap-6 mb-8">
           <StaggerItem>
             <DashboardStatsCard label="Total" value={total} />
           </StaggerItem>
@@ -75,5 +75,3 @@ export default async function LandlordListingsPage() {
     </div>
   );
 }
-
-

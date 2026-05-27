@@ -168,14 +168,14 @@ export default async function LandlordDashboardPage() {
         </StaggerContainer>
 
         <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6 mb-8">
-          <AnimatedSection className="bg-white rounded-2xl border border-slate-100 p-3 sm:p-5">
+          <AnimatedSection className="bg-surface rounded-2xl border border-slate-100 p-3 sm:p-5">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-text-main">
                 My Listings
               </h2>
               <Link
                 href="/landlord/listings"
-                className="text-sm font-medium text-primary hover:text-blue-700 transition-colors"
+                className="text-sm font-medium text-primary hover:text-emerald-800 transition-colors"
               >
                 View all &rarr;
               </Link>
@@ -194,7 +194,7 @@ export default async function LandlordDashboardPage() {
                 </p>
                 <Link
                   href="/landlord/listings/new"
-                  className="mt-4 inline-flex items-center gap-1.5 rounded-xl bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 transition-colors"
+                  className="mt-4 inline-flex items-center gap-1.5 rounded-xl bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-emerald-800 transition-colors"
                 >
                   <Plus className="h-4 w-4" />
                   Add Listing
@@ -211,7 +211,7 @@ export default async function LandlordDashboardPage() {
 
           <AnimatedSection
             delay={0.15}
-            className="bg-white rounded-2xl border border-slate-100 p-3 sm:p-5"
+            className="bg-surface rounded-2xl border border-slate-100 p-3 sm:p-5"
           >
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-text-main">
@@ -219,7 +219,7 @@ export default async function LandlordDashboardPage() {
               </h2>
               <Link
                 href="/landlord/messages"
-                className="text-sm font-medium text-primary hover:text-blue-700 transition-colors"
+                className="text-sm font-medium text-primary hover:text-emerald-800 transition-colors"
               >
                 View all &rarr;
               </Link>

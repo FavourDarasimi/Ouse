@@ -313,7 +313,7 @@ export function AddListingPanel() {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 28, stiffness: 300 }}
-            className="fixed right-0 top-0 bottom-0 z-50 w-full max-w-lg bg-white shadow-xl flex flex-col"
+            className="fixed right-0 top-0 bottom-0 z-50 w-full max-w-lg bg-surface shadow-xl flex flex-col"
           >
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 shrink-0">
               <h2 className="text-lg font-semibold text-text-main">
@@ -345,7 +345,7 @@ export function AddListingPanel() {
                   htmlFor="title"
                   className="block text-sm font-medium text-text-main mb-1.5"
                 >
-                  Title <span className="text-red-500">*</span>
+                  Title <span className="text-red-500 dark:text-accent">*</span>
                 </label>
                 <input
                   id="title"
@@ -353,7 +353,7 @@ export function AddListingPanel() {
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="e.g. 3-Bedroom Flat in Lekki"
-                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-text-main placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
+                  className="w-full rounded-xl border border-slate-200 bg-surface px-4 py-3 text-sm text-text-main placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
                 />
               </fieldset>
 
@@ -370,7 +370,7 @@ export function AddListingPanel() {
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="Describe the property..."
-                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-text-main placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition resize-none"
+                  className="w-full rounded-xl border border-slate-200 bg-surface px-4 py-3 text-sm text-text-main placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition resize-none"
                 />
               </fieldset>
 
@@ -380,7 +380,7 @@ export function AddListingPanel() {
                     htmlFor="price"
                     className="block text-sm font-medium text-text-main mb-1.5"
                   >
-                    Price (₦) <span className="text-red-500">*</span>
+                    Price (₦) <span className="text-red-500 dark:text-accent">*</span>
                   </label>
                   <input
                     id="price"
@@ -389,13 +389,13 @@ export function AddListingPanel() {
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
                     placeholder="250000"
-                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-text-main placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
+                    className="w-full rounded-xl border border-slate-200 bg-surface px-4 py-3 text-sm text-text-main placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
                   />
                 </fieldset>
 
                 <fieldset>
                   <label className="block text-sm font-medium text-text-main mb-1.5">
-                    Period <span className="text-red-500">*</span>
+                    Period <span className="text-red-500 dark:text-accent">*</span>
                   </label>
                   <div className="flex rounded-xl border border-slate-200 overflow-hidden">
                     <button
@@ -404,7 +404,7 @@ export function AddListingPanel() {
                       className={`flex-1 px-3 py-3 text-sm font-medium transition ${
                         rentType === "monthly"
                           ? "bg-primary text-white"
-                          : "bg-white text-text-main hover:bg-slate-50"
+                          : "bg-surface text-text-main hover:bg-slate-50"
                       }`}
                     >
                       /mo
@@ -415,7 +415,7 @@ export function AddListingPanel() {
                       className={`flex-1 px-3 py-3 text-sm font-medium transition ${
                         rentType === "yearly"
                           ? "bg-primary text-white"
-                          : "bg-white text-text-main hover:bg-slate-50"
+                          : "bg-surface text-text-main hover:bg-slate-50"
                       }`}
                     >
                       /yr
@@ -428,13 +428,13 @@ export function AddListingPanel() {
                     htmlFor="type"
                     className="block text-sm font-medium text-text-main mb-1.5"
                   >
-                    Type <span className="text-red-500">*</span>
+                    Type <span className="text-red-500 dark:text-accent">*</span>
                   </label>
                   <select
                     id="type"
                     value={type}
                     onChange={(e) => setType(e.target.value as PropertyType)}
-                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-text-main focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
+                    className="w-full rounded-xl border border-slate-200 bg-surface px-4 py-3 text-sm text-text-main focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
                   >
                     {propertyTypes.map((pt) => (
                       <option key={pt.value} value={pt.value}>
@@ -450,7 +450,7 @@ export function AddListingPanel() {
                   htmlFor="location"
                   className="block text-sm font-medium text-text-main mb-1.5"
                 >
-                  Location <span className="text-red-500">*</span>
+                  Location <span className="text-red-500 dark:text-accent">*</span>
                 </label>
                 <input
                   id="location"
@@ -458,7 +458,7 @@ export function AddListingPanel() {
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
                   placeholder="e.g. Lekki Phase 1, Lagos"
-                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-text-main placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
+                  className="w-full rounded-xl border border-slate-200 bg-surface px-4 py-3 text-sm text-text-main placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
                 />
               </fieldset>
 
@@ -476,7 +476,7 @@ export function AddListingPanel() {
                     value={area}
                     onChange={(e) => setArea(e.target.value)}
                     placeholder="e.g. 200sqm"
-                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-text-main placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
+                    className="w-full rounded-xl border border-slate-200 bg-surface px-4 py-3 text-sm text-text-main placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
                   />
                 </fieldset>
 
@@ -494,7 +494,7 @@ export function AddListingPanel() {
                     value={bedrooms}
                     onChange={(e) => setBedrooms(e.target.value)}
                     placeholder="3"
-                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-text-main placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
+                    className="w-full rounded-xl border border-slate-200 bg-surface px-4 py-3 text-sm text-text-main placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
                   />
                 </fieldset>
 
@@ -512,7 +512,7 @@ export function AddListingPanel() {
                     value={bathrooms}
                     onChange={(e) => setBathrooms(e.target.value)}
                     placeholder="2"
-                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-text-main placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
+                    className="w-full rounded-xl border border-slate-200 bg-surface px-4 py-3 text-sm text-text-main placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
                   />
                 </fieldset>
               </div>
@@ -531,7 +531,7 @@ export function AddListingPanel() {
                     }`}
                   >
                     <div
-                      className={`w-4 h-4 rounded-full bg-white shadow-sm transition-transform ${
+                      className={`w-4 h-4 rounded-full bg-surface shadow-sm transition-transform ${
                         available ? "translate-x-5" : "translate-x-1"
                       }`}
                     />
@@ -586,7 +586,7 @@ export function AddListingPanel() {
                           onDrop={(e) => handleDrop(e, index)}
                           className={`group relative w-[calc(33.33%-0.5rem)] aspect-square rounded-xl overflow-hidden border-2 transition-all ${
                             dragOverIndex === index
-                              ? "border-primary border-dashed bg-blue-50"
+                              ? "border-primary border-dashed bg-emerald-50"
                               : "border-slate-200"
                           }`}
                         >
@@ -621,7 +621,7 @@ export function AddListingPanel() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="w-full flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className="w-full flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3 text-sm font-medium text-white hover:bg-emerald-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                   {submitting ? (
                     <>

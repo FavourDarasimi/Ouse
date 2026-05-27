@@ -56,7 +56,7 @@ function PaginatedGrid({
           <button
             onClick={() => setPage((p) => Math.max(1, p - 1))}
             disabled={safePage <= 1}
-            className="flex items-center gap-1 px-3 py-2 rounded-xl text-sm font-medium border border-slate-200 bg-white text-text-main hover:border-primary/40 hover:text-primary transition-colors disabled:opacity-40 disabled:pointer-events-none"
+            className="flex items-center gap-1 px-3 py-2 rounded-xl text-sm font-medium border border-slate-200 bg-surface text-text-main hover:border-primary/40 hover:text-primary transition-colors disabled:opacity-40 disabled:pointer-events-none"
           >
             <ChevronLeft className="h-4 w-4" />
             <span className="hidden sm:inline">Previous</span>
@@ -81,7 +81,7 @@ function PaginatedGrid({
           <button
             onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
             disabled={safePage >= totalPages}
-            className="flex items-center gap-1 px-3 py-2 rounded-xl text-sm font-medium border border-slate-200 bg-white text-text-main hover:border-primary/40 hover:text-primary transition-colors disabled:opacity-40 disabled:pointer-events-none"
+            className="flex items-center gap-1 px-3 py-2 rounded-xl text-sm font-medium border border-slate-200 bg-surface text-text-main hover:border-primary/40 hover:text-primary transition-colors disabled:opacity-40 disabled:pointer-events-none"
           >
             <span className="hidden sm:inline">Next</span>
             <ChevronRight className="h-4 w-4" />
@@ -133,7 +133,7 @@ export function ExploreListings({ listings }: ExploreListingsProps) {
               {hasActiveFilters && (
                 <button
                   onClick={clearAll}
-                  className="mt-4 flex items-center gap-1.5 text-sm text-primary hover:text-blue-700 transition-colors"
+                  className="mt-4 flex items-center gap-1.5 text-sm text-primary hover:text-emerald-800 transition-colors"
                 >
                   <RotateCcw className="h-3.5 w-3.5" />
                   Clear all filters

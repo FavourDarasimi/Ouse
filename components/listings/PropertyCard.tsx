@@ -45,7 +45,7 @@ export function PropertyCard({ listing }: PropertyCardProps) {
     <motion.div
       whileHover={{ y: -4 }}
       transition={{ duration: 0.2 }}
-      className="bg-white rounded-2xl border border-slate-100 p-4 sm:p-5 flex flex-col sm:flex-row gap-4"
+      className="bg-surface rounded-2xl border border-slate-100 p-4 sm:p-5 flex flex-col sm:flex-row gap-4"
     >
       <div className="w-full sm:w-40 h-40 sm:h-[130px] rounded-xl overflow-hidden shrink-0 bg-slate-100">
         {listing.images?.[0] ? (
@@ -112,7 +112,7 @@ export function PropertyCard({ listing }: PropertyCardProps) {
             className={`inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition disabled:opacity-50 ${
               listing.available
                 ? "border-slate-200 text-slate-600 hover:bg-slate-50"
-                : "border-green-200 text-green-700 hover:bg-green-50"
+                : "border-green-200 text-green-700 hover:bg-green-50 dark:border-border dark:text-primary-text dark:hover:bg-primary-subtle"
             }`}
           >
             {toggling ? (
@@ -126,7 +126,7 @@ export function PropertyCard({ listing }: PropertyCardProps) {
           <button
             onClick={handleDelete}
             disabled={deleting}
-            className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-red-500 hover:bg-red-50 transition disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-red-500 hover:bg-red-50 dark:text-accent dark:hover:bg-accent-subtle transition disabled:opacity-50"
           >
             {deleting ? (
               <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -140,7 +140,7 @@ export function PropertyCard({ listing }: PropertyCardProps) {
             href={`/listings/${listing.id}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="ml-auto inline-flex items-center gap-1 text-xs text-primary hover:text-blue-700 transition"
+            className="ml-auto inline-flex items-center gap-1 text-xs text-primary hover:text-emerald-800 transition"
           >
             View <ExternalLink className="h-3 w-3" />
           </a>

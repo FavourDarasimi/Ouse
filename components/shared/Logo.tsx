@@ -46,14 +46,14 @@ export function Logo({
           cy="12"
           r="9"
           fill="none"
-          stroke={isLight ? "#FFFFFF" : "#2563EB"}
+          stroke={isLight ? "#FFFFFF" : "#047857"}
           strokeWidth="2.5"
         />
         <path
           d="M8 12L12 8L16 12V16H8Z"
-          fill={isLight ? "#FFFFFF" : "#2563EB"}
+          fill={isLight ? "#FFFFFF" : "#047857"}
         />
-        <rect x="11.5" y="14" width="1" height="2" fill={isLight ? "#1E293B" : "white"} />
+        <rect x="11.5" y="14" width="1" height="2" fill={isLight ? "#18181B" : "white"} />
       </svg>
       <span
         className={`tracking-tight ${isLight ? "text-white" : "text-primary"}`}

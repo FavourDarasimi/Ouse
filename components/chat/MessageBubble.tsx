@@ -16,7 +16,7 @@ export function MessageBubble({ body, createdAt, isOwn }: MessageBubbleProps) {
           className={`text-sm px-4 py-2.5 ${
             isOwn
               ? "bg-primary text-white rounded-2xl rounded-tr-sm"
-              : "bg-white text-text-main border border-slate-100 rounded-2xl rounded-tl-sm"
+              : "bg-surface text-text-main border border-slate-100 rounded-2xl rounded-tl-sm"
           }`}
         >
           {body}

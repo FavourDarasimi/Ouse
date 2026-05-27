@@ -265,7 +265,7 @@ export function ChatShell({
   const isOwnMessage = (msg: Message) => msg.sender_id === currentUserId;
 
   return (
-    <div className="h-full w-full flex bg-white">
+    <div className="h-full w-full flex bg-surface">
       {/* ── Inbox column ── */}
       <motion.div
         initial={{ opacity: 0, x: -20 }}
@@ -275,7 +275,7 @@ export function ChatShell({
           activeConversationId
             ? "hidden lg:flex lg:w-80 xl:w-96"
             : "flex flex-1 lg:flex-none lg:w-80 xl:w-96"
-        } flex-col border-r border-slate-100 bg-white ${
+        } flex-col border-r border-slate-100 bg-surface ${
           showMobileInbox ? "flex" : "hidden lg:flex"
         }`}
       >
@@ -322,7 +322,7 @@ export function ChatShell({
                     <Link
                       href={href}
                       className={`flex items-start gap-3 w-full px-4 py-3.5 transition-colors duration-150  ${
-                        isActive ? " bg-blue-50/60" : " hover:bg-slate-50"
+                        isActive ? " bg-emerald-50/60" : " hover:bg-slate-50"
                       }`}
                     >
                       <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold text-sm shrink-0">
@@ -381,7 +381,7 @@ export function ChatShell({
             }`}
           >
             {/* Chat header */}
-            <div className="shrink-0 flex items-center justify-between border-b border-slate-100 bg-white px-4 py-3">
+            <div className="shrink-0 flex items-center justify-between border-b border-slate-100 bg-surface px-4 py-3">
               <div className="flex items-center gap-3 min-w-0">
                 <Link
                   href={inboxPath}
@@ -404,7 +404,7 @@ export function ChatShell({
             </div>
 
             {/* Property context bar */}
-            <div className="shrink-0 flex items-center gap-3 border-b border-slate-100 bg-white px-4 py-2.5">
+            <div className="shrink-0 flex items-center gap-3 border-b border-slate-100 bg-surface px-4 py-2.5">
               <div className="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center text-slate-400 text-xs font-medium shrink-0 overflow-hidden">
                 {listing?.images?.[0] ? (
                   <img
@@ -429,7 +429,7 @@ export function ChatShell({
               {listing && (
                 <a
                   href={`/listings/${listing.id}`}
-                  className="shrink-0 text-xs font-medium text-primary hover:text-blue-700 transition-colors"
+                  className="shrink-0 text-xs font-medium text-primary hover:text-emerald-800 transition-colors"
                 >
                   View listing
                 </a>

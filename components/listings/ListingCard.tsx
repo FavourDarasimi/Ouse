@@ -23,7 +23,7 @@ export function ListingCard({
     <Link href={`/listings/${id}`}>
       <motion.div
         whileHover={{ y: -6 }}
-        className="bg-white rounded-2xl border border-slate-200 p-2 sm:p-2 cursor-pointer"
+        className="bg-surface rounded-2xl border border-slate-200 p-2 sm:p-2 cursor-pointer"
       >
         <motion.div
           whileHover={{ scale: 1.03 }}
@@ -52,25 +52,25 @@ export function ListingCard({
             <h3 className="text-sm font-bold text-text-main truncate leading-tight">
               {title}
             </h3>
-            <span className="text-sm font-bold text-text-main whitespace-nowrap flex-shrink-0">
+            <span className="text-sm font-bold text-text-main dark:text-primary-text whitespace-nowrap flex-shrink-0">
               ₦{price.toLocaleString()}
-              <span className="text-xs text-slate-400 font-normal ml-0.5">
+              <span className="text-xs text-slate-400 dark:text-card-meta font-normal ml-0.5">
                 /mo
               </span>
             </span>
           </div>
 
-          <p className="text-xs text-slate-600 flex items-center gap-1 truncate mb-2">
+          <p className="text-xs text-slate-600 dark:text-text-secondary flex items-center gap-1 truncate mb-2">
             <MapPin size={13} className="shrink-0" />
             {location}
           </p>
 
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-1.5 sm:gap-1 mb-2">
-            <span className="bg-slate-50 rounded-full px-2 py-1 text-xs text-slate-700 flex items-center gap-1">
+            <span className="bg-slate-50 dark:bg-surface-elevated rounded-full px-2 py-1 text-xs text-slate-700 dark:text-card-badge-text flex items-center gap-1">
               <BedDouble size={11} className="shrink-0" />
               {bedrooms ?? "—"} Beds
             </span>
-            <span className="bg-slate-50 rounded-full px-2 py-1 text-xs text-slate-700 flex items-center gap-1">
+            <span className="bg-slate-50 dark:bg-surface-elevated rounded-full px-2 py-1 text-xs text-slate-700 dark:text-card-badge-text flex items-center gap-1">
               <Bath size={11} className="shrink-0" />
               {bathrooms ?? "—"} Baths
             </span>
@@ -89,8 +89,8 @@ export function ListingCard({
                   e.preventDefault();
                   onFavouriteToggle(id);
                 }}
-                className={`w-9 h-9 sm:w-11 sm:h-11 rounded-full border border-slate-200 bg-white flex items-center justify-center flex-shrink-0 transition-colors ${
-                  isFavourited ? "text-red-600" : "text-slate-400"
+                className={`w-9 h-9 sm:w-11 sm:h-11 rounded-full border border-slate-200 bg-surface flex items-center justify-center flex-shrink-0 transition-colors ${
+                  isFavourited ? "text-accent" : "text-slate-400"
                 }`}
                 aria-label={
                   isFavourited ? "Remove from favourites" : "Add to favourites"

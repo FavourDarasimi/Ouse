@@ -107,7 +107,7 @@ function GoogleButton({
       type="button"
       onClick={onClick}
       disabled={loading}
-      className="flex w-full items-center justify-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-text-main transition-all duration-150 hover:bg-slate-50 active:scale-95 disabled:cursor-not-allowed disabled:opacity-60"
+      className="flex w-full items-center justify-center gap-3 rounded-xl border border-slate-200 bg-surface px-4 py-3 text-sm font-medium text-text-main transition-all duration-150 hover:bg-slate-50 active:scale-95 disabled:cursor-not-allowed disabled:opacity-60"
     >
       {loading ? (
         <Loader2 className="h-4 w-4 animate-spin" />
@@ -227,7 +227,7 @@ function EmailSentScreen({ email }: { email: string }) {
         </p>
         <Link
           href="/login"
-          className="mt-6 inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 font-medium text-white transition-all duration-150 hover:bg-blue-700 active:scale-95"
+          className="mt-6 inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 font-medium text-white transition-all duration-150 hover:bg-emerald-800 active:scale-95"
         >
           Back to sign in <ArrowRight className="h-4 w-4" />
         </Link>
@@ -376,7 +376,7 @@ function SignupForm() {
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 placeholder="Amara Okonkwo"
-                className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-text-main placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
+                className="w-full rounded-xl border border-slate-200 bg-surface px-4 py-3 text-text-main placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
               />
             </div>
 
@@ -396,7 +396,7 @@ function SignupForm() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
-                className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-text-main placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
+                className="w-full rounded-xl border border-slate-200 bg-surface px-4 py-3 text-text-main placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
               />
             </div>
 
@@ -418,7 +418,7 @@ function SignupForm() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Min. 6 characters"
-                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 pr-11 text-text-main placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
+                  className="w-full rounded-xl border border-slate-200 bg-surface px-4 py-3 pr-11 text-text-main placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
                 />
                 <button
                   type="button"
@@ -438,7 +438,7 @@ function SignupForm() {
             {error && (
               <p
                 role="alert"
-                className="rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-sm text-red-600"
+                className="rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-sm text-red-600 dark:bg-accent-subtle dark:border-accent-subtle dark:text-accent"
               >
                 {error}
               </p>
@@ -448,7 +448,7 @@ function SignupForm() {
               id="signup-submit"
               type="submit"
               disabled={loading}
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 font-medium text-white transition-all duration-150 hover:bg-blue-700 active:scale-95 disabled:cursor-not-allowed disabled:opacity-60"
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 font-medium text-white transition-all duration-150 hover:bg-emerald-800 active:scale-95 disabled:cursor-not-allowed disabled:opacity-60"
             >
               {loading ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
@@ -486,7 +486,7 @@ function SignupForm() {
 
 export default function SignupPage() {
   return (
-    <div className="flex lg:h-screen min-h-screen  bg-white">
+    <div className="flex lg:h-screen min-h-screen  bg-surface">
       <ShowcasePanel />
       <div className="relative flex flex-1 overflow-y-auto justify-center">
         {/* Mobile/tablet logo — top left */}

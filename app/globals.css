@@ -1,13 +1,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
 
-@theme inline {
+@theme {
   /* Brand color tokens */
-  --color-primary: #2563eb;
-  --color-secondary: #1e293b;
-  --color-accent: #f59e0b;
+  --color-primary: #047857;
+  --color-secondary: #18181b;
+  --color-accent: #f43f5e;
   --color-background: #ffffff;
-  --color-text-main: #0f172a;
+  --color-surface: #ffffff;
+  --color-text-main: #27272a;
 
   /* Slate scale (used for borders, muted text, skeletons) */
   --color-slate-100: #f1f5f9;
@@ -16,6 +17,8 @@
   --color-slate-700: #334155;
 
   /* Semantic colours */
+  --color-emerald-50: #ecfdf5;
+  --color-emerald-800: #065f46;
   --color-green-100: #dcfce7;
   --color-green-700: #15803d;
   --color-red-100: #fee2e2;
@@ -32,7 +35,7 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #0f172a;
+  --foreground: #27272a;
 }
 
 body {
@@ -46,4 +49,59 @@ body {
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
+}
+
+/* ── Dark mode overrides ──────────────────────────────────────── */
+
+.dark {
+  --color-background: #09090b;
+  --color-surface: #18181b;
+  --color-surface-elevated: #27272a;
+  --color-surface-overlay: #3f3f46;
+  --color-text-main: #f4f4f5;
+  --color-text-secondary: #a1a1aa;
+  --color-text-muted: #52525b;
+  --color-text-inverted: #09090b;
+  --color-primary: #047857;
+  --color-primary-hover: #065f46;
+  --color-primary-subtle: #064e3b;
+  --color-primary-text: #6ee7b7;
+  --color-accent: #f43f5e;
+  --color-accent-hover: #e11d48;
+  --color-accent-subtle: #4c0519;
+  --color-border: #27272a;
+  --color-border-focus: #047857;
+  --color-card-bg: #18181b;
+  --color-card-title: #f4f4f5;
+  --color-card-price: #6ee7b7;
+  --color-card-meta: #a1a1aa;
+  --color-card-badge-bg: #27272a;
+  --color-card-badge-text: #d4d4d8;
+  --color-card-badge-icon: #047857;
+  --color-card-btn-bg: #047857;
+  --color-card-btn-text: #ecfdf5;
+  --color-card-btn-hover: #065f46;
+  --color-save-heart: #f43f5e;
+  --color-slate-50: #202024;
+  --color-slate-100: #27272a;
+  --color-slate-200: #3f3f46;
+  --color-slate-400: #a1a1aa;
+  --color-slate-700: #d4d4d8;
+  --color-secondary: #09090b;
+  --color-emerald-50: #022c22;
+  --color-emerald-800: #6ee7b7;
+  --color-green-100: #052e16;
+  --color-green-700: #86efac;
+  --color-red-100: #450a0a;
+  --color-red-600: #fca5a5;
+  --color-blue-50: #172554;
+}
+
+.dark {
+  --background: #09090b;
+  --foreground: #f4f4f5;
+}
+
+.dark body {
+  color-scheme: dark;
 }

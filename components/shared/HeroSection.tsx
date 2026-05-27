@@ -20,7 +20,7 @@ const collageImages = {
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-[90vh] bg-white flex items-center overflow-hidden">
+    <section className="relative min-h-[90vh] bg-surface flex items-center overflow-hidden">
       <div className="absolute right-0 top-0 bottom-0 w-1/2 bg-gradient-to-l from-primary/[0.04] to-transparent hidden lg:block pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 w-full">
@@ -58,7 +58,7 @@ export function HeroSection() {
             >
               <Link
                 href="/listings"
-                className="bg-primary text-white px-8 py-3.5 rounded-xl font-medium hover:bg-blue-700 active:scale-95 transition-all duration-150 text-base"
+                className="bg-primary text-white px-8 py-3.5 rounded-xl font-medium hover:bg-emerald-800 active:scale-95 transition-all duration-150 text-base"
               >
                 Explore Listings
               </Link>

@@ -27,7 +27,7 @@ export function ChatInput({ onSend, disabled = false }: ChatInputProps) {
   };
 
   return (
-    <div className="flex items-center gap-2 border-t border-slate-100 bg-white px-4 py-3">
+    <div className="flex items-center gap-2 border-t border-slate-100 bg-surface px-4 py-3">
       <div className="relative flex-1">
         <input
           ref={inputRef}
@@ -44,7 +44,7 @@ export function ChatInput({ onSend, disabled = false }: ChatInputProps) {
         type="button"
         onClick={handleSend}
         disabled={!value.trim() || disabled}
-        className="shrink-0 rounded-xl bg-primary p-2.5 text-white hover:bg-blue-700 active:scale-95 transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="shrink-0 rounded-xl bg-primary p-2.5 text-white hover:bg-emerald-800 active:scale-95 transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         <Send className="h-5 w-5" />
       </button>

@@ -4,6 +4,7 @@ import { AuthProvider } from "@/context/AuthContext";
 import { FavouritesProvider } from "@/context/FavouritesContext";
 import { ChatProvider } from "@/context/ChatContext";
 import { FloatingChat } from "@/components/chat/FloatingChat";
+import { ThemeProvider } from "@/context/ThemeContext";
 
 export const metadata: Metadata = {
   title: "Ouse — Find Your Next Home in Nigeria",
@@ -17,16 +18,34 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full" data-scroll-behavior="smooth">
+    <html lang="en" className="h-full" data-scroll-behavior="smooth" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function(){
+                try {
+                  var t = localStorage.getItem("ouse-theme");
+                  if (t === "dark" || (!t && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+                    document.documentElement.classList.add("dark");
+                  }
+                } catch(e){}
+              })();
+            `,
+          }}
+        />
+      </head>
       <body className="min-h-full flex flex-col antialiased bg-background text-text-main">
-        <AuthProvider>
-          <FavouritesProvider>
-            <ChatProvider>
-              {children}
-              <FloatingChat />
-            </ChatProvider>
-          </FavouritesProvider>
-        </AuthProvider>
+        <ThemeProvider>
+          <AuthProvider>
+            <FavouritesProvider>
+              <ChatProvider>
+                {children}
+                <FloatingChat />
+              </ChatProvider>
+            </FavouritesProvider>
+          </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

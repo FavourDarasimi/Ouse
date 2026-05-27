@@ -29,7 +29,7 @@ export function ConversationListItem({
     >
       <Link
         href={`/landlord/messages/${conversationId}`}
-        className="flex items-start gap-3 rounded-2xl border border-slate-100 bg-white p-3 transition-colors hover:border-primary/30"
+        className="flex items-start gap-3 rounded-2xl border border-slate-100 bg-surface p-3 transition-colors hover:border-primary/30"
       >
         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary">
           {getInitials(tenantName)}

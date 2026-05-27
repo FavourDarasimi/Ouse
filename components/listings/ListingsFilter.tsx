@@ -63,7 +63,7 @@ function FilterChip({
       className={`px-3 py-1.5 rounded-xl text-xs font-medium border transition-colors ${
         active
           ? "bg-primary text-white border-primary"
-          : "bg-white text-slate-500 border-slate-200 hover:border-primary/40 hover:text-primary"
+          : "bg-surface text-slate-500 border-slate-200 hover:border-primary/40 hover:text-primary"
       }`}
     >
       {label}
@@ -120,7 +120,7 @@ function FilterOptions({
           placeholder="Search location, area..."
           value={draft.search}
           onChange={(e) => set("search", e.target.value)}
-          className="w-full rounded-xl border border-slate-200 bg-white pl-9 pr-4 py-2.5 text-sm text-text-main placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition"
+          className="w-full rounded-xl border border-slate-200 bg-surface pl-9 pr-4 py-2.5 text-sm text-text-main placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition"
         />
         {draft.search && (
           <button
@@ -162,7 +162,7 @@ function FilterOptions({
               placeholder="Min"
               value={draft.priceMin}
               onChange={(e) => set("priceMin", e.target.value)}
-              className="w-full rounded-xl border border-slate-200 bg-white pl-7 pr-3 py-2 text-sm text-text-main placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+              className="w-full rounded-xl border border-slate-200 bg-surface pl-7 pr-3 py-2 text-sm text-text-main placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             />
           </div>
           <span className="text-slate-300 text-sm">—</span>
@@ -175,7 +175,7 @@ function FilterOptions({
               placeholder="Max"
               value={draft.priceMax}
               onChange={(e) => set("priceMax", e.target.value)}
-              className="w-full rounded-xl border border-slate-200 bg-white pl-7 pr-3 py-2 text-sm text-text-main placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+              className="w-full rounded-xl border border-slate-200 bg-surface pl-7 pr-3 py-2 text-sm text-text-main placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             />
           </div>
         </div>
@@ -256,7 +256,7 @@ function FilterOptions({
           className={`w-5 h-5 rounded-md border-2 flex items-center justify-center transition-colors ${
             draft.availableOnly
               ? "bg-primary border-primary"
-              : "border-slate-300 bg-white"
+              : "border-slate-300 bg-surface"
           }`}
         >
           {draft.availableOnly && (
@@ -484,7 +484,7 @@ export function ListingsFilter({ listings, children }: ListingsFilterProps) {
             className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium border transition-colors ${
               hasActiveFilters
                 ? "bg-primary text-white border-primary"
-                : "bg-white text-text-main border-slate-200 hover:border-primary/40 hover:text-primary"
+                : "bg-surface text-text-main border-slate-200 hover:border-primary/40 hover:text-primary"
             }`}
           >
             <SlidersHorizontal className="h-4 w-4" />
@@ -506,7 +506,7 @@ export function ListingsFilter({ listings, children }: ListingsFilterProps) {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: -4, scale: 0.96 }}
                 transition={{ duration: 0.15 }}
-                className="hidden md:block absolute right-0 top-full mt-2 w-80 rounded-2xl border border-slate-100 bg-white shadow-lg z-30"
+                className="hidden md:block absolute right-0 top-full mt-2 w-80 rounded-2xl border border-slate-100 bg-surface shadow-lg z-30"
               >
                 <div className="p-5 max-h-[70vh] overflow-y-auto">
                   <FilterOptions
@@ -518,7 +518,7 @@ export function ListingsFilter({ listings, children }: ListingsFilterProps) {
                 <div className="p-4 border-t border-slate-100">
                   <button
                     onClick={applyFilters}
-                    className="w-full flex items-center justify-center gap-2 bg-primary text-white rounded-xl py-2.5 text-sm font-medium hover:bg-blue-700 active:scale-[0.98] transition-all duration-150"
+                    className="w-full flex items-center justify-center gap-2 bg-primary text-white rounded-xl py-2.5 text-sm font-medium hover:bg-emerald-800 active:scale-[0.98] transition-all duration-150"
                   >
                     <Check className="h-4 w-4" />
                     Apply Filters
@@ -569,7 +569,7 @@ export function ListingsFilter({ listings, children }: ListingsFilterProps) {
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
               transition={{ type: "spring", damping: 28, stiffness: 300 }}
-              className="absolute bottom-16 left-0 right-0 bg-white rounded-t-3xl max-h-[calc(85vh-4rem)] flex flex-col"
+              className="absolute bottom-16 left-0 right-0 bg-surface rounded-t-3xl max-h-[calc(85vh-4rem)] flex flex-col"
             >
               <div className="flex items-center justify-between p-4 border-b border-slate-100 shrink-0">
                 <h3 className="text-sm font-semibold text-text-main">
@@ -592,7 +592,7 @@ export function ListingsFilter({ listings, children }: ListingsFilterProps) {
               <div className="p-4 border-t border-slate-100 shrink-0">
                 <button
                   onClick={applyFilters}
-                  className="w-full flex items-center justify-center gap-2 bg-primary text-white rounded-xl py-3 text-sm font-medium hover:bg-blue-700 active:scale-[0.98] transition-all duration-150"
+                  className="w-full flex items-center justify-center gap-2 bg-primary text-white rounded-xl py-3 text-sm font-medium hover:bg-emerald-800 active:scale-[0.98] transition-all duration-150"
                 >
                   <Check className="h-4 w-4" />
                   Apply Filters

@@ -110,7 +110,7 @@ export function FloatingChat() {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 24, scale: 0.97 }}
           transition={{ duration: 0.2, ease: "easeOut" }}
-          className="fixed bottom-[88px] lg:bottom-6 inset-x-0 sm:inset-x-auto sm:right-6 z-[60] w-full sm:w-80 flex-col bg-white rounded-t-2xl sm:rounded-2xl shadow-2xl border border-slate-100 overflow-hidden flex"
+          className="fixed bottom-[88px] lg:bottom-6 inset-x-0 sm:inset-x-auto sm:right-6 z-[60] w-full sm:w-80 flex-col bg-surface rounded-t-2xl sm:rounded-2xl shadow-2xl border border-slate-100 overflow-hidden flex"
           style={{ maxHeight: "min(480px, 75vh)" }}
         >
           {/* ── Header ── */}
@@ -179,8 +179,8 @@ export function FloatingChat() {
                 className="flex flex-col overflow-hidden"
               >
                 {/* ── Property context bar ── */}
-                <div className="shrink-0 bg-white border-b border-slate-100 px-3 py-2 flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-slate-400 shrink-0">
+                <div className="shrink-0 bg-surface border-b border-slate-100 px-3 py-2 flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center text-slate-400 shrink-0">
                     <Building2 className="h-4 w-4" />
                   </div>
                   <div className="min-w-0 flex-1">
@@ -198,7 +198,7 @@ export function FloatingChat() {
                       href={`/listings/${listingId}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="shrink-0 text-xs text-primary hover:text-blue-700 transition-colors"
+                      className="shrink-0 text-xs text-primary hover:text-emerald-800 transition-colors"
                     >
                       View
                     </a>
@@ -230,7 +230,7 @@ export function FloatingChat() {
                               className={`text-xs px-3 py-2 ${
                                 isOwn
                                   ? "bg-primary text-white rounded-2xl rounded-tr-sm"
-                                  : "bg-white text-text-main border border-slate-100 rounded-2xl rounded-tl-sm"
+                                  : "bg-surface text-text-main border border-slate-100 rounded-2xl rounded-tl-sm"
                               }`}
                             >
                               {msg.body}
@@ -251,7 +251,7 @@ export function FloatingChat() {
                 </div>
 
                 {/* ── Input bar ── */}
-                <div className="shrink-0 bg-white border-t border-slate-100 px-3 py-2.5 flex items-center gap-2">
+                <div className="shrink-0 bg-surface border-t border-slate-100 px-3 py-2.5 flex items-center gap-2">
                   <input
                     ref={inputRef}
                     type="text"
@@ -270,7 +270,7 @@ export function FloatingChat() {
                     type="button"
                     onClick={handleSend}
                     disabled={!inputValue.trim()}
-                    className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center shrink-0 text-white hover:bg-blue-700 active:scale-95 transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center shrink-0 text-white hover:bg-emerald-800 active:scale-95 transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
                     aria-label="Send message"
                   >
                     <Send className="h-5 w-5" />

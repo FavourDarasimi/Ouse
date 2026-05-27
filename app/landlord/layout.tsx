@@ -44,7 +44,10 @@ export default async function LandlordLayout({
     const { count } = await supabase
       .from("messages")
       .select("id", { count: "exact", head: true })
-      .in("conversation_id", conversations.map((c) => c.id))
+      .in(
+        "conversation_id",
+        conversations.map((c) => c.id),
+      )
       .eq("read", false)
       .neq("sender_id", user.id);
     unreadCount = count ?? 0;
@@ -54,7 +57,7 @@ export default async function LandlordLayout({
     <AddListingProvider>
       <Sidebar profile={profile} unreadCount={unreadCount} />
       <Navbar />
-      <main className="min-h-[calc(100vh-4rem)] bg-background lg:ml-64 pb-16 lg:pb-0">
+      <main className="min-h-[calc(100vh-4rem)] bg-background lg:ml-72 pb-16 lg:pb-0">
         {children}
       </main>
       <MobileBottomNav links={landlordLinks} unreadCount={unreadCount} />

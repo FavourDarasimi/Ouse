@@ -60,10 +60,10 @@ export default function OnboardingPage() {
         .eq("id", user.id)
         .maybeSingle();
 
-      if (profile?.onboarded) {
+      if (profile?.onboarded === true && (profile.role === "landlord" || profile.role === "tenant")) {
         const dashboard =
           profile.role === "landlord" ? "/landlord/dashboard" : "/tenant/dashboard";
-        router.push(dashboard);
+        router.replace(dashboard);
         setStatus("redirect");
         return;
       }

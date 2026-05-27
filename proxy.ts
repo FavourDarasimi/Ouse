@@ -46,11 +46,15 @@ export async function proxy(request: NextRequest) {
   }
 
   // Authenticated from here — fetch profile
-  const { data: profile } = await supabase
+  const { data: profile, error: profileError } = await supabase
     .from("profiles")
     .select("role, onboarded")
     .eq("id", user.id)
     .maybeSingle();
+
+  if (profileError) {
+    console.error("[middleware] profile fetch error:", profileError.message);
+  }
 
   const isOnboarded = profile?.onboarded === true;
   const role = profile?.role ?? null;

@@ -31,11 +31,19 @@ export async function completeOnboarding(role: Role) {
     return { error: "Not authenticated" };
   }
 
+  const full_name =
+    user.user_metadata?.full_name ??
+    user.user_metadata?.name ??
+    user.user_metadata?.display_name ??
+    null;
+
+  console.log("[completeOnboarding] using full_name:", full_name);
+
   const { error } = await supabase.from("profiles").upsert(
     {
       id: user.id,
       role,
-      full_name: user.user_metadata?.full_name ?? user.user_metadata?.name ?? null,
+      full_name,
       onboarded: true,
     },
     { onConflict: "id" },

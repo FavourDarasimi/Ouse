@@ -9,7 +9,7 @@ export function ConditionalBottomNav() {
   const pathname = usePathname();
 
   if (!pathname.startsWith("/listings")) return null;
-  if (!user) return null;
+  if (!user || role === null) return null;
 
   if (role === "landlord") return <LandlordBottomNav />;
   return <TenantBottomNav />;

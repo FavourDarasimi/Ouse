@@ -33,8 +33,6 @@ export function useUnreadCount(
       const convIds = new Set(conversations?.map((c) => c.id) ?? []);
       convIdsRef.current = convIds;
 
-      if (convIds.size === 0) return;
-
       channel = supabase
         .channel(channelName)
         .on(

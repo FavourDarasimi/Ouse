@@ -2,8 +2,12 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
 import { Heart } from "lucide-react";
 import { ListingCard } from "@/components/listings/ListingCard";
+import { ListingRow } from "@/components/listings/ListingRow";
+import { ViewToggle } from "@/components/ui/ViewToggle";
+import { useViewMode } from "@/lib/hooks/useViewMode";
 import { SkeletonCard } from "@/components/shared/SkeletonCard";
 import { useFavourites } from "@/context/FavouritesContext";
 import { useAuth } from "@/context/AuthContext";
@@ -13,6 +17,7 @@ export default function SavedListingsPage() {
   const { favourites, toggleFavourite, loading: favsLoading } =
     useFavourites();
   const [ready, setReady] = useState(false);
+  const { view, onChange } = useViewMode("ouse_view_saved");
 
   const loading = !isAuthInitialized || favsLoading;
 
@@ -26,16 +31,19 @@ export default function SavedListingsPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
-      <div className="mb-6 sm:mb-8">
-        <h1 className="text-xl sm:text-2xl font-bold text-text-main">
-          Saved Listings
-        </h1>
-        {ready && (
-          <p className="text-sm text-slate-500 mt-1">
-            {savedListings.length}{" "}
-            {savedListings.length === 1 ? "property" : "properties"} saved
-          </p>
-        )}
+      <div className="mb-6 sm:mb-8 flex items-center justify-between">
+        <div>
+          <h1 className="text-xl sm:text-2xl font-bold text-text-main">
+            Saved Listings
+          </h1>
+          {ready && (
+            <p className="text-sm text-slate-500 mt-1">
+              {savedListings.length}{" "}
+              {savedListings.length === 1 ? "property" : "properties"} saved
+            </p>
+          )}
+        </div>
+        <ViewToggle view={view} onChange={onChange} />
       </div>
 
       {!ready ? (
@@ -64,17 +72,46 @@ export default function SavedListingsPage() {
           </Link>
         </div>
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5">
-          {savedListings.map((fav) => (
-            <div key={fav.id}>
-              <ListingCard
-                listing={fav.listings!}
-                isFavourited={true}
-                onFavouriteToggle={toggleFavourite}
-              />
-            </div>
-          ))}
-        </div>
+        <AnimatePresence mode="wait">
+          {view === "grid" ? (
+            <motion.div
+              key="grid"
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.98 }}
+              transition={{ duration: 0.15 }}
+              className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5"
+            >
+              {savedListings.map((fav) => (
+                <div key={fav.id}>
+                  <ListingCard
+                    listing={fav.listings!}
+                    isFavourited={true}
+                    onFavouriteToggle={toggleFavourite}
+                  />
+                </div>
+              ))}
+            </motion.div>
+          ) : (
+            <motion.div
+              key="list"
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.98 }}
+              transition={{ duration: 0.2 }}
+              className="flex flex-col gap-3"
+            >
+              {savedListings.map((fav) => (
+                <ListingRow
+                  key={fav.id}
+                  listing={fav.listings!}
+                  isFavourited={true}
+                  onFavouriteToggle={toggleFavourite}
+                />
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
       )}
     </div>
   );

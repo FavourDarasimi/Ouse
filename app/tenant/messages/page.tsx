@@ -19,7 +19,7 @@ export default async function TenantMessagesPage() {
 
   if (!conversations || conversations.length === 0) {
     return (
-      <div className="h-[calc(100vh-8rem)] lg:h-[calc(100vh-4rem)] max-w-7xl mx-auto w-full flex">
+      <div className="h-[calc(100dvh-8rem)] lg:h-[calc(100dvh-4rem)] max-w-7xl mx-auto w-full flex">
         <ChatShell conversations={[]} currentUserId={user.id} role="tenant" />
       </div>
     );
@@ -92,7 +92,7 @@ export default async function TenantMessagesPage() {
     .filter((t) => t.lastMessage !== null);
 
   return (
-    <div className="h-[calc(100vh-8rem)] lg:h-[calc(100vh-4rem)] max-w-7xl mx-auto w-full flex">
+    <div className="h-[calc(100dvh-8rem)] lg:h-[calc(100dvh-4rem)] max-w-7xl mx-auto w-full flex">
       <ChatShell
         conversations={threads}
         currentUserId={user.id}

@@ -19,8 +19,7 @@ export async function sendMessage(conversationId: string, body: string) {
 
   if (error) return { data: null, error: error.message };
 
-  revalidatePath("/landlord/messages");
-  revalidatePath("/tenant/messages");
+  revalidatePath("/", "layout");
 
   return { data, error: null };
 }
@@ -39,8 +38,7 @@ export async function markMessagesAsRead(
 
   if (error) return { error: error.message };
 
-  revalidatePath("/landlord/messages");
-  revalidatePath("/tenant/messages");
+  revalidatePath("/", "layout");
 
   return { error: null };
 }

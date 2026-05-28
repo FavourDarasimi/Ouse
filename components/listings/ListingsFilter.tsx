@@ -24,6 +24,7 @@ interface ListingsFilterProps {
     clearAll: () => void;
     totalCount: number;
   }) => React.ReactNode;
+  viewToggle?: React.ReactNode;
 }
 
 const propertyTypes: PropertyType[] = [
@@ -287,7 +288,7 @@ function FilterOptions({
   );
 }
 
-export function ListingsFilter({ listings, children }: ListingsFilterProps) {
+export function ListingsFilter({ listings, children, viewToggle }: ListingsFilterProps) {
   const [applied, setApplied] = useState<Filters>(defaultFilters);
   const [draft, setDraft] = useState<Filters>(defaultFilters);
   const [open, setOpen] = useState(false);
@@ -478,7 +479,9 @@ export function ListingsFilter({ listings, children }: ListingsFilterProps) {
           </p>
         </div>
 
-        <div className="relative" ref={btnRef}>
+        <div className="flex items-center gap-3">
+          {viewToggle}
+          <div className="relative" ref={btnRef}>
           <button
             onClick={openPanel}
             className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium border transition-colors ${
@@ -527,6 +530,7 @@ export function ListingsFilter({ listings, children }: ListingsFilterProps) {
               </motion.div>
             )}
           </AnimatePresence>
+        </div>
         </div>
       </div>
 

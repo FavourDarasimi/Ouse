@@ -23,11 +23,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       setTheme(stored);
       document.documentElement.classList.toggle("dark", stored === "dark");
     } else {
-      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      const t = prefersDark ? "dark" : "light";
-      setTheme(t);
-      document.documentElement.classList.toggle("dark", t === "dark");
-      localStorage.setItem("ouse-theme", t);
+      setTheme("light");
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("ouse-theme", "light");
     }
   }, []);
 

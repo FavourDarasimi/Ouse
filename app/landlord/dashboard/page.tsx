@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { createServerClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { Building2, MessageCircle, Plus } from "lucide-react";
+import { Building2, MessageCircle } from "lucide-react";
 import { DashboardStatsCard } from "@/components/shared/DashboardStatsCard";
 import { AnimatedSection } from "@/components/shared/AnimatedSection";
 import {
@@ -11,6 +11,7 @@ import {
 import { ListingPreviewCard } from "@/components/listings/ListingPreviewCard";
 import { ConversationListItem } from "@/components/chat/ConversationListItem";
 import { LiveUnreadCount } from "./LiveUnreadCount";
+import { AddListingButton } from "@/components/listings/AddListingButton";
 
 function getGreeting(): string {
   const hour = new Date().getHours();
@@ -192,13 +193,7 @@ export default async function LandlordDashboardPage() {
                 <p className="mt-1 text-xs text-slate-400">
                   Post your first property to start receiving enquiries.
                 </p>
-                <Link
-                  href="/landlord/listings/new"
-                  className="mt-4 inline-flex items-center gap-1.5 rounded-xl bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-emerald-800 transition-colors"
-                >
-                  <Plus className="h-4 w-4" />
-                  Add Listing
-                </Link>
+                <AddListingButton />
               </div>
             ) : (
               <div className="space-y-3">

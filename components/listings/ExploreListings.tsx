@@ -1,9 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Search, RotateCcw, ChevronLeft, ChevronRight } from "lucide-react";
 import { ListingCard } from "./ListingCard";
+import { ListingRow } from "./ListingRow";
 import { ListingsFilter } from "./ListingsFilter";
+import { ViewToggle } from "@/components/ui/ViewToggle";
+import { useViewMode } from "@/lib/hooks/useViewMode";
 import { SkeletonCard } from "@/components/shared/SkeletonCard";
 import { useFavourites } from "@/context/FavouritesContext";
 import { useAuth } from "@/context/AuthContext";
@@ -100,6 +104,7 @@ export function ExploreListings({ listings }: ExploreListingsProps) {
     loading: favsLoading,
   } = useFavourites();
   const [ready, setReady] = useState(false);
+  const { view, onChange: onViewChange } = useViewMode("ouse_view_listings");
 
   const loading = !isAuthInitialized || (!!user && favsLoading);
 
@@ -110,7 +115,10 @@ export function ExploreListings({ listings }: ExploreListingsProps) {
   }, [loading, ready]);
 
   return (
-    <ListingsFilter listings={listings}>
+    <ListingsFilter
+      listings={listings}
+      viewToggle={<ViewToggle view={view} onChange={onViewChange} />}
+    >
       {({ filtered, hasActiveFilters, clearAll }) => (
         <>
           {!ready ? (
@@ -141,12 +149,42 @@ export function ExploreListings({ listings }: ExploreListingsProps) {
               )}
             </div>
           ) : (
-            <PaginatedGrid
-              items={filtered}
-              isFavourited={isFavourited}
-              toggleFavourite={toggleFavourite}
-              hasUser={!!user}
-            />
+            <AnimatePresence mode="wait">
+              {view === "grid" ? (
+                <motion.div
+                  key="grid"
+                  initial={{ opacity: 0, scale: 0.98 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.98 }}
+                  transition={{ duration: 0.15 }}
+                >
+                  <PaginatedGrid
+                    items={filtered}
+                    isFavourited={isFavourited}
+                    toggleFavourite={toggleFavourite}
+                    hasUser={!!user}
+                  />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="list"
+                  initial={{ opacity: 0, scale: 0.98 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.98 }}
+                  transition={{ duration: 0.2 }}
+                  className="flex flex-col gap-3 mt-4"
+                >
+                  {filtered.map((listing) => (
+                    <ListingRow
+                      key={listing.id}
+                      listing={listing}
+                      isFavourited={!!user ? isFavourited(listing.id) : false}
+                      onFavouriteToggle={!!user ? toggleFavourite : undefined}
+                    />
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
           )}
         </>
       )}

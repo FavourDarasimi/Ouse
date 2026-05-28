@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { createServerClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { ListingDetail } from "./ListingDetail";
+import { ListingSidebarLayout } from "./ListingSidebarLayout";
 
 export const dynamic = "force-dynamic";
 
@@ -38,10 +39,12 @@ export default async function ListingDetailPage({
   }
 
   return (
-    <div className="py-8 px-4 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-4xl">
-        <ListingDetail listing={listing} landlordProfile={landlordProfile} />
+    <ListingSidebarLayout>
+      <div className="py-8 px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-4xl">
+          <ListingDetail listing={listing} landlordProfile={landlordProfile} />
+        </div>
       </div>
-    </div>
+    </ListingSidebarLayout>
   );
 }

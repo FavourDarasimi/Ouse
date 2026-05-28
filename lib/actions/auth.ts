@@ -53,6 +53,6 @@ export async function completeOnboarding(role: Role) {
     return { error: error.message };
   }
 
-  revalidatePath("/");
+  revalidatePath("/", "layout");
   return { data: { role } };
 }

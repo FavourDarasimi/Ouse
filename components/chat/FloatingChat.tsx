@@ -40,35 +40,38 @@ export function FloatingChat() {
       setMessages([]);
       return;
     }
-    getMessages(conversationId).then((res) => {
-      if (res.data) setMessages(res.data);
-    });
-  }, [conversationId]);
 
-  useEffect(() => {
-    if (!conversationId) return;
-    const channel = supabase
-      .channel(`floating:${conversationId}`)
-      .on(
-        "postgres_changes",
-        {
-          event: "INSERT",
-          schema: "public",
-          table: "messages",
-          filter: `conversation_id=eq.${conversationId}`,
-        },
-        (payload) => {
-          const newMsg = payload.new as Message;
-          if (newMsg.sender_id === userId) return;
-          setMessages((prev) =>
-            prev.some((m) => m.id === newMsg.id) ? prev : [...prev, newMsg],
-          );
-        },
-      )
-      .subscribe();
+    let isMounted = true;
+    let channel: ReturnType<typeof supabase.channel> | null = null;
+
+    getMessages(conversationId).then((res) => {
+      if (!isMounted) return;
+      if (res.data) setMessages(res.data);
+
+      channel = supabase
+        .channel(`floating:${conversationId}`)
+        .on(
+          "postgres_changes",
+          {
+            event: "INSERT",
+            schema: "public",
+            table: "messages",
+            filter: `conversation_id=eq.${conversationId}`,
+          },
+          (payload) => {
+            const newMsg = payload.new as Message;
+            if (newMsg.sender_id === userId) return;
+            setMessages((prev) =>
+              prev.some((m) => m.id === newMsg.id) ? prev : [...prev, newMsg],
+            );
+          },
+        )
+        .subscribe();
+    });
 
     return () => {
-      supabase.removeChannel(channel);
+      isMounted = false;
+      if (channel) supabase.removeChannel(channel);
     };
   }, [conversationId, userId, supabase]);
 

@@ -26,8 +26,10 @@ const navLinks = [
 
 export function Sidebar({ profile, unreadCount: serverUnreadCount = 0 }: SidebarProps) {
   const pathname = usePathname();
-  const { user } = useAuth();
+  const { user, role } = useAuth();
   const liveUnreadCount = useUnreadCount(user?.id, serverUnreadCount);
+
+  if (role !== "landlord") return null;
 
   const isActive = (href: string) => {
     if (href === "/landlord/dashboard") return pathname === href;

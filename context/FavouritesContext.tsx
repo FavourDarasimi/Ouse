@@ -54,7 +54,13 @@ export function FavouritesProvider({
   }, [user, role, supabase]);
 
   useEffect(() => {
-    fetchFavourites();
+    let isMounted = true;
+    fetchFavourites().then(() => {
+      if (!isMounted) return;
+    });
+    return () => {
+      isMounted = false;
+    };
   }, [fetchFavourites]);
 
   const isFavourited = (listingId: string) =>

@@ -21,6 +21,7 @@ interface AuthContextValue {
   isAuthInitialized: boolean;
   isLoggingOut: boolean;
   signOut: () => Promise<void>;
+  refreshProfile: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextValue>({
@@ -31,6 +32,7 @@ const AuthContext = createContext<AuthContextValue>({
   isAuthInitialized: false,
   isLoggingOut: false,
   signOut: async () => {},
+  refreshProfile: async () => {},
 });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -93,6 +95,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
   }, [fetchProfile, supabase.auth]);
 
+  const refreshProfile = useCallback(async () => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) return;
+
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("id", user.id)
+      .maybeSingle();
+
+    if (profile) {
+      setProfile(profile);
+    }
+  }, [supabase]);
+
   const signOut = async () => {
     loggingOutRef.current = true;
     setIsLoggingOut(true);
@@ -110,6 +129,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         isAuthInitialized,
         isLoggingOut,
         signOut,
+        refreshProfile,
       }}
     >
       {children}

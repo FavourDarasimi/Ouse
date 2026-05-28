@@ -1,6 +1,7 @@
 "use server";
 
 import { createServerClient } from "@/lib/supabase/server";
+import { revalidatePath } from "next/cache";
 
 export async function findOrCreateConversation(
   listingId: string,
@@ -33,5 +34,7 @@ export async function findOrCreateConversation(
     .single();
 
   if (error) return { data: null, error: error.message };
+
+  revalidatePath("/", "layout");
   return { data, error: null };
 }

@@ -50,10 +50,11 @@ export function MobileBottomNav({
     if (href === "/listings") return pathname.startsWith("/listings");
     if (href === "/landlord/listings")
       return pathname.startsWith("/landlord/listings");
+    if (href === "/landlord/messages")
+      return pathname.startsWith("/landlord/messages");
     if (href === "/landlord/dashboard") return pathname === href;
     if (href === "/tenant/saved") return pathname.startsWith("/tenant/saved");
-    if (href === "/tenant/messages" || href === "/landlord/messages")
-      return pathname.startsWith("/messages");
+    if (href === "/tenant/messages") return pathname.startsWith("/messages");
     return pathname === href;
   };
 
@@ -72,11 +73,12 @@ export function MobileBottomNav({
           >
             <link.icon className="h-5 w-5" />
             <span>{link.label}</span>
-            {(link.label === "Enquiries" || link.label === "Inbox") && liveUnreadCount > 0 && (
-              <span className="absolute -top-0.5 right-1.5 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center leading-tight">
-                {liveUnreadCount > 99 ? "99+" : liveUnreadCount}
-              </span>
-            )}
+            {(link.label === "Enquiries" || link.label === "Inbox") &&
+              liveUnreadCount > 0 && (
+                <span className="absolute -top-0.5 right-1.5 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center leading-tight">
+                  {liveUnreadCount > 99 ? "99+" : liveUnreadCount}
+                </span>
+              )}
           </Link>
         ))}
       </div>

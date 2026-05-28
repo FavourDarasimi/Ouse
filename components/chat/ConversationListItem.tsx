@@ -44,7 +44,7 @@ export function ConversationListItem({
               {unread && (
                 <span className="h-2 w-2 rounded-full bg-accent" />
               )}
-              {lastMessageTime && (
+              {lastMessageTime && lastMessage && (
                 <span className="text-xs text-slate-400">
                   {formatRelativeTime(lastMessageTime)}
                 </span>

@@ -342,7 +342,7 @@ export function ChatShell({
                                   : thread.unreadCount}
                               </span>
                             )}
-                            {thread.lastMessageTime && (
+                            {thread.lastMessageTime && thread.lastMessage && (
                               <span className="text-[10px] text-slate-400 whitespace-nowrap">
                                 {formatRelativeTime(thread.lastMessageTime)}
                               </span>

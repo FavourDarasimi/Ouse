@@ -258,13 +258,6 @@ export function Navbar() {
 
           <div className="flex items-center gap-1 sm:gap-2">
             <button
-              className="flex lg:hidden p-2 rounded-xl text-slate-500 dark:text-text-secondary hover:text-text-main hover:bg-slate-50 dark:hover:bg-surface-elevated transition"
-              aria-label="Search"
-            >
-              <Search className="h-5 w-5" />
-            </button>
-
-            <button
               onClick={toggleTheme}
               className="p-2 rounded-xl text-slate-500 dark:text-text-secondary hover:text-text-main hover:bg-slate-50 dark:hover:bg-surface-elevated transition"
               aria-label={

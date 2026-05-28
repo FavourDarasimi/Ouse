@@ -138,14 +138,14 @@ export function TenantDashboardClient({
         {/* ── Hero Section ─────────────────────────────────────────── */}
         <motion.section
           variants={fadeUp}
-          className="relative mt-6 overflow-hidden rounded-3xl  px-6 pb-10 pt-8 sm:px-10 sm:pb-12 sm:pt-10 lg:px-14 lg:pb-16 lg:pt-12"
+          className="relative mt-2 overflow-hidden rounded-3xl  px-3 pb-10 pt-8 sm:px-10 sm:pb-12 sm:pt-10 lg:px-14 lg:pb-16 lg:pt-12"
         >
           <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:gap-16">
             {/* Text content */}
             <div className="relative z-10 flex-1">
               <p className="text-sm font-medium text-slate-500 dark:text-text-secondary">
                 {getGreeting()}
-                {userName ? `, ${userName}` : ""} ✦
+                {userName ? `, ${userName}` : ""}
               </p>
               <h1 className="mt-2 max-w-2xl text-4xl font-bold leading-tight tracking-tight text-text-main sm:text-5xl lg:text-6xl">
                 Find a place that{" "}

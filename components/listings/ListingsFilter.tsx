@@ -25,6 +25,7 @@ interface ListingsFilterProps {
     totalCount: number;
   }) => React.ReactNode;
   viewToggle?: React.ReactNode;
+  initialSearch?: string;
 }
 
 const propertyTypes: PropertyType[] = [
@@ -64,7 +65,7 @@ function FilterChip({
       className={`px-3 py-1.5 rounded-xl text-xs font-medium border transition-colors ${
         active
           ? "bg-primary text-white border-primary"
-          : "bg-surface text-slate-500 border-slate-200 hover:border-primary/40 hover:text-primary"
+          : "bg-surface text-slate-500 dark:text-text-secondary border-slate-200 dark:border-border hover:border-primary/40 hover:text-primary"
       }`}
     >
       {label}
@@ -115,18 +116,18 @@ function FilterOptions({
   return (
     <div className="space-y-5">
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 dark:text-text-muted" />
         <input
           type="text"
           placeholder="Search location, area..."
           value={draft.search}
           onChange={(e) => set("search", e.target.value)}
-          className="w-full rounded-xl border border-slate-200 bg-surface pl-9 pr-4 py-2.5 text-sm text-text-main placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition"
+          className="w-full rounded-xl border border-slate-200 dark:border-border bg-surface pl-9 pr-4 py-2.5 text-sm text-text-main placeholder:text-slate-400 dark:placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition"
         />
         {draft.search && (
           <button
             onClick={() => set("search", "")}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-text-main"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-text-muted hover:text-text-main"
           >
             <X className="h-3.5 w-3.5" />
           </button>
@@ -134,7 +135,7 @@ function FilterOptions({
       </div>
 
       <div>
-        <p className="text-xs font-medium text-slate-400 uppercase tracking-wide mb-2.5">
+        <p className="text-xs font-medium text-slate-400 dark:text-text-muted uppercase tracking-wide mb-2.5">
           Property Type
         </p>
         <div className="flex flex-wrap gap-1.5">
@@ -150,12 +151,12 @@ function FilterOptions({
       </div>
 
       <div>
-        <p className="text-xs font-medium text-slate-400 uppercase tracking-wide mb-2.5">
+        <p className="text-xs font-medium text-slate-400 dark:text-text-muted uppercase tracking-wide mb-2.5">
           Price Range
         </p>
         <div className="flex items-center gap-2">
           <div className="relative flex-1">
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 font-medium">
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 dark:text-text-muted font-medium">
               ₦
             </span>
             <input
@@ -163,12 +164,12 @@ function FilterOptions({
               placeholder="Min"
               value={draft.priceMin}
               onChange={(e) => set("priceMin", e.target.value)}
-              className="w-full rounded-xl border border-slate-200 bg-surface pl-7 pr-3 py-2 text-sm text-text-main placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+              className="w-full rounded-xl border border-slate-200 dark:border-border bg-surface pl-7 pr-3 py-2 text-sm text-text-main placeholder:text-slate-400 dark:placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             />
           </div>
-          <span className="text-slate-300 text-sm">—</span>
+          <span className="text-slate-300 dark:text-text-muted text-sm">—</span>
           <div className="relative flex-1">
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 font-medium">
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 dark:text-text-muted font-medium">
               ₦
             </span>
             <input
@@ -176,14 +177,14 @@ function FilterOptions({
               placeholder="Max"
               value={draft.priceMax}
               onChange={(e) => set("priceMax", e.target.value)}
-              className="w-full rounded-xl border border-slate-200 bg-surface pl-7 pr-3 py-2 text-sm text-text-main placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+              className="w-full rounded-xl border border-slate-200 dark:border-border bg-surface pl-7 pr-3 py-2 text-sm text-text-main placeholder:text-slate-400 dark:placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             />
           </div>
         </div>
       </div>
 
       <div>
-        <p className="text-xs font-medium text-slate-400 uppercase tracking-wide mb-2.5">
+        <p className="text-xs font-medium text-slate-400 dark:text-text-muted uppercase tracking-wide mb-2.5">
           Bedrooms
         </p>
         <div className="flex gap-1.5">
@@ -204,7 +205,7 @@ function FilterOptions({
       </div>
 
       <div>
-        <p className="text-xs font-medium text-slate-400 uppercase tracking-wide mb-2.5">
+        <p className="text-xs font-medium text-slate-400 dark:text-text-muted uppercase tracking-wide mb-2.5">
           Bathrooms
         </p>
         <div className="flex gap-1.5">
@@ -225,7 +226,7 @@ function FilterOptions({
       </div>
 
       <div>
-        <p className="text-xs font-medium text-slate-400 uppercase tracking-wide mb-2.5">
+        <p className="text-xs font-medium text-slate-400 dark:text-text-muted uppercase tracking-wide mb-2.5">
           Rent Type
         </p>
         <div className="flex gap-1.5">
@@ -257,7 +258,7 @@ function FilterOptions({
           className={`w-5 h-5 rounded-md border-2 flex items-center justify-center transition-colors ${
             draft.availableOnly
               ? "bg-primary border-primary"
-              : "border-slate-300 bg-surface"
+              : "border-slate-300 dark:border-slate-600 bg-surface"
           }`}
         >
           {draft.availableOnly && (
@@ -279,7 +280,7 @@ function FilterOptions({
 
       <button
         onClick={onClear}
-        className="flex items-center gap-1.5 text-sm text-slate-400 hover:text-primary transition-colors"
+        className="flex items-center gap-1.5 text-sm text-slate-400 dark:text-text-muted hover:text-primary transition-colors"
       >
         <RotateCcw className="h-3.5 w-3.5" />
         Clear all filters
@@ -288,9 +289,13 @@ function FilterOptions({
   );
 }
 
-export function ListingsFilter({ listings, children, viewToggle }: ListingsFilterProps) {
-  const [applied, setApplied] = useState<Filters>(defaultFilters);
-  const [draft, setDraft] = useState<Filters>(defaultFilters);
+export function ListingsFilter({ listings, children, viewToggle, initialSearch }: ListingsFilterProps) {
+  const initialFilters: Filters = {
+    ...defaultFilters,
+    search: initialSearch ?? "",
+  };
+  const [applied, setApplied] = useState<Filters>(initialFilters);
+  const [draft, setDraft] = useState<Filters>(initialFilters);
   const [open, setOpen] = useState(false);
   const btnRef = useRef<HTMLDivElement>(null);
 
@@ -474,7 +479,7 @@ export function ListingsFilter({ listings, children, viewToggle }: ListingsFilte
           <h1 className="text-2xl font-bold text-text-main">
             Explore Properties
           </h1>
-          <p className="mt-0.5 text-sm text-slate-400">
+          <p className="mt-0.5 text-sm text-slate-400 dark:text-text-muted">
             {filtered.length} of {listings.length} properties found
           </p>
         </div>
@@ -487,7 +492,7 @@ export function ListingsFilter({ listings, children, viewToggle }: ListingsFilte
             className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium border transition-colors ${
               hasActiveFilters
                 ? "bg-primary text-white border-primary"
-                : "bg-surface text-text-main border-slate-200 hover:border-primary/40 hover:text-primary"
+                : "bg-surface text-text-main border-slate-200 dark:border-border hover:border-primary/40 hover:text-primary"
             }`}
           >
             <SlidersHorizontal className="h-4 w-4" />
@@ -509,7 +514,7 @@ export function ListingsFilter({ listings, children, viewToggle }: ListingsFilte
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: -4, scale: 0.96 }}
                 transition={{ duration: 0.15 }}
-                className="hidden md:block absolute right-0 top-full mt-2 w-80 rounded-2xl border border-slate-100 bg-surface shadow-lg z-30"
+                className="hidden md:block absolute right-0 top-full mt-2 w-80 rounded-2xl border border-slate-100 dark:border-border bg-surface shadow-lg z-30"
               >
                 <div className="p-5 max-h-[70vh] overflow-y-auto">
                   <FilterOptions
@@ -518,7 +523,7 @@ export function ListingsFilter({ listings, children, viewToggle }: ListingsFilte
                     onClear={clearDraft}
                   />
                 </div>
-                <div className="p-4 border-t border-slate-100">
+                <div className="p-4 border-t border-slate-100 dark:border-border">
                   <button
                     onClick={applyFilters}
                     className="w-full flex items-center justify-center gap-2 bg-primary text-white rounded-xl py-2.5 text-sm font-medium hover:bg-emerald-800 active:scale-[0.98] transition-all duration-150"
@@ -545,7 +550,7 @@ export function ListingsFilter({ listings, children, viewToggle }: ListingsFilte
           ))}
           <button
             onClick={clearAll}
-            className="text-xs text-slate-400 hover:text-primary transition-colors ml-1"
+            className="text-xs text-slate-400 dark:text-text-muted hover:text-primary transition-colors ml-1"
           >
             Clear all
           </button>
@@ -575,13 +580,13 @@ export function ListingsFilter({ listings, children, viewToggle }: ListingsFilte
               transition={{ type: "spring", damping: 28, stiffness: 300 }}
               className="absolute bottom-16 left-0 right-0 bg-surface rounded-t-3xl max-h-[calc(85vh-4rem)] flex flex-col"
             >
-              <div className="flex items-center justify-between p-4 border-b border-slate-100 shrink-0">
+              <div className="flex items-center justify-between p-4 border-b border-slate-100 dark:border-border shrink-0">
                 <h3 className="text-sm font-semibold text-text-main">
                   Filters
                 </h3>
                 <button
                   onClick={closePanel}
-                  className="p-1 text-slate-500 hover:text-text-main transition"
+                  className="p-1 text-slate-500 dark:text-text-secondary hover:text-text-main transition"
                 >
                   <X className="h-5 w-5" />
                 </button>
@@ -593,7 +598,7 @@ export function ListingsFilter({ listings, children, viewToggle }: ListingsFilte
                   onClear={clearDraft}
                 />
               </div>
-              <div className="p-4 border-t border-slate-100 shrink-0">
+              <div className="p-4 border-t border-slate-100 dark:border-border shrink-0">
                 <button
                   onClick={applyFilters}
                   className="w-full flex items-center justify-center gap-2 bg-primary text-white rounded-xl py-3 text-sm font-medium hover:bg-emerald-800 active:scale-[0.98] transition-all duration-150"

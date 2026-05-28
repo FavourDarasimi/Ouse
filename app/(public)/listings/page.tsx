@@ -1,7 +1,11 @@
 import { createServerClient } from "@/lib/supabase/server";
 import { ExploreListings } from "@/components/listings/ExploreListings";
 
-export default async function PublicListingsPage() {
+export default async function PublicListingsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ location?: string }>;
+}) {
   const supabase = await createServerClient();
 
   const { data: listings } = await supabase
@@ -9,10 +13,18 @@ export default async function PublicListingsPage() {
     .select("*, profiles(full_name, avatar_url)")
     .order("created_at", { ascending: false });
 
+  const { location } = await searchParams;
+
+  const initialSearch = location ?? "";
+
   return (
     <div className="py-8 px-4 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <ExploreListings listings={listings ?? []} />
+        <ExploreListings
+          key={initialSearch || "default"}
+          listings={listings ?? []}
+          initialSearch={initialSearch}
+        />
       </div>
     </div>
   );

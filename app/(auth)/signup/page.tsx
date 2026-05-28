@@ -104,7 +104,7 @@ function GoogleButton({
       type="button"
       onClick={onClick}
       disabled={loading}
-      className="flex w-full items-center justify-center gap-3 rounded-xl border border-slate-200 bg-surface px-4 py-3 text-sm font-medium text-text-main transition-all duration-150 hover:bg-slate-50 active:scale-95 disabled:cursor-not-allowed disabled:opacity-60"
+      className="flex w-full items-center justify-center gap-3 rounded-xl border border-slate-200 dark:border-border bg-surface px-4 py-3 text-sm font-medium text-text-main transition-all duration-150 hover:bg-slate-50 dark:hover:bg-surface-elevated active:scale-95 disabled:cursor-not-allowed disabled:opacity-60"
     >
       {loading ? (
         <Loader2 className="h-4 w-4 animate-spin" />
@@ -140,9 +140,9 @@ function GoogleButton({
 function Divider() {
   return (
     <div className="flex items-center gap-3">
-      <div className="h-px flex-1 bg-slate-100" />
-      <span className="text-xs text-slate-400">or continue with email</span>
-      <div className="h-px flex-1 bg-slate-100" />
+      <div className="h-px flex-1 bg-slate-100 dark:bg-border" />
+      <span className="text-xs text-slate-400 dark:text-text-muted">or continue with email</span>
+      <div className="h-px flex-1 bg-slate-100 dark:bg-border" />
     </div>
   );
 }
@@ -196,7 +196,7 @@ function EmailSentScreen({
           <Mail className="h-7 w-7 text-primary" />
         </div>
         <h2 className="text-xl font-bold text-text-main">Check your email</h2>
-        <p className="mt-2 text-sm text-slate-400">
+        <p className="mt-2 text-sm text-slate-400 dark:text-text-muted">
           We sent a verification link to{" "}
           <span className="font-medium text-text-main">{email}</span>.
         </p>
@@ -204,7 +204,7 @@ function EmailSentScreen({
           type="button"
           onClick={handleResend}
           disabled={cooldown > 0}
-          className="mt-6 inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-surface px-5 py-2.5 text-sm font-medium text-text-main transition-all duration-150 hover:bg-slate-50 active:scale-95 disabled:opacity-50"
+          className="mt-6 inline-flex items-center gap-2 rounded-xl border border-slate-200 dark:border-border bg-surface px-5 py-2.5 text-sm font-medium text-text-main transition-all duration-150 hover:bg-slate-50 dark:hover:bg-surface-elevated active:scale-95 disabled:opacity-50"
         >
           {cooldown > 0 ? `Resend email (${cooldown}s)` : "Resend email"}
         </button>
@@ -295,7 +295,7 @@ function SignupForm() {
           <h1 className="text-2xl font-bold text-text-main">
             Create your account
           </h1>
-          <p className="mt-1 text-sm text-slate-400">
+          <p className="mt-1 text-sm text-slate-400 dark:text-text-muted">
             Join thousands finding homes across Nigeria
           </p>
         </motion.div>
@@ -315,7 +315,7 @@ function SignupForm() {
             <div>
               <label
                 htmlFor="full-name"
-                className="mb-1.5 block text-xs font-medium uppercase tracking-wide text-slate-400"
+                className="mb-1.5 block text-xs font-medium uppercase tracking-wide text-slate-400 dark:text-text-muted"
               >
                 Full name
               </label>
@@ -327,7 +327,7 @@ function SignupForm() {
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 placeholder="Amara Okonkwo"
-                className="w-full rounded-xl border border-slate-200 bg-surface px-4 py-3 text-text-main placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
+                className="w-full rounded-xl border border-slate-200 dark:border-border bg-surface px-4 py-3 text-text-main placeholder:text-slate-400 dark:placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
               />
             </div>
 
@@ -335,7 +335,7 @@ function SignupForm() {
             <div>
               <label
                 htmlFor="signup-email"
-                className="mb-1.5 block text-xs font-medium uppercase tracking-wide text-slate-400"
+                className="mb-1.5 block text-xs font-medium uppercase tracking-wide text-slate-400 dark:text-text-muted"
               >
                 Email address
               </label>
@@ -347,7 +347,7 @@ function SignupForm() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
-                className="w-full rounded-xl border border-slate-200 bg-surface px-4 py-3 text-text-main placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
+                className="w-full rounded-xl border border-slate-200 dark:border-border bg-surface px-4 py-3 text-text-main placeholder:text-slate-400 dark:placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
               />
             </div>
 
@@ -355,7 +355,7 @@ function SignupForm() {
             <div>
               <label
                 htmlFor="signup-password"
-                className="mb-1.5 block text-xs font-medium uppercase tracking-wide text-slate-400"
+                className="mb-1.5 block text-xs font-medium uppercase tracking-wide text-slate-400 dark:text-text-muted"
               >
                 Password
               </label>
@@ -369,13 +369,13 @@ function SignupForm() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Min. 6 characters"
-                  className="w-full rounded-xl border border-slate-200 bg-surface px-4 py-3 pr-11 text-text-main placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
+                  className="w-full rounded-xl border border-slate-200 dark:border-border bg-surface px-4 py-3 pr-11 text-text-main placeholder:text-slate-400 dark:placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
                 />
                 <button
                   type="button"
                   aria-label={showPassword ? "Hide password" : "Show password"}
                   onClick={() => setShowPassword((v) => !v)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-text-muted hover:text-slate-600 dark:hover:text-text-secondary transition"
                 >
                   {showPassword ? (
                     <EyeOff className="h-4 w-4" />
@@ -410,16 +410,16 @@ function SignupForm() {
               )}
             </button>
 
-            <p className="text-center text-xs text-slate-400">
-              By signing up you agree to our{" "}
+            <p className="text-center text-xs text-slate-400 dark:text-text-muted">
+              By signing up you agree to our {" "}
               <Link href="/terms" className="text-primary hover:underline">
                 Terms of Service
               </Link>
             </p>
           </form>
 
-          <p className="text-center text-sm text-slate-400">
-            Already have an account?{" "}
+          <p className="text-center text-sm text-slate-400 dark:text-text-muted">
+            Already have an account? {" "}
             <Link
               href="/login"
               className="font-medium text-primary hover:underline"

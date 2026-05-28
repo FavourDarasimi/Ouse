@@ -17,7 +17,7 @@ export function ListingPreviewCard({ listing }: ListingPreviewCardProps) {
   return (
     <motion.div
       whileHover={{ y: -4 }}
-      className="flex  gap-3 rounded-2xl border border-slate-100 bg-surface p-3 transition-colors hover:border-primary/30"
+      className="flex  gap-3 rounded-2xl border border-slate-100 dark:border-border bg-surface p-3 transition-colors hover:border-primary/30"
     >
       <div className="relative h-16 w-20 shrink-0 overflow-hidden rounded-xl">
         {images?.[0] ? (
@@ -29,8 +29,8 @@ export function ListingPreviewCard({ listing }: ListingPreviewCardProps) {
             sizes="80px"
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center bg-slate-100">
-            <Building2 className="text-slate-300" size={20} />
+          <div className="flex h-full w-full items-center justify-center bg-slate-100 dark:bg-surface-elevated">
+            <Building2 className="text-slate-300 dark:text-text-muted" size={20} />
           </div>
         )}
       </div>
@@ -44,7 +44,7 @@ export function ListingPreviewCard({ listing }: ListingPreviewCardProps) {
             {formatPrice(price, rent_type)}
           </p>
         </div>
-        <p className="truncate text-xs text-slate-400">{location}</p>
+        <p className="truncate text-xs text-slate-400 dark:text-text-muted">{location}</p>
       </div>
 
       <div className="flex shrink-0 items-start gap-1.5">

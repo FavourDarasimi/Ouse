@@ -12,7 +12,7 @@ export function ViewToggle({ view, onChange }: ViewToggleProps) {
     <div
       role="group"
       aria-label="Listing view"
-      className="flex border border-slate-200 rounded-xl overflow-hidden bg-white"
+      className="flex border border-slate-200 dark:border-border rounded-xl overflow-hidden bg-white dark:bg-surface"
     >
       <button
         type="button"
@@ -21,8 +21,8 @@ export function ViewToggle({ view, onChange }: ViewToggleProps) {
         onClick={() => onChange("grid")}
         className={`w-9 h-9 flex items-center justify-center cursor-pointer transition-colors duration-150 ${
           view === "grid"
-            ? "bg-slate-100 text-primary"
-            : "bg-white text-slate-400 hover:text-slate-600"
+            ? "bg-slate-100 dark:bg-surface-elevated text-primary"
+            : "bg-white dark:bg-surface text-slate-400 dark:text-text-muted hover:text-slate-600 dark:hover:text-text-secondary"
         }`}
       >
         <LayoutGrid className="h-4 w-4" />
@@ -34,8 +34,8 @@ export function ViewToggle({ view, onChange }: ViewToggleProps) {
         onClick={() => onChange("list")}
         className={`w-9 h-9 flex items-center justify-center cursor-pointer transition-colors duration-150 ${
           view === "list"
-            ? "bg-slate-100 text-primary"
-            : "bg-white text-slate-400 hover:text-slate-600"
+            ? "bg-slate-100 dark:bg-surface-elevated text-primary"
+            : "bg-white dark:bg-surface text-slate-400 dark:text-text-muted hover:text-slate-600 dark:hover:text-text-secondary"
         }`}
       >
         <List className="h-4 w-4" />

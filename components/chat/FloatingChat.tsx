@@ -113,7 +113,7 @@ export function FloatingChat() {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 24, scale: 0.97 }}
           transition={{ duration: 0.2, ease: "easeOut" }}
-          className="fixed bottom-[88px] lg:bottom-6 inset-x-0 sm:inset-x-auto sm:right-6 z-[60] w-full sm:w-80 flex-col bg-surface rounded-t-2xl sm:rounded-2xl shadow-2xl border border-slate-100 overflow-hidden flex"
+          className="fixed bottom-[88px] lg:bottom-6 inset-x-0 sm:inset-x-auto sm:right-6 z-[60] w-full sm:w-80 flex-col bg-surface rounded-t-2xl sm:rounded-2xl shadow-2xl border border-slate-100 dark:border-border overflow-hidden flex"
           style={{ maxHeight: "min(480px, 75vh)" }}
         >
           {/* ── Header ── */}
@@ -130,7 +130,7 @@ export function FloatingChat() {
                   {otherPersonName ||
                     (role === "landlord" ? "Tenant" : "Landlord")}
                 </p>
-                <p className="text-xs text-slate-400 truncate">
+                <p className="text-xs text-slate-400 dark:text-text-muted truncate">
                   {propertyTitle}
                 </p>
               </div>
@@ -182,8 +182,8 @@ export function FloatingChat() {
                 className="flex flex-col overflow-hidden"
               >
                 {/* ── Property context bar ── */}
-                <div className="shrink-0 bg-surface border-b border-slate-100 px-3 py-2 flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center text-slate-400 shrink-0">
+                <div className="shrink-0 bg-surface border-b border-slate-100 dark:border-border px-3 py-2 flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-900/20 flex items-center justify-center text-slate-400 dark:text-text-muted shrink-0">
                     <Building2 className="h-4 w-4" />
                   </div>
                   <div className="min-w-0 flex-1">
@@ -210,12 +210,12 @@ export function FloatingChat() {
 
                 {/* ── Messages area ── */}
                 <div
-                  className="flex-1 overflow-y-auto px-3 py-3 flex flex-col gap-2 bg-slate-50"
+                  className="flex-1 overflow-y-auto px-3 py-3 flex flex-col gap-2 bg-slate-50 dark:bg-surface-elevated"
                   style={{ maxHeight: "320px" }}
                 >
                   {messages.length === 0 ? (
                     <div className="flex items-center justify-center h-full text-center">
-                      <p className="text-xs text-slate-400">
+                      <p className="text-xs text-slate-400 dark:text-text-muted">
                         No messages yet. Send a message to start the
                         conversation.
                       </p>
@@ -233,7 +233,7 @@ export function FloatingChat() {
                               className={`text-xs px-3 py-2 ${
                                 isOwn
                                   ? "bg-primary text-white rounded-2xl rounded-tr-sm"
-                                  : "bg-surface text-text-main border border-slate-100 rounded-2xl rounded-tl-sm"
+                                  : "bg-surface text-text-main border border-slate-100 dark:border-border rounded-2xl rounded-tl-sm"
                               }`}
                             >
                               {msg.body}
@@ -241,7 +241,7 @@ export function FloatingChat() {
                             <p
                               className={`text-[10px] mt-0.5 ${
                                 isOwn ? "text-right" : "text-left"
-                              } text-slate-400`}
+                              } text-slate-400 dark:text-text-muted`}
                             >
                               {formatRelativeTime(msg.created_at)}
                             </p>
@@ -254,7 +254,7 @@ export function FloatingChat() {
                 </div>
 
                 {/* ── Input bar ── */}
-                <div className="shrink-0 bg-surface border-t border-slate-100 px-3 py-2.5 flex items-center gap-2">
+                <div className="shrink-0 bg-surface border-t border-slate-100 dark:border-border px-3 py-2.5 flex items-center gap-2">
                   <input
                     ref={inputRef}
                     type="text"
@@ -267,7 +267,7 @@ export function FloatingChat() {
                       }
                     }}
                     placeholder="Type a message..."
-                    className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none placeholder:text-slate-400"
+                    className="flex-1 bg-slate-50 dark:bg-surface-elevated border border-slate-200 dark:border-border rounded-xl px-3 py-2 text-xs text-text-main focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none placeholder:text-slate-400 dark:placeholder:text-text-muted"
                   />
                   <button
                     type="button"

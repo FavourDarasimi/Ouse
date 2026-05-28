@@ -45,7 +45,7 @@ export function Sidebar({ profile, unreadCount: serverUnreadCount = 0 }: Sidebar
       initial={{ x: -20, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.25 }}
-      className="fixed left-0 top-0 bottom-0 hidden lg:flex lg:flex-col w-72 bg-surface border-r border-slate-100 z-40 px-4 py-6"
+      className="fixed left-0 top-0 bottom-0 hidden lg:flex lg:flex-col w-72 bg-surface border-r border-slate-100 dark:border-border z-40 px-4 py-6"
     >
       <div className="mb-10">
         <Logo href="/landlord/dashboard" size="lg" />
@@ -61,7 +61,7 @@ export function Sidebar({ profile, unreadCount: serverUnreadCount = 0 }: Sidebar
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-full w-full ${
                   active
                     ? "font-medium text-white bg-primary shadow-xl"
-                    : "text-slate-500 hover:bg-slate-50 hover:text-text-main transition-all duration-150"
+                    : "text-slate-500 dark:text-text-secondary hover:bg-slate-50 dark:hover:bg-surface-elevated hover:text-text-main transition-all duration-150"
                 }`}
               >
                 <link.icon className="h-[18px] w-[18px] shrink-0" />
@@ -77,7 +77,7 @@ export function Sidebar({ profile, unreadCount: serverUnreadCount = 0 }: Sidebar
         })}
       </nav>
 
-      <div className="mt-auto flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-slate-50 transition-colors duration-150">
+      <div className="mt-auto flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-slate-50 dark:hover:bg-surface-elevated transition-colors duration-150">
         <div className="w-9 h-9 rounded-full bg-secondary flex items-center justify-center text-white text-sm font-semibold shrink-0">
           {getInitials(profile?.full_name)}
         </div>
@@ -85,7 +85,7 @@ export function Sidebar({ profile, unreadCount: serverUnreadCount = 0 }: Sidebar
           <p className="text-sm font-medium text-text-main truncate">
             {profile?.full_name || "User"}
           </p>
-          <p className="text-xs text-slate-400">Landlord</p>
+          <p className="text-xs text-slate-400 dark:text-text-muted">Landlord</p>
         </div>
       </div>
     </motion.aside>

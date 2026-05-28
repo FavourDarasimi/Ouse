@@ -23,7 +23,7 @@ export function ListingCard({
     <Link href={`/listings/${id}`}>
       <motion.div
         whileHover={{ y: -6 }}
-        className="bg-surface rounded-2xl border border-slate-200 p-2 sm:p-2 cursor-pointer"
+        className="bg-surface rounded-2xl border border-slate-200 dark:border-border p-2 sm:p-2 cursor-pointer"
       >
         <motion.div
           whileHover={{ scale: 1.03 }}
@@ -38,9 +38,31 @@ export function ListingCard({
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             />
           ) : (
-            <div className="bg-slate-100 rounded-xl sm:rounded-2xl aspect-[4/5] sm:aspect-[4/3] flex items-center justify-center w-full h-full">
-              <Building2 className="text-slate-300" size={40} />
+            <div className="bg-slate-100 dark:bg-surface-elevated rounded-xl sm:rounded-2xl aspect-[4/5] sm:aspect-[4/3] flex items-center justify-center w-full h-full">
+              <Building2 className="text-slate-300 dark:text-text-muted" size={40} />
             </div>
+          )}
+          {onFavouriteToggle && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                onFavouriteToggle(id);
+              }}
+              className={`absolute right-2 top-2 z-10 flex h-8 w-8 items-center justify-center rounded-full transition-all duration-200 hover:scale-110 ${
+                isFavourited ? "text-accent" : "bg-black/30 text-white"
+              }`}
+              aria-label={
+                isFavourited ? "Remove from favourites" : "Add to favourites"
+              }
+            >
+              <Heart
+                size={16}
+                className="sm:w-[18px] sm:h-[18px]"
+                fill={isFavourited ? "currentColor" : "none"}
+              />
+            </button>
           )}
         </motion.div>
 
@@ -71,35 +93,6 @@ export function ListingCard({
               <Bath size={11} className="shrink-0" />
               {bathrooms ?? "—"} Baths
             </span>
-          </div>
-
-          <div className="flex items-center gap-1.5 sm:gap-2">
-            <span className="flex-1 bg-primary text-white rounded-full py-2 sm:py-3 text-xs sm:text-sm font-medium whitespace-nowrap text-center">
-              <span className="hidden sm:inline">View Property</span>
-              <span className="sm:hidden">View</span>
-            </span>
-            {onFavouriteToggle && (
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  e.preventDefault();
-                  onFavouriteToggle(id);
-                }}
-                className={`w-9 h-9 sm:w-11 sm:h-11 rounded-full border border-slate-200 bg-surface flex items-center justify-center flex-shrink-0 transition-colors ${
-                  isFavourited ? "text-accent" : "text-slate-400"
-                }`}
-                aria-label={
-                  isFavourited ? "Remove from favourites" : "Add to favourites"
-                }
-              >
-                <Heart
-                  size={15}
-                  className="sm:w-[18px] sm:h-[18px]"
-                  fill={isFavourited ? "#dc2626" : "none"}
-                />
-              </button>
-            )}
           </div>
         </div>
       </motion.div>

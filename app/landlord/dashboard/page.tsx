@@ -129,7 +129,7 @@ export default async function LandlordDashboardPage() {
     <div className="py-8 px-4 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="mb-8">
-          <p className="mt-1 text-sm text-slate-400">{getGreeting()} </p>
+          <p className="mt-1 text-sm text-slate-400 dark:text-text-muted">{getGreeting()} </p>
           <h1 className="text-2xl font-bold text-text-main">
             {profile?.full_name ? `${profile.full_name}` : ""} 👋
           </h1>
@@ -169,7 +169,7 @@ export default async function LandlordDashboardPage() {
         </StaggerContainer>
 
         <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6 mb-8">
-          <AnimatedSection className="bg-surface rounded-2xl border border-slate-100 p-3 sm:p-5">
+          <AnimatedSection className="bg-surface rounded-2xl border border-slate-100 dark:border-border p-3 sm:p-5">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-text-main">
                 My Listings
@@ -184,13 +184,13 @@ export default async function LandlordDashboardPage() {
 
             {!listings || listings.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-12 text-center">
-                <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100">
-                  <Building2 className="h-6 w-6 text-slate-400" />
+                <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 dark:bg-surface-elevated">
+                  <Building2 className="h-6 w-6 text-slate-400 dark:text-text-muted" />
                 </div>
                 <h3 className="text-sm font-semibold text-text-main">
                   No listings yet
                 </h3>
-                <p className="mt-1 text-xs text-slate-400">
+                <p className="mt-1 text-xs text-slate-400 dark:text-text-muted">
                   Post your first property to start receiving enquiries.
                 </p>
                 <AddListingButton />
@@ -206,7 +206,7 @@ export default async function LandlordDashboardPage() {
 
           <AnimatedSection
             delay={0.15}
-            className="bg-surface rounded-2xl border border-slate-100 p-3 sm:p-5"
+            className="bg-surface rounded-2xl border border-slate-100 dark:border-border p-3 sm:p-5"
           >
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-text-main">
@@ -222,13 +222,13 @@ export default async function LandlordDashboardPage() {
 
             {!conversations || conversations.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-12 text-center">
-                <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100">
-                  <MessageCircle className="h-6 w-6 text-slate-400" />
+                <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 dark:bg-surface-elevated">
+                  <MessageCircle className="h-6 w-6 text-slate-400 dark:text-text-muted" />
                 </div>
                 <h3 className="text-sm font-semibold text-text-main">
                   No messages yet
                 </h3>
-                <p className="mt-1 text-xs text-slate-400">
+                <p className="mt-1 text-xs text-slate-400 dark:text-text-muted">
                   Messages from interested tenants will appear here.
                 </p>
               </div>

@@ -17,6 +17,7 @@ const ITEMS_PER_PAGE = 12;
 
 interface ExploreListingsProps {
   listings: Listing[];
+  initialSearch?: string;
 }
 
 function PaginatedGrid({
@@ -60,7 +61,7 @@ function PaginatedGrid({
           <button
             onClick={() => setPage((p) => Math.max(1, p - 1))}
             disabled={safePage <= 1}
-            className="flex items-center gap-1 px-3 py-2 rounded-xl text-sm font-medium border border-slate-200 bg-surface text-text-main hover:border-primary/40 hover:text-primary transition-colors disabled:opacity-40 disabled:pointer-events-none"
+            className="flex items-center gap-1 px-3 py-2 rounded-xl text-sm font-medium border border-slate-200 dark:border-border bg-surface text-text-main hover:border-primary/40 hover:text-primary transition-colors disabled:opacity-40 disabled:pointer-events-none"
           >
             <ChevronLeft className="h-4 w-4" />
             <span className="hidden sm:inline">Previous</span>
@@ -74,7 +75,7 @@ function PaginatedGrid({
                 className={`w-9 h-9 rounded-xl text-sm font-medium transition-colors ${
                   p === safePage
                     ? "bg-primary text-white"
-                    : "text-slate-500 hover:bg-slate-100 hover:text-text-main"
+                    : "text-slate-500 dark:text-text-secondary hover:bg-slate-100 dark:hover:bg-surface-elevated hover:text-text-main"
                 }`}
               >
                 {p}
@@ -85,7 +86,7 @@ function PaginatedGrid({
           <button
             onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
             disabled={safePage >= totalPages}
-            className="flex items-center gap-1 px-3 py-2 rounded-xl text-sm font-medium border border-slate-200 bg-surface text-text-main hover:border-primary/40 hover:text-primary transition-colors disabled:opacity-40 disabled:pointer-events-none"
+            className="flex items-center gap-1 px-3 py-2 rounded-xl text-sm font-medium border border-slate-200 dark:border-border bg-surface text-text-main hover:border-primary/40 hover:text-primary transition-colors disabled:opacity-40 disabled:pointer-events-none"
           >
             <span className="hidden sm:inline">Next</span>
             <ChevronRight className="h-4 w-4" />
@@ -96,7 +97,8 @@ function PaginatedGrid({
   );
 }
 
-export function ExploreListings({ listings }: ExploreListingsProps) {
+export function ExploreListings({ listings, initialSearch }: ExploreListingsProps) {
+  const availableListings = listings.filter((l) => l.available);
   const { user, isAuthInitialized } = useAuth();
   const {
     isFavourited,
@@ -116,7 +118,8 @@ export function ExploreListings({ listings }: ExploreListingsProps) {
 
   return (
     <ListingsFilter
-      listings={listings}
+      listings={availableListings}
+      initialSearch={initialSearch ?? ""}
       viewToggle={<ViewToggle view={view} onChange={onViewChange} />}
     >
       {({ filtered, hasActiveFilters, clearAll }) => (
@@ -129,13 +132,13 @@ export function ExploreListings({ listings }: ExploreListingsProps) {
             </div>
           ) : filtered.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-20 text-center">
-              <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-100">
-                <Search className="h-8 w-8 text-slate-400" />
+              <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-100 dark:bg-surface-elevated">
+                <Search className="h-8 w-8 text-slate-400 dark:text-text-muted" />
               </div>
               <h2 className="text-lg font-semibold text-text-main">
                 No properties match your filters
               </h2>
-              <p className="mt-1 text-sm text-slate-400 max-w-sm">
+              <p className="mt-1 text-sm text-slate-400 dark:text-text-muted max-w-sm">
                 Try adjusting or clearing your filters to see more results.
               </p>
               {hasActiveFilters && (

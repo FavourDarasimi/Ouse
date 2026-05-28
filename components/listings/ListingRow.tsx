@@ -27,7 +27,6 @@ export function ListingRow({
     images,
     bedrooms,
     bathrooms,
-    available,
   } = listing;
 
   return (
@@ -35,7 +34,7 @@ export function ListingRow({
       <motion.div
         whileHover={{ x: 4 }}
         transition={{ duration: 0.15 }}
-        className="bg-white border border-slate-100 rounded-2xl p-2 sm:p-3 flex items-center gap-2 sm:gap-4 hover:border-primary/30 transition-colors duration-200 cursor-pointer"
+        className="bg-white dark:bg-surface border border-slate-100 dark:border-border rounded-2xl p-2 sm:p-3 flex items-center gap-2 sm:gap-4 hover:border-primary/30 transition-colors duration-200 cursor-pointer"
       >
         {/* Thumbnail */}
         <div className="w-16 h-16 sm:w-20 sm:h-24 rounded-xl overflow-hidden flex-shrink-0 relative">
@@ -48,8 +47,8 @@ export function ListingRow({
               sizes="96px"
             />
           ) : (
-            <div className="bg-slate-100 w-full h-full flex items-center justify-center">
-              <Home className="text-slate-300" size={28} />
+            <div className="bg-slate-100 dark:bg-surface-elevated w-full h-full flex items-center justify-center">
+              <Home className="text-slate-300 dark:text-text-muted" size={28} />
             </div>
           )}
         </div>
@@ -60,35 +59,27 @@ export function ListingRow({
             {title}
           </h3>
 
-          <div className="flex items-center gap-1 text-xs text-slate-400">
+          <div className="flex items-center gap-1 text-xs text-slate-400 dark:text-text-muted">
             <MapPin size={12} />
             <span className="truncate">{location}</span>
           </div>
 
           <div className="flex flex-wrap items-center gap-1 sm:gap-2">
-            <span className="text-[11px] sm:text-xs text-slate-500 bg-slate-100 px-1.5 sm:px-2 py-0.5 rounded-full flex items-center gap-0.5 sm:gap-1">
+            <span className="text-[11px] sm:text-xs text-slate-500 dark:text-text-secondary bg-slate-100 dark:bg-surface-elevated px-1.5 sm:px-2 py-0.5 rounded-full flex items-center gap-0.5 sm:gap-1">
               <BedDouble size={10} />
               {bedrooms ?? "—"}
             </span>
-            <span className="text-[11px] sm:text-xs text-slate-500 bg-slate-100 px-1.5 sm:px-2 py-0.5 rounded-full flex items-center gap-0.5 sm:gap-1">
+            <span className="text-[11px] sm:text-xs text-slate-500 dark:text-text-secondary bg-slate-100 dark:bg-surface-elevated px-1.5 sm:px-2 py-0.5 rounded-full flex items-center gap-0.5 sm:gap-1">
               <Bath size={10} />
               {bathrooms ?? "—"}
             </span>
             {listing.type && (
-              <span className="hidden sm:inline-flex text-[11px] sm:text-xs text-slate-500 bg-slate-100 px-1.5 sm:px-2 py-0.5 rounded-full items-center gap-0.5 sm:gap-1 capitalize">
+              <span className="hidden sm:inline-flex text-[11px] sm:text-xs text-slate-500 dark:text-text-secondary bg-slate-100 dark:bg-surface-elevated px-1.5 sm:px-2 py-0.5 rounded-full items-center gap-0.5 sm:gap-1 capitalize">
                 <Home size={10} />
                 {listing.type}
               </span>
             )}
-            <span
-              className={`text-[11px] sm:text-xs px-1.5 sm:px-2 py-0.5 rounded-full font-medium ${
-                available
-                  ? "bg-green-100 text-green-700"
-                  : "bg-red-100 text-red-600"
-              }`}
-            >
-              {available ? "Available" : "Rented"}
-            </span>
+
           </div>
         </div>
 
@@ -98,7 +89,7 @@ export function ListingRow({
             <span className="text-sm sm:text-base font-bold text-primary whitespace-nowrap">
               ₦{price.toLocaleString()}
             </span>
-            <div className="text-[11px] sm:text-xs text-slate-400 font-normal">/mo</div>
+            <div className="text-[11px] sm:text-xs text-slate-400 dark:text-text-muted font-normal">/mo</div>
           </div>
 
           <div className="flex items-center gap-1.5 sm:gap-2">
@@ -110,8 +101,10 @@ export function ListingRow({
                   e.preventDefault();
                   onFavouriteToggle(id);
                 }}
-                className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full border border-slate-200 flex items-center justify-center ${
-                  isFavourited ? "text-accent" : "text-slate-400"
+                className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center transition-colors ${
+                  isFavourited
+                    ? "bg-accent/10 text-accent"
+                    : "bg-black/15 dark:bg-white/10 text-black/80 dark:text-white/80"
                 }`}
                 aria-label={
                   isFavourited
@@ -125,10 +118,7 @@ export function ListingRow({
                 />
               </button>
             )}
-            <span className="bg-secondary text-white text-[11px] sm:text-xs px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg font-medium whitespace-nowrap">
-              View
-            </span>
-            {actions}
+{actions}
           </div>
         </div>
       </motion.div>

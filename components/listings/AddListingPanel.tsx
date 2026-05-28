@@ -315,7 +315,7 @@ export function AddListingPanel() {
             transition={{ type: "spring", damping: 28, stiffness: 300 }}
             className="fixed right-0 top-0 bottom-0 z-50 w-full max-w-lg bg-surface shadow-xl flex flex-col"
           >
-            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 shrink-0">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-border shrink-0">
               <h2 className="text-lg font-semibold text-text-main">
                 {isEditing ? "Edit Listing" : "Add Listing"}
               </h2>
@@ -323,7 +323,7 @@ export function AddListingPanel() {
                 type="button"
                 onClick={handleClose}
                 disabled={submitting}
-                className="p-2 rounded-xl hover:bg-slate-50 text-slate-400 hover:text-text-main transition-colors disabled:opacity-50"
+                className="p-2 rounded-xl hover:bg-slate-50 dark:hover:bg-surface-elevated text-slate-400 dark:text-text-muted hover:text-text-main transition-colors disabled:opacity-50"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -335,7 +335,7 @@ export function AddListingPanel() {
               className="flex-1 overflow-y-auto px-6 py-5 space-y-5"
             >
               {error && (
-                <div className="rounded-xl bg-red-100 px-4 py-3 text-sm text-red-600">
+                <div className="rounded-xl bg-red-100 dark:bg-red-900/30 px-4 py-3 text-sm text-red-600 dark:text-red-400">
                   {error}
                 </div>
               )}
@@ -353,7 +353,7 @@ export function AddListingPanel() {
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="e.g. 3-Bedroom Flat in Lekki"
-                  className="w-full rounded-xl border border-slate-200 bg-surface px-4 py-3 text-sm text-text-main placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
+                  className="w-full rounded-xl border border-slate-200 dark:border-border bg-surface px-4 py-3 text-sm text-text-main placeholder:text-slate-400 dark:placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
                 />
               </fieldset>
 
@@ -370,7 +370,7 @@ export function AddListingPanel() {
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="Describe the property..."
-                  className="w-full rounded-xl border border-slate-200 bg-surface px-4 py-3 text-sm text-text-main placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition resize-none"
+                  className="w-full rounded-xl border border-slate-200 dark:border-border bg-surface px-4 py-3 text-sm text-text-main placeholder:text-slate-400 dark:placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition resize-none"
                 />
               </fieldset>
 
@@ -389,7 +389,7 @@ export function AddListingPanel() {
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
                     placeholder="250000"
-                    className="w-full rounded-xl border border-slate-200 bg-surface px-4 py-3 text-sm text-text-main placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
+                    className="w-full rounded-xl border border-slate-200 dark:border-border bg-surface px-4 py-3 text-sm text-text-main placeholder:text-slate-400 dark:placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
                   />
                 </fieldset>
 
@@ -397,14 +397,14 @@ export function AddListingPanel() {
                   <label className="block text-sm font-medium text-text-main mb-1.5">
                     Period <span className="text-red-500 dark:text-accent">*</span>
                   </label>
-                  <div className="flex rounded-xl border border-slate-200 overflow-hidden">
+                  <div className="flex rounded-xl border border-slate-200 dark:border-border overflow-hidden">
                     <button
                       type="button"
                       onClick={() => setRentType("monthly")}
                       className={`flex-1 px-3 py-3 text-sm font-medium transition ${
                         rentType === "monthly"
                           ? "bg-primary text-white"
-                          : "bg-surface text-text-main hover:bg-slate-50"
+                          : "bg-surface text-text-main hover:bg-slate-50 dark:hover:bg-surface-elevated"
                       }`}
                     >
                       /mo
@@ -415,7 +415,7 @@ export function AddListingPanel() {
                       className={`flex-1 px-3 py-3 text-sm font-medium transition ${
                         rentType === "yearly"
                           ? "bg-primary text-white"
-                          : "bg-surface text-text-main hover:bg-slate-50"
+                          : "bg-surface text-text-main hover:bg-slate-50 dark:hover:bg-surface-elevated"
                       }`}
                     >
                       /yr
@@ -434,7 +434,7 @@ export function AddListingPanel() {
                     id="type"
                     value={type}
                     onChange={(e) => setType(e.target.value as PropertyType)}
-                    className="w-full rounded-xl border border-slate-200 bg-surface px-4 py-3 text-sm text-text-main focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
+                    className="w-full rounded-xl border border-slate-200 dark:border-border bg-surface px-4 py-3 text-sm text-text-main focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
                   >
                     {propertyTypes.map((pt) => (
                       <option key={pt.value} value={pt.value}>
@@ -458,7 +458,7 @@ export function AddListingPanel() {
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
                   placeholder="e.g. Lekki Phase 1, Lagos"
-                  className="w-full rounded-xl border border-slate-200 bg-surface px-4 py-3 text-sm text-text-main placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
+                  className="w-full rounded-xl border border-slate-200 dark:border-border bg-surface px-4 py-3 text-sm text-text-main placeholder:text-slate-400 dark:placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
                 />
               </fieldset>
 
@@ -476,7 +476,7 @@ export function AddListingPanel() {
                     value={area}
                     onChange={(e) => setArea(e.target.value)}
                     placeholder="e.g. 200sqm"
-                    className="w-full rounded-xl border border-slate-200 bg-surface px-4 py-3 text-sm text-text-main placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
+                    className="w-full rounded-xl border border-slate-200 dark:border-border bg-surface px-4 py-3 text-sm text-text-main placeholder:text-slate-400 dark:placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
                   />
                 </fieldset>
 
@@ -494,7 +494,7 @@ export function AddListingPanel() {
                     value={bedrooms}
                     onChange={(e) => setBedrooms(e.target.value)}
                     placeholder="3"
-                    className="w-full rounded-xl border border-slate-200 bg-surface px-4 py-3 text-sm text-text-main placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
+                    className="w-full rounded-xl border border-slate-200 dark:border-border bg-surface px-4 py-3 text-sm text-text-main placeholder:text-slate-400 dark:placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
                   />
                 </fieldset>
 
@@ -512,7 +512,7 @@ export function AddListingPanel() {
                     value={bathrooms}
                     onChange={(e) => setBathrooms(e.target.value)}
                     placeholder="2"
-                    className="w-full rounded-xl border border-slate-200 bg-surface px-4 py-3 text-sm text-text-main placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
+                    className="w-full rounded-xl border border-slate-200 dark:border-border bg-surface px-4 py-3 text-sm text-text-main placeholder:text-slate-400 dark:placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
                   />
                 </fieldset>
               </div>
@@ -527,7 +527,7 @@ export function AddListingPanel() {
                   />
                   <div
                     className={`flex items-center shrink-0 w-10 h-6 rounded-full transition-colors ${
-                      available ? "bg-primary" : "bg-slate-200"
+                      available ? "bg-primary" : "bg-slate-200 dark:bg-surface-elevated"
                     }`}
                   >
                     <div
@@ -564,7 +564,7 @@ export function AddListingPanel() {
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
-                  className="w-full flex items-center justify-center gap-2 rounded-xl border-2 border-dashed border-slate-200 px-4 py-6 text-sm text-slate-400 hover:border-primary hover:text-primary transition-colors"
+                  className="w-full flex items-center justify-center gap-2 rounded-xl border-2 border-dashed border-slate-200 dark:border-border px-4 py-6 text-sm text-slate-400 dark:text-text-muted hover:border-primary hover:text-primary transition-colors"
                 >
                   <Upload className="h-5 w-5" />
                   Choose images
@@ -572,7 +572,7 @@ export function AddListingPanel() {
 
                 {imageItems.length > 0 && (
                   <div className="mt-3 space-y-1">
-                    <p className="text-xs text-slate-400">
+                    <p className="text-xs text-slate-400 dark:text-text-muted">
                       Drag to reorder &middot; First image = cover photo
                     </p>
                     <div className="flex flex-wrap gap-2">
@@ -587,7 +587,7 @@ export function AddListingPanel() {
                           className={`group relative w-[calc(33.33%-0.5rem)] aspect-square rounded-xl overflow-hidden border-2 transition-all ${
                             dragOverIndex === index
                               ? "border-primary border-dashed bg-emerald-50"
-                              : "border-slate-200"
+                              : "border-slate-200 dark:border-border"
                           }`}
                         >
                           <img

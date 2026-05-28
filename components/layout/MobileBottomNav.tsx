@@ -58,7 +58,7 @@ export function MobileBottomNav({
   };
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-surface border-t border-slate-100 lg:hidden safe-area-bottom">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-surface border-t border-slate-100 dark:border-border lg:hidden safe-area-bottom">
       <div className="flex items-center justify-around h-16">
         {items.map((link) => (
           <Link
@@ -67,7 +67,7 @@ export function MobileBottomNav({
             className={`relative flex flex-col items-center gap-0.5 px-3 py-2 text-xs font-medium transition-colors ${
               isActive(link.href)
                 ? "text-primary"
-                : "text-slate-400 hover:text-text-main"
+                : "text-slate-400 dark:text-text-muted hover:text-text-main"
             }`}
           >
             <link.icon className="h-5 w-5" />

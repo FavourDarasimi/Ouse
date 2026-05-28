@@ -72,10 +72,10 @@ export function Navbar() {
 
   if (!isAuthInitialized) {
     return (
-      <nav className="sticky top-0 z-50 h-16 bg-surface border-b border-slate-100">
+      <nav className="sticky top-0 z-50 h-16 bg-surface border-b border-slate-100 dark:border-border">
         <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <Logo href="/" />
-          <div className="h-8 w-32 bg-slate-100 rounded-xl animate-pulse hidden md:block" />
+          <div className="h-8 w-32 bg-slate-100 dark:bg-surface-elevated rounded-xl animate-pulse hidden md:block" />
         </div>
       </nav>
     );
@@ -87,7 +87,7 @@ export function Navbar() {
     const publicLinks = [{ label: "Explore", href: "/listings" }];
 
     return (
-      <nav className="sticky top-0 z-50 h-16 bg-surface border-b border-slate-100">
+      <nav className="sticky top-0 z-50 h-16 bg-surface border-b border-slate-100 dark:border-border">
         <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <Logo href="/" />
 
@@ -99,7 +99,7 @@ export function Navbar() {
                 className={`text-sm font-medium transition-colors ${
                   isActive(link.href)
                     ? "text-primary"
-                    : "text-slate-500 hover:text-text-main"
+                    : "text-slate-500 dark:text-text-secondary hover:text-text-main"
                 }`}
               >
                 {link.label}
@@ -110,7 +110,7 @@ export function Navbar() {
           <div className="flex items-center gap-2">
             <button
               onClick={toggleTheme}
-              className="hidden sm:flex p-2 rounded-xl text-slate-500 hover:text-text-main hover:bg-slate-50 transition"
+              className="hidden sm:flex p-2 rounded-xl text-slate-500 dark:text-text-secondary hover:text-text-main hover:bg-slate-50 dark:hover:bg-surface-elevated transition"
               aria-label={
                 theme === "dark"
                   ? "Switch to light mode"
@@ -140,7 +140,7 @@ export function Navbar() {
 
             <button
               onClick={() => setMobileOpen((v) => !v)}
-              className="lg:hidden p-2 text-slate-500 hover:text-text-main transition"
+              className="lg:hidden p-2 text-slate-500 dark:text-text-secondary hover:text-text-main transition"
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
             >
               {mobileOpen ? (
@@ -160,7 +160,7 @@ export function Navbar() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.15 }}
-                className="fixed inset-0 bg-black/20 z-40 lg:hidden"
+                className="fixed inset-0 bg-black/20 dark:bg-black/60 z-40 lg:hidden"
                 onClick={() => setMobileOpen(false)}
               />
               <motion.div
@@ -171,11 +171,11 @@ export function Navbar() {
                 className="fixed left-0 top-0 bottom-0 w-72 bg-surface z-50 lg:hidden shadow-xl"
               >
                 <div className="flex flex-col h-full">
-                  <div className="flex items-center justify-between p-4 border-b border-slate-100">
+                  <div className="flex items-center justify-between p-4 border-b border-slate-100 dark:border-border">
                     <Logo href="/" />
                     <button
                       onClick={() => setMobileOpen(false)}
-                      className="p-1 text-slate-500 hover:text-text-main transition"
+                      className="p-1 text-slate-500 dark:text-text-secondary hover:text-text-main transition"
                       aria-label="Close menu"
                     >
                       <X className="h-5 w-5" />
@@ -190,7 +190,7 @@ export function Navbar() {
                         className={`flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition ${
                           isActive(link.href)
                             ? "bg-primary/5 text-primary"
-                            : "text-text-main hover:bg-slate-50"
+                            : "text-text-main hover:bg-slate-50 dark:hover:bg-surface-elevated"
                         }`}
                       >
                         {link.label}
@@ -198,7 +198,7 @@ export function Navbar() {
                     ))}
                   </div>
 
-                  <div className="p-4 border-t border-slate-100 space-y-2">
+                  <div className="p-4 border-t border-slate-100 dark:border-border space-y-2">
                     <Link
                       href="/signup"
                       className="block text-center bg-primary text-white rounded-xl px-4 py-3 text-sm font-medium hover:bg-emerald-800 active:scale-95 transition-all duration-150"
@@ -207,7 +207,7 @@ export function Navbar() {
                     </Link>
                     <Link
                       href="/login"
-                      className="block text-center border border-slate-200 text-text-main rounded-xl px-4 py-3 text-sm font-medium hover:bg-slate-50 active:scale-95 transition-all duration-150"
+                      className="block text-center border border-slate-200 dark:border-border text-text-main rounded-xl px-4 py-3 text-sm font-medium hover:bg-slate-50 dark:hover:bg-surface-elevated active:scale-95 transition-all duration-150"
                     >
                       Login
                     </Link>
@@ -231,7 +231,7 @@ export function Navbar() {
     ];
 
     return (
-      <nav className="sticky top-0 z-50 h-16 bg-surface border-b border-slate-100">
+      <nav className="sticky top-0 z-50 h-16 bg-surface border-b border-slate-100 dark:border-border">
         <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <Logo href="/tenant/dashboard" />
 
@@ -243,7 +243,7 @@ export function Navbar() {
                 className={`relative text-sm font-medium transition-colors ${
                   isActive(link.href)
                     ? "text-primary"
-                    : "text-slate-500 hover:text-text-main"
+                    : "text-slate-500 dark:text-text-secondary hover:text-text-main"
                 }`}
               >
                 {link.label}
@@ -258,7 +258,7 @@ export function Navbar() {
 
           <div className="flex items-center gap-1 sm:gap-2">
             <button
-              className="flex lg:hidden p-2 rounded-xl text-slate-500 hover:text-text-main hover:bg-slate-50 transition"
+              className="flex lg:hidden p-2 rounded-xl text-slate-500 dark:text-text-secondary hover:text-text-main hover:bg-slate-50 dark:hover:bg-surface-elevated transition"
               aria-label="Search"
             >
               <Search className="h-5 w-5" />
@@ -266,7 +266,7 @@ export function Navbar() {
 
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-xl text-slate-500 hover:text-text-main hover:bg-slate-50 transition"
+              className="p-2 rounded-xl text-slate-500 dark:text-text-secondary hover:text-text-main hover:bg-slate-50 dark:hover:bg-surface-elevated transition"
               aria-label={
                 theme === "dark"
                   ? "Switch to light mode"
@@ -283,7 +283,7 @@ export function Navbar() {
             <div ref={avatarRef} className="relative">
               <button
                 onClick={() => setAvatarOpen((v) => !v)}
-                className="flex items-center gap-1 rounded-full border border-slate-200 p-1 hover:bg-slate-50 transition ml-1"
+                className="flex items-center gap-1 rounded-full border border-slate-200 dark:border-border p-1 hover:bg-slate-50 dark:hover:bg-surface-elevated transition ml-1"
                 aria-label="User menu"
               >
                 {profile?.avatar_url ? (
@@ -298,9 +298,9 @@ export function Navbar() {
                   </div>
                 )}
                 {avatarOpen ? (
-                  <ChevronUp className="h-4 w-4 text-slate-500" />
+                  <ChevronUp className="h-4 w-4 text-slate-500 dark:text-text-secondary" />
                 ) : (
-                  <ChevronDown className="h-4 w-4 text-slate-500" />
+                  <ChevronDown className="h-4 w-4 text-slate-500 dark:text-text-secondary" />
                 )}
               </button>
 
@@ -311,11 +311,11 @@ export function Navbar() {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -4, scale: 0.96 }}
                     transition={{ duration: 0.15 }}
-                    className="absolute right-0 top-full mt-2 w-48 rounded-2xl border border-slate-100 bg-surface p-1.5 shadow-lg"
+                    className="absolute right-0 top-full mt-2 w-48 rounded-2xl border border-slate-100 dark:border-border bg-surface p-1.5 shadow-lg"
                   >
                     <div className="space-y-1 rounded-xl py-1 text-sm">
-                      <div className="flex items-center gap-2 px-3 py-2 min-w-0 rounded-lg hover:bg-slate-50 transition-colors">
-                        <User className="h-4 w-4 shrink-0 text-slate-500" />
+                      <div className="flex items-center gap-2 px-3 py-2 min-w-0 rounded-lg hover:bg-slate-50 dark:hover:bg-surface-elevated transition-colors">
+                        <User className="h-4 w-4 shrink-0 text-slate-500 dark:text-text-secondary" />
                         <span className="text-text-main truncate">
                           {profile?.full_name ?? "User"}
                         </span>
@@ -323,7 +323,7 @@ export function Navbar() {
                       <button
                         onClick={signOut}
                         disabled={isLoggingOut}
-                        className="flex w-full items-center gap-2 px-3 py-2 text-red-500 rounded-lg hover:bg-slate-50 transition-colors shrink-0 disabled:opacity-50 cursor-pointer"
+                        className="flex w-full items-center gap-2 px-3 py-2 text-red-500 rounded-lg hover:bg-slate-50 dark:hover:bg-surface-elevated transition-colors shrink-0 disabled:opacity-50 cursor-pointer"
                       >
                         {isLoggingOut ? (
                           <Loader2 className="h-4 w-4 animate-spin" />
@@ -346,7 +346,7 @@ export function Navbar() {
   // ── Authenticated: Landlord (minimal top bar) ──────────────────────
 
   return (
-    <nav className="sticky top-0 z-50 h-16 bg-surface border-b border-slate-100 lg:ml-72">
+    <nav className="sticky top-0 z-50 h-16 bg-surface border-b border-slate-100 dark:border-border lg:ml-72">
       <div className="mx-auto flex h-full items-center justify-between px-4 sm:px-6 lg:px-8">
         <div className="lg:hidden">
           {mounted && <Logo href="/landlord/dashboard" />}
@@ -364,7 +364,7 @@ export function Navbar() {
 
           <button
             onClick={toggleTheme}
-            className="p-2 rounded-xl text-slate-500 hover:text-text-main hover:bg-slate-100 transition"
+            className="p-2 rounded-xl text-slate-500 dark:text-text-secondary hover:text-text-main hover:bg-slate-100 dark:hover:bg-surface-elevated transition"
             aria-label={
               theme === "dark" ? "Switch to light mode" : "Switch to dark mode"
             }
@@ -379,7 +379,7 @@ export function Navbar() {
           <div ref={avatarRef} className="relative">
             <button
               onClick={() => setAvatarOpen((v) => !v)}
-              className="flex items-center gap-1 rounded-full border border-slate-200 p-1 hover:bg-slate-50 transition ml-1"
+              className="flex items-center gap-1 rounded-full border border-slate-200 dark:border-border p-1 hover:bg-slate-50 dark:hover:bg-surface-elevated transition ml-1"
               aria-label="User menu"
             >
               {profile?.avatar_url ? (
@@ -394,9 +394,9 @@ export function Navbar() {
                 </div>
               )}
               {avatarOpen ? (
-                <ChevronUp className="h-4 w-4 text-slate-500" />
+                <ChevronUp className="h-4 w-4 text-slate-500 dark:text-text-secondary" />
               ) : (
-                <ChevronDown className="h-4 w-4 text-slate-500" />
+                <ChevronDown className="h-4 w-4 text-slate-500 dark:text-text-secondary" />
               )}
             </button>
 
@@ -407,18 +407,18 @@ export function Navbar() {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: -4, scale: 0.96 }}
                   transition={{ duration: 0.15 }}
-                  className="absolute right-0 top-full mt-2 w-48 rounded-2xl border border-slate-100 bg-surface p-1.5 shadow-lg"
+                  className="absolute right-0 top-full mt-2 w-48 rounded-2xl border border-slate-100 dark:border-border bg-surface p-1.5 shadow-lg"
                 >
                   <div className="space-y-1 rounded-xl py-1 text-sm">
-                    <div className="flex items-center gap-2 px-3 py-2 min-w-0 rounded-lg hover:bg-slate-50 transition-colors">
-                      <User className="h-4 w-4 shrink-0 text-slate-500" />
+                    <div className="flex items-center gap-2 px-3 py-2 min-w-0 rounded-lg hover:bg-slate-50 dark:hover:bg-surface-elevated transition-colors">
+                      <User className="h-4 w-4 shrink-0 text-slate-500 dark:text-text-secondary" />
                       <span className="text-text-main truncate">
                         {profile?.full_name ?? "User"}
                       </span>
                     </div>
                     <div
                       onClick={isLoggingOut ? undefined : signOut}
-                      className="flex w-full items-center gap-2 px-3 py-2 text-red-500 rounded-lg hover:bg-slate-50 transition-colors shrink-0 cursor-pointer"
+                      className="flex w-full items-center gap-2 px-3 py-2 text-red-500 rounded-lg hover:bg-slate-50 dark:hover:bg-surface-elevated transition-colors shrink-0 cursor-pointer"
                     >
                       {isLoggingOut ? (
                         <Loader2 className="h-4 w-4 animate-spin" />

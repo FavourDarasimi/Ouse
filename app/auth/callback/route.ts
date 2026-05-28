@@ -5,12 +5,13 @@ import type { NextRequest } from "next/server";
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const code = searchParams.get("code");
+  const redirect = searchParams.get("redirect") || "/onboarding";
 
   if (!code) {
     return NextResponse.redirect(new URL("/login?error=auth_failed", request.url));
   }
 
-  const response = NextResponse.redirect(new URL("/onboarding", request.url));
+  const response = NextResponse.redirect(new URL(redirect, request.url));
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,

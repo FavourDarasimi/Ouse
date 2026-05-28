@@ -37,7 +37,7 @@ export default function SavedListingsPage() {
             Saved Listings
           </h1>
           {ready && (
-            <p className="text-sm text-slate-500 mt-1">
+            <p className="text-sm text-slate-500 dark:text-text-secondary mt-1">
               {savedListings.length}{" "}
               {savedListings.length === 1 ? "property" : "properties"} saved
             </p>
@@ -54,13 +54,13 @@ export default function SavedListingsPage() {
         </div>
       ) : savedListings.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20 text-center">
-          <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-100">
-            <Heart className="h-8 w-8 text-slate-400" />
+          <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-100 dark:bg-surface-elevated">
+            <Heart className="h-8 w-8 text-slate-400 dark:text-text-muted" />
           </div>
           <h2 className="text-lg font-semibold text-text-main">
             No saved listings yet
           </h2>
-          <p className="mt-1 text-sm text-slate-400 max-w-sm">
+          <p className="mt-1 text-sm text-slate-400 dark:text-text-muted max-w-sm">
             Start exploring and save properties you love to come back to them
             later.
           </p>

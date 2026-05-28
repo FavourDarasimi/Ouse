@@ -114,7 +114,7 @@ function GoogleButton({
       type="button"
       onClick={onClick}
       disabled={loading}
-      className="flex w-full items-center justify-center gap-3 rounded-xl border border-slate-200 bg-surface px-4 py-3 text-sm font-medium text-text-main transition-all duration-150 hover:bg-slate-50 active:scale-95 disabled:cursor-not-allowed disabled:opacity-60"
+      className="flex w-full items-center justify-center gap-3 rounded-xl border border-slate-200 dark:border-border bg-surface px-4 py-3 text-sm font-medium text-text-main transition-all duration-150 hover:bg-slate-50 dark:hover:bg-surface-elevated active:scale-95 disabled:cursor-not-allowed disabled:opacity-60"
     >
       {loading ? (
         <Loader2 className="h-4 w-4 animate-spin" />
@@ -151,9 +151,9 @@ function GoogleButton({
 function Divider() {
   return (
     <div className="flex items-center gap-3">
-      <div className="h-px flex-1 bg-slate-100" />
-      <span className="text-xs text-slate-400">or continue with email</span>
-      <div className="h-px flex-1 bg-slate-100" />
+      <div className="h-px flex-1 bg-slate-100 dark:bg-border" />
+      <span className="text-xs text-slate-400 dark:text-text-muted">or continue with email</span>
+      <div className="h-px flex-1 bg-slate-100 dark:bg-border" />
     </div>
   );
 }
@@ -216,7 +216,7 @@ function LoginForm() {
         {/* Heading */}
         <motion.div variants={fadeUp} className="mb-8 text-center">
           <h1 className="text-2xl font-bold text-text-main">Welcome back</h1>
-          <p className="mt-1 text-sm text-slate-400">
+          <p className="mt-1 text-sm text-slate-400 dark:text-text-muted">
             Sign in to your Ouse account
           </p>
         </motion.div>
@@ -251,7 +251,7 @@ function LoginForm() {
             <div>
               <label
                 htmlFor="login-email"
-                className="mb-1.5 block text-xs font-medium uppercase tracking-wide text-slate-400"
+                className="mb-1.5 block text-xs font-medium uppercase tracking-wide text-slate-400 dark:text-text-muted"
               >
                 Email address
               </label>
@@ -263,7 +263,7 @@ function LoginForm() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
-                className="w-full rounded-xl border border-slate-200 bg-surface px-4 py-3 text-text-main placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
+                className="w-full rounded-xl border border-slate-200 dark:border-border bg-surface px-4 py-3 text-text-main placeholder:text-slate-400 dark:placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
               />
             </div>
 
@@ -271,7 +271,7 @@ function LoginForm() {
               <div className="mb-1.5 flex items-center justify-between">
                 <label
                   htmlFor="login-password"
-                  className="text-xs font-medium uppercase tracking-wide text-slate-400"
+                  className="text-xs font-medium uppercase tracking-wide text-slate-400 dark:text-text-muted"
                 >
                   Password
                 </label>
@@ -291,13 +291,13 @@ function LoginForm() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full rounded-xl border border-slate-200 bg-surface px-4 py-3 pr-11 text-text-main placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
+                  className="w-full rounded-xl border border-slate-200 dark:border-border bg-surface px-4 py-3 pr-11 text-text-main placeholder:text-slate-400 dark:placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
                 />
                 <button
                   type="button"
                   aria-label={showPassword ? "Hide password" : "Show password"}
                   onClick={() => setShowPassword((v) => !v)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-text-muted hover:text-slate-600 dark:hover:text-text-secondary transition"
                 >
                   {showPassword ? (
                     <EyeOff className="h-4 w-4" />
@@ -333,7 +333,7 @@ function LoginForm() {
             </button>
           </form>
 
-          <p className="text-center text-sm text-slate-400">
+          <p className="text-center text-sm text-slate-400 dark:text-text-muted">
             Don&apos;t have an account?{" "}
             <Link
               href="/signup"
@@ -362,7 +362,7 @@ export default function LoginPage() {
         <Suspense
           fallback={
             <div className="flex flex-1 items-center justify-center">
-              <Loader2 className="h-6 w-6 animate-spin text-slate-400" />
+              <Loader2 className="h-6 w-6 animate-spin text-slate-400 dark:text-text-muted" />
             </div>
           }
         >

@@ -43,13 +43,13 @@ export default async function LandlordListingsPage() {
 
         {total === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 text-center">
-            <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-100">
-              <Building2 className="h-8 w-8 text-slate-400" />
+            <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-100 dark:bg-surface-elevated">
+              <Building2 className="h-8 w-8 text-slate-400 dark:text-text-muted" />
             </div>
             <h2 className="text-lg font-semibold text-text-main">
               No properties yet
             </h2>
-            <p className="mt-1 text-sm text-slate-400 max-w-sm">
+            <p className="mt-1 text-sm text-slate-400 dark:text-text-muted max-w-sm">
               Post your first property to start receiving enquiries from
               tenants.
             </p>

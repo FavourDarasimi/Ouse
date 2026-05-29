@@ -5,12 +5,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
+  User,
   LogOut,
   Menu,
   Moon,
-  Search,
   Sun,
-  User,
   X,
   Loader2,
   ChevronDown,
@@ -306,13 +305,34 @@ export function Navbar() {
                     transition={{ duration: 0.15 }}
                     className="absolute right-0 top-full mt-2 w-48 rounded-2xl border border-slate-100 dark:border-border bg-surface p-1.5 shadow-lg"
                   >
-                    <div className="space-y-1 rounded-xl py-1 text-sm">
-                      <div className="flex items-center gap-2 px-3 py-2 min-w-0 rounded-lg hover:bg-slate-50 dark:hover:bg-surface-elevated transition-colors">
-                        <User className="h-4 w-4 shrink-0 text-slate-500 dark:text-text-secondary" />
-                        <span className="text-text-main truncate">
-                          {profile?.full_name ?? "User"}
-                        </span>
+                    <div className="space-y-0.5 rounded-xl py-1 text-sm">
+                      <div className="flex items-center gap-2 px-3 py-2 min-w-0 rounded-lg">
+                        <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold text-xs shrink-0">
+                          {getInitials(profile?.full_name)}
+                        </div>
+                        <div className="min-w-0">
+                          <p className="text-text-main font-medium truncate text-sm leading-tight">
+                            {profile?.full_name ?? "User"}
+                          </p>
+                          <p className="text-xs text-slate-400 truncate">
+                            {user?.email ?? ""}
+                          </p>
+                        </div>
                       </div>
+
+                      <div className="border-t border-slate-100 dark:border-border my-1" />
+
+                      <Link
+                        href="/tenant/profile"
+                        onClick={() => setAvatarOpen(false)}
+                        className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-50 dark:hover:bg-surface-elevated transition-colors"
+                      >
+                        <User className="h-4 w-4 shrink-0 text-slate-500 dark:text-text-secondary" />
+                        <span className="text-text-main">Profile</span>
+                      </Link>
+
+                      <div className="border-t border-slate-100 dark:border-border my-1" />
+
                       <button
                         onClick={signOut}
                         disabled={isLoggingOut}
@@ -402,16 +422,38 @@ export function Navbar() {
                   transition={{ duration: 0.15 }}
                   className="absolute right-0 top-full mt-2 w-48 rounded-2xl border border-slate-100 dark:border-border bg-surface p-1.5 shadow-lg"
                 >
-                  <div className="space-y-1 rounded-xl py-1 text-sm">
-                    <div className="flex items-center gap-2 px-3 py-2 min-w-0 rounded-lg hover:bg-slate-50 dark:hover:bg-surface-elevated transition-colors">
-                      <User className="h-4 w-4 shrink-0 text-slate-500 dark:text-text-secondary" />
-                      <span className="text-text-main truncate">
-                        {profile?.full_name ?? "User"}
-                      </span>
+                  <div className="space-y-0.5 rounded-xl py-1 text-sm">
+                    <div className="flex items-center gap-2 px-3 py-2 min-w-0 rounded-lg">
+                      <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold text-xs shrink-0">
+                        {getInitials(profile?.full_name)}
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-text-main font-medium truncate text-sm leading-tight">
+                          {profile?.full_name ?? "User"}
+                        </p>
+                        <p className="text-xs text-slate-400 truncate">
+                          {user?.email ?? ""}
+                        </p>
+                      </div>
                     </div>
-                    <div
-                      onClick={isLoggingOut ? undefined : signOut}
-                      className="flex w-full items-center gap-2 px-3 py-2 text-red-500 rounded-lg hover:bg-slate-50 dark:hover:bg-surface-elevated transition-colors shrink-0 cursor-pointer"
+
+                    <div className="border-t border-slate-100 dark:border-border my-1" />
+
+                      <Link
+                        href="/landlord/profile"
+                      onClick={() => setAvatarOpen(false)}
+                      className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-50 dark:hover:bg-surface-elevated transition-colors"
+                    >
+                      <User className="h-4 w-4 shrink-0 text-slate-500 dark:text-text-secondary" />
+                      <span className="text-text-main">Profile</span>
+                    </Link>
+
+                    <div className="border-t border-slate-100 dark:border-border my-1" />
+
+                    <button
+                      onClick={signOut}
+                      disabled={isLoggingOut}
+                      className="flex w-full items-center gap-2 px-3 py-2 text-red-500 rounded-lg hover:bg-slate-50 dark:hover:bg-surface-elevated transition-colors shrink-0 disabled:opacity-50 cursor-pointer"
                     >
                       {isLoggingOut ? (
                         <Loader2 className="h-4 w-4 animate-spin" />
@@ -419,7 +461,7 @@ export function Navbar() {
                         <LogOut className="h-4 w-4" />
                       )}
                       <span className="text-sm">Logout</span>
-                    </div>
+                    </button>
                   </div>
                 </motion.div>
               )}

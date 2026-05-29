@@ -22,6 +22,9 @@ interface AuthContextValue {
   isLoggingOut: boolean;
   signOut: () => Promise<void>;
   refreshProfile: () => Promise<void>;
+  kyc_status: Profile["kyc_status"];
+  kyc_method: Profile["kyc_method"];
+  kyc_verified_at: Profile["kyc_verified_at"];
 }
 
 const AuthContext = createContext<AuthContextValue>({
@@ -33,6 +36,9 @@ const AuthContext = createContext<AuthContextValue>({
   isLoggingOut: false,
   signOut: async () => {},
   refreshProfile: async () => {},
+  kyc_status: "unverified",
+  kyc_method: null,
+  kyc_verified_at: null,
 });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -130,6 +136,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         isLoggingOut,
         signOut,
         refreshProfile,
+        kyc_status: profile?.kyc_status ?? "unverified",
+        kyc_method: profile?.kyc_method ?? null,
+        kyc_verified_at: profile?.kyc_verified_at ?? null,
       }}
     >
       {children}

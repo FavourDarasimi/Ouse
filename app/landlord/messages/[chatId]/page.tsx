@@ -28,7 +28,7 @@ export default async function LandlordConversationPage({
   const [profileResult, listingResult, messagesResult] = await Promise.all([
     createAdminClient()
       .from("profiles")
-      .select("id, full_name, avatar_url")
+      .select("id, full_name, avatar_url, kyc_status")
       .eq("id", conversation.tenant_id)
       .maybeSingle(),
     supabase
@@ -61,7 +61,7 @@ export default async function LandlordConversationPage({
     await Promise.all([
       createAdminClient()
         .from("profiles")
-        .select("id, full_name, avatar_url")
+        .select("id, full_name, avatar_url, kyc_status")
         .in("id", tenantIds),
       supabase
         .from("listings")
@@ -117,6 +117,7 @@ export default async function LandlordConversationPage({
         otherUserId: conv.tenant_id,
         otherUserName: p?.full_name ?? null,
         otherUserAvatar: p?.avatar_url ?? null,
+        kyc_status: p?.kyc_status ?? "unverified",
         lastMessage: latest?.body ?? null,
         lastMessageTime: latest?.created_at ?? null,
         unreadCount: unreadCountMap.get(conv.id) ?? 0,
@@ -139,6 +140,7 @@ export default async function LandlordConversationPage({
                 id: otherParty.id,
                 full_name: otherParty.full_name,
                 avatar_url: otherParty.avatar_url,
+                kyc_status: otherParty.kyc_status,
               }
             : null
         }

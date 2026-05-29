@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { MapPin, BedDouble, Bath, Home, Heart } from "lucide-react";
 import type { Listing } from "@/types";
+import { VerifiedBadge } from "@/components/ui/VerifiedBadge";
 
 interface ListingRowProps {
   listing: Listing;
@@ -79,8 +80,18 @@ export function ListingRow({
                 {listing.type}
               </span>
             )}
-
           </div>
+
+          {listing.profiles?.full_name && (
+            <div className="flex items-center gap-1.5 mt-0.5">
+              <p className="text-[11px] text-slate-400 truncate">
+                {listing.profiles.full_name}
+              </p>
+              {listing.profiles.kyc_status === "verified" && (
+                <VerifiedBadge size="small" />
+              )}
+            </div>
+          )}
         </div>
 
         {/* Right side */}

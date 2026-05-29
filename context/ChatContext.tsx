@@ -14,6 +14,7 @@ interface ChatState {
   conversationId: string | null;
   isOpen: boolean;
   otherPersonName: string;
+  otherPersonAvatar: string | null;
   otherPersonInitials: string;
   propertyTitle: string;
   propertyPrice: number;
@@ -35,6 +36,7 @@ const defaultState: ChatState = {
   conversationId: null,
   isOpen: false,
   otherPersonName: "",
+  otherPersonAvatar: null,
   otherPersonInitials: "",
   propertyTitle: "",
   propertyPrice: 0,
@@ -77,11 +79,12 @@ export function ChatProvider({ children }: { children: ReactNode }) {
 
     const { data: profile } = await supabase
       .from("profiles")
-      .select("full_name")
+      .select("full_name, avatar_url")
       .eq("id", otherUserId)
       .single();
 
     const fullName = profile?.full_name ?? "";
+    const avatarUrl = profile?.avatar_url ?? null;
     const initials = fullName
       ? fullName
           .split(" ")
@@ -97,6 +100,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
       conversationId: conv.id,
       isOpen: true,
       otherPersonName: fullName,
+      otherPersonAvatar: avatarUrl,
       otherPersonInitials: initials,
       propertyTitle: rawListing?.title ?? "",
       propertyPrice: rawListing?.price ?? 0,

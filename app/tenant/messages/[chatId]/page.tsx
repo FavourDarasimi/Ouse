@@ -28,7 +28,7 @@ export default async function TenantConversationPage({
   const [profileResult, listingResult, messagesResult] = await Promise.all([
     createAdminClient()
       .from("profiles")
-      .select("id, full_name, avatar_url")
+      .select("id, full_name, avatar_url, kyc_status")
       .eq("id", conversation.landlord_id)
       .maybeSingle(),
     supabase
@@ -59,20 +59,20 @@ export default async function TenantConversationPage({
 
   const [allProfilesResult, allListingsResult, allMessagesResult] =
     await Promise.all([
-      createAdminClient()
-        .from("profiles")
-        .select("id, full_name, avatar_url")
-        .in("id", landlordIds),
-      supabase
-        .from("listings")
-        .select("id, title, price, location, images")
-        .in("id", listingIds),
-      supabase
-        .from("messages")
-        .select("*")
-        .in("conversation_id", conversationIds)
-        .order("created_at", { ascending: false }),
-    ]);
+    createAdminClient()
+      .from("profiles")
+      .select("id, full_name, avatar_url, kyc_status")
+      .in("id", landlordIds),
+    supabase
+      .from("listings")
+      .select("id, title, price, location, images")
+      .in("id", listingIds),
+    supabase
+      .from("messages")
+      .select("*")
+      .in("conversation_id", conversationIds)
+      .order("created_at", { ascending: false }),
+  ]);
 
   const profileMap = new Map(
     allProfilesResult.data?.map((p) => [p.id, p]) ?? []
@@ -117,6 +117,7 @@ export default async function TenantConversationPage({
         otherUserId: conv.landlord_id,
         otherUserName: p?.full_name ?? null,
         otherUserAvatar: p?.avatar_url ?? null,
+        kyc_status: p?.kyc_status ?? "unverified",
         lastMessage: latest?.body ?? null,
         lastMessageTime: latest?.created_at ?? null,
         unreadCount: unreadCountMap.get(conv.id) ?? 0,
@@ -139,6 +140,7 @@ export default async function TenantConversationPage({
                 id: otherParty.id,
                 full_name: otherParty.full_name,
                 avatar_url: otherParty.avatar_url,
+                kyc_status: otherParty.kyc_status,
               }
             : null
         }

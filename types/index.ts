@@ -1,6 +1,8 @@
 export type Role = "tenant" | "landlord" | "admin";
 export type PropertyType = "house" | "apartment" | "room" | "duplex" | "flat";
 export type RentType = "monthly" | "yearly";
+export type KycStatus = "unverified" | "pending" | "verified" | "failed";
+export type KycMethod = "nin" | "bvn";
 
 export interface Profile {
   id: string;
@@ -10,6 +12,10 @@ export interface Profile {
   phone: string | null;
   onboarded: boolean;
   created_at: string;
+  kyc_status: KycStatus;
+  kyc_method: KycMethod | null;
+  kyc_verified_at: string | null;
+  kyc_reference: string | null;
 }
 
 export interface Listing {
@@ -68,6 +74,7 @@ export interface ThreadItem {
   otherUserId: string;
   otherUserName: string | null;
   otherUserAvatar: string | null;
+  kyc_status?: KycStatus;
   lastMessage: string | null;
   lastMessageTime: string | null;
   unreadCount: number;

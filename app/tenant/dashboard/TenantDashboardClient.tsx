@@ -403,15 +403,19 @@ export function TenantDashboardClient({
                         className="flex items-center gap-3 rounded-xl p-1.5 transition-colors hover:bg-emerald-50/50 dark:hover:bg-emerald-900/20"
                       >
                         <div
-                          className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-semibold ${
+                          className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-semibold overflow-hidden ${
                             chat.unreadCount > 0
                               ? "bg-primary text-white"
                               : "bg-emerald-50 dark:bg-emerald-900/30 text-primary"
                           }`}
                         >
-                          {chat.otherUserName
-                            ? getInitials(chat.otherUserName)
-                            : "LD"}
+                          {chat.otherUserAvatar ? (
+                            <img src={chat.otherUserAvatar} alt={chat.otherUserName ?? ""} className="w-full h-full object-cover" />
+                          ) : chat.otherUserName ? (
+                            getInitials(chat.otherUserName)
+                          ) : (
+                            "LD"
+                          )}
                         </div>
                         <div className="min-w-0 flex-1">
                           <div className="flex items-center gap-2">

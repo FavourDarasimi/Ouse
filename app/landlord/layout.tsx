@@ -26,7 +26,7 @@ export default async function LandlordLayout({
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("role, full_name")
+    .select("role, full_name, avatar_url")
     .eq("id", user.id)
     .maybeSingle();
 

@@ -16,6 +16,7 @@ export function FloatingChat() {
     conversationId,
     isOpen,
     otherPersonName,
+    otherPersonAvatar,
     otherPersonInitials,
     propertyTitle,
     propertyPrice,
@@ -122,8 +123,12 @@ export function FloatingChat() {
             onClick={() => setMinimised((v) => !v)}
           >
             <div className="flex items-center gap-2.5 min-w-0">
-              <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white text-xs font-semibold shrink-0">
-                {otherPersonInitials}
+              <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white text-xs font-semibold shrink-0 overflow-hidden">
+                {otherPersonAvatar ? (
+                  <img src={otherPersonAvatar} alt={otherPersonName} className="w-full h-full object-cover" />
+                ) : (
+                  otherPersonInitials
+                )}
               </div>
               <div className="min-w-0">
                 <p className="text-sm font-semibold text-white truncate">

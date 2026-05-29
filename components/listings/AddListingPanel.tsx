@@ -8,8 +8,9 @@ import {
   type DragEvent,
 } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Plus, Loader2, GripVertical, Upload } from "lucide-react";
+import { X, Plus, Loader2, GripVertical, Upload, ShieldAlert } from "lucide-react";
 import { useAddListing } from "@/context/AddListingContext";
+import { useAuth } from "@/context/AuthContext";
 import { createClient } from "@/lib/supabase/client";
 import type { PropertyType, RentType, Listing } from "@/types";
 
@@ -36,6 +37,7 @@ function nextImageId(): string {
 
 export function AddListingPanel() {
   const { open, editingListing, closePanel } = useAddListing();
+  const { kyc_status } = useAuth();
   const listing = editingListing;
   const supabase = createClient();
   const formRef = useRef<HTMLFormElement>(null);
@@ -58,6 +60,7 @@ export function AddListingPanel() {
   const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
 
   const isEditing = !!listing;
+  const isVerified = kyc_status === "verified";
 
   useEffect(() => {
     if (open && listing) {
@@ -523,12 +526,13 @@ export function AddListingPanel() {
                     type="checkbox"
                     checked={available}
                     onChange={(e) => setAvailable(e.target.checked)}
+                    disabled={!isVerified}
                     className="sr-only"
                   />
                   <div
                     className={`flex items-center shrink-0 w-10 h-6 rounded-full transition-colors ${
                       available ? "bg-primary" : "bg-slate-200 dark:bg-surface-elevated"
-                    }`}
+                    } ${!isVerified ? "opacity-50" : ""}`}
                   >
                     <div
                       className={`w-4 h-4 rounded-full bg-surface shadow-sm transition-transform ${
@@ -540,6 +544,12 @@ export function AddListingPanel() {
                     Available for rent
                   </span>
                 </label>
+                {!isVerified && (
+                  <p className="mt-2 text-xs text-amber-600 flex items-center gap-1.5">
+                    <ShieldAlert className="h-3.5 w-3.5 shrink-0" />
+                    Verify your identity to make listings available.
+                  </p>
+                )}
               </fieldset>
 
               <fieldset>
@@ -616,6 +626,13 @@ export function AddListingPanel() {
                   </div>
                 )}
               </fieldset>
+
+              {!isVerified && (
+                <div className="rounded-xl bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 px-4 py-3 text-xs text-amber-700 dark:text-amber-400 flex items-start gap-2">
+                  <ShieldAlert className="h-4 w-4 shrink-0 mt-0.5" />
+                  <span>Your listing will be saved as unavailable until you verify your identity. <a href="/landlord/profile" className="underline font-medium">Verify now</a></span>
+                </div>
+              )}
 
               <div className="pt-2 pb-6">
                 <button

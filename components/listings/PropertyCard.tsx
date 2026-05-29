@@ -3,8 +3,9 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { Edit3, Trash2, Power, ExternalLink, Loader2 } from "lucide-react";
+import { Edit3, Trash2, Power, ExternalLink, Loader2, ShieldAlert } from "lucide-react";
 import { useAddListing } from "@/context/AddListingContext";
+import { useAuth } from "@/context/AuthContext";
 import { ConfirmModal } from "@/components/shared/ConfirmModal";
 import { formatPrice } from "@/lib/utils/formatPrice";
 import { formatRelativeTime } from "@/lib/utils/formatDate";
@@ -17,11 +18,21 @@ interface PropertyCardProps {
 export function PropertyCard({ listing }: PropertyCardProps) {
   const router = useRouter();
   const { openForEdit } = useAddListing();
+  const { kyc_status } = useAuth();
   const [showConfirm, setShowConfirm] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [toggling, setToggling] = useState(false);
+  const [kycMessage, setKycMessage] = useState<string | null>(null);
+
+  const isVerified = kyc_status === "verified";
 
   const handleToggle = async () => {
+    if (!listing.available && !isVerified) {
+      setKycMessage("Verify your identity to activate this listing.");
+      return;
+    }
+
+    setKycMessage(null);
     setToggling(true);
     const res = await fetch("/api/listings", {
       method: "PUT",
@@ -31,7 +42,14 @@ export function PropertyCard({ listing }: PropertyCardProps) {
         available: !listing.available,
       }),
     });
-    if (res.ok) router.refresh();
+    if (!res.ok) {
+      const json = await res.json();
+      if (json.kycRequired) {
+        setKycMessage(json.error ?? "Verify your identity to activate this listing.");
+      }
+    } else {
+      router.refresh();
+    }
     setToggling(false);
   };
 
@@ -114,16 +132,24 @@ export function PropertyCard({ listing }: PropertyCardProps) {
             className={`inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition disabled:opacity-50 ${
               listing.available
                 ? "border-slate-200 dark:border-border text-slate-600 dark:text-text-secondary hover:bg-slate-50 dark:hover:bg-surface-elevated"
-                : "border-green-200 text-green-700 hover:bg-green-50 dark:border-border dark:text-primary-text dark:hover:bg-primary-subtle"
+                : !isVerified
+                  ? "border-amber-200 text-amber-700 hover:bg-amber-50 cursor-not-allowed"
+                  : "border-green-200 text-green-700 hover:bg-green-50 dark:border-border dark:text-primary-text dark:hover:bg-primary-subtle"
             }`}
           >
             {toggling ? (
               <Loader2 className="h-3.5 w-3.5 animate-spin" />
+            ) : !listing.available && !isVerified ? (
+              <ShieldAlert className="h-3.5 w-3.5" />
             ) : (
               <Power className="h-3.5 w-3.5" />
             )}
             {listing.available ? "Deactivate" : "Activate"}
           </button>
+
+          {kycMessage && (
+            <p className="w-full text-xs text-amber-600 mt-1">{kycMessage}</p>
+          )}
 
           <button
             onClick={() => setShowConfirm(true)}

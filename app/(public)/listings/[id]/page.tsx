@@ -16,7 +16,7 @@ export default async function ListingDetailPage({
 
   const { data: listing } = await supabase
     .from("listings")
-    .select("*, profiles(full_name, avatar_url)")
+    .select("*, profiles(full_name, avatar_url, kyc_status)")
     .eq("id", id)
     .maybeSingle();
 
@@ -28,11 +28,12 @@ export default async function ListingDetailPage({
       id: listing.landlord_id,
       full_name: listing.profiles.full_name,
       avatar_url: listing.profiles.avatar_url,
+      kyc_status: listing.profiles.kyc_status,
     };
   } else {
     const { data: profile } = await createAdminClient()
       .from("profiles")
-      .select("id, full_name, avatar_url")
+      .select("id, full_name, avatar_url, kyc_status")
       .eq("id", listing.landlord_id)
       .maybeSingle();
     landlordProfile = profile;

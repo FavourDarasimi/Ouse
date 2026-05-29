@@ -17,7 +17,7 @@ import { getInitials } from "@/lib/utils/getInitials";
 import { formatPrice } from "@/lib/utils/formatPrice";
 import { MessageBubble } from "@/components/chat/MessageBubble";
 import { ChatInput } from "@/components/chat/ChatInput";
-import type { ThreadItem, Message } from "@/types";
+import type { ThreadItem, Message, KycStatus } from "@/types";
 
 interface ChatShellProps {
   conversations: ThreadItem[];
@@ -29,6 +29,7 @@ interface ChatShellProps {
     id: string;
     full_name: string | null;
     avatar_url: string | null;
+    kyc_status?: KycStatus;
   } | null;
   listing?: {
     id: string;
@@ -108,7 +109,7 @@ export function ChatShell({
               .single(),
             sb
               .from("profiles")
-              .select("id, full_name, avatar_url")
+              .select("id, full_name, avatar_url, kyc_status")
               .eq("id", otherUserId)
               .single(),
           ]);
@@ -125,6 +126,7 @@ export function ChatShell({
             otherUserId,
             otherUserName: profile?.full_name ?? null,
             otherUserAvatar: profile?.avatar_url ?? null,
+            kyc_status: profile?.kyc_status ?? "unverified",
             lastMessage: null,
             lastMessageTime: null,
             unreadCount: 0,
@@ -325,15 +327,32 @@ export function ChatShell({
                         isActive ? " bg-emerald-50/60" : " hover:bg-slate-50"
                       }`}
                     >
-                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold text-sm shrink-0">
-                        {getInitials(thread.otherUserName)}
+                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold text-sm shrink-0 overflow-hidden">
+                        {thread.otherUserAvatar ? (
+                          <img src={thread.otherUserAvatar} alt={thread.otherUserName ?? ""} className="w-full h-full object-cover" />
+                        ) : (
+                          getInitials(thread.otherUserName)
+                        )}
                       </div>
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center justify-between gap-2">
-                          <h4 className="text-sm font-semibold text-text-main truncate">
-                            {thread.otherUserName ??
-                              (role === "landlord" ? "Tenant" : "Landlord")}
-                          </h4>
+                          <div className="flex items-center gap-1.5 min-w-0">
+                            <h4 className="text-sm font-semibold text-text-main truncate">
+                              {thread.otherUserName ??
+                                (role === "landlord" ? "Tenant" : "Landlord")}
+                            </h4>
+                            <span
+                              className={`shrink-0 text-[10px] font-medium ${
+                                thread.kyc_status === "verified"
+                                  ? "text-green-600"
+                                  : "text-slate-400"
+                              }`}
+                            >
+                              {thread.kyc_status === "verified"
+                                ? "Verified"
+                                : "Unverified"}
+                            </span>
+                          </div>
                           <div className="flex items-center gap-1.5 shrink-0">
                             {thread.unreadCount > 0 && (
                               <span className="min-w-[1.25rem] h-5 flex items-center justify-center rounded-full bg-red-600 text-white text-[10px] font-bold px-1">
@@ -390,15 +409,31 @@ export function ChatShell({
                 >
                   <ArrowLeft className="h-5 w-5" />
                 </Link>
-                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold text-sm shrink-0">
-                  {getInitials(otherParty?.full_name)}
+                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold text-sm shrink-0 overflow-hidden">
+                  {otherParty?.avatar_url ? (
+                    <img src={otherParty.avatar_url} alt={otherParty.full_name ?? ""} className="w-full h-full object-cover" />
+                  ) : (
+                    getInitials(otherParty?.full_name)
+                  )}
                 </div>
                 <div className="min-w-0">
-                  <h3 className="text-sm font-semibold text-text-main truncate">
-                    {otherParty?.full_name ??
-                      (role === "landlord" ? "Tenant" : "Landlord")}
-                  </h3>
-                  <p className="text-xs text-green-600">Online</p>
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-sm font-semibold text-text-main truncate">
+                      {otherParty?.full_name ??
+                        (role === "landlord" ? "Tenant" : "Landlord")}
+                    </h3>
+                  </div>
+                  <p
+                    className={`text-xs ${
+                      otherParty?.kyc_status === "verified"
+                        ? "text-green-600"
+                        : "text-slate-400"
+                    }`}
+                  >
+                    {otherParty?.kyc_status === "verified"
+                      ? "Verified"
+                      : "Unverified"}
+                  </p>
                 </div>
               </div>
             </div>

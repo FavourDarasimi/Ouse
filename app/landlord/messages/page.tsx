@@ -32,7 +32,7 @@ export default async function LandlordMessagesPage() {
   const [profileResult, listingResult, messagesResult] = await Promise.all([
     createAdminClient()
       .from("profiles")
-      .select("id, full_name, avatar_url")
+      .select("id, full_name, avatar_url, kyc_status")
       .in("id", tenantIds),
     createAdminClient()
       .from("listings")
@@ -88,6 +88,7 @@ export default async function LandlordMessagesPage() {
         otherUserId: conv.tenant_id,
         otherUserName: profile?.full_name ?? null,
         otherUserAvatar: profile?.avatar_url ?? null,
+        kyc_status: profile?.kyc_status ?? "unverified",
         lastMessage: latest?.body ?? null,
         lastMessageTime: latest?.created_at ?? null,
         unreadCount: unreadCountMap.get(conv.id) ?? 0,

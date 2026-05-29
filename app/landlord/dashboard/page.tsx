@@ -243,6 +243,9 @@ export default async function LandlordDashboardPage() {
                       tenantName={
                         profileMap.get(conv.tenant_id)?.full_name ?? null
                       }
+                      tenantAvatarUrl={
+                        profileMap.get(conv.tenant_id)?.avatar_url ?? null
+                      }
                       listingTitle={
                         listingMap.get(conv.listing_id)?.title ?? "Property"
                       }

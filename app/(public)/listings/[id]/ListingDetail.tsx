@@ -14,16 +14,18 @@ import {
 import { useAuth } from "@/context/AuthContext";
 import { useChat } from "@/context/ChatContext";
 import { findOrCreateConversation } from "@/lib/actions/conversations";
-import type { Listing } from "@/types";
+import { VerifiedBadge } from "@/components/ui/VerifiedBadge";
+import type { Listing, KycStatus } from "@/types";
 
 interface ListingDetailProps {
   listing: Listing & {
-    profiles?: { full_name: string | null; avatar_url: string | null } | null;
+    profiles?: { full_name: string | null; avatar_url: string | null; kyc_status: KycStatus } | null;
   };
   landlordProfile: {
     id: string;
     full_name: string | null;
     avatar_url: string | null;
+    kyc_status: KycStatus;
   } | null;
 }
 
@@ -156,20 +158,29 @@ export function ListingDetail({
       {/* Landlord card + Message button */}
       <div className="bg-surface rounded-2xl border border-slate-100 p-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold text-sm">
-            {landlordProfile?.full_name
-              ? landlordProfile.full_name
-                  .split(" ")
-                  .map((n) => n[0])
-                  .join("")
-                  .toUpperCase()
-                  .slice(0, 2)
-              : "L"}
+          <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold text-sm overflow-hidden shrink-0">
+            {landlordProfile?.avatar_url ? (
+              <img src={landlordProfile.avatar_url} alt={landlordProfile.full_name ?? ""} className="w-full h-full object-cover" />
+            ) : landlordProfile?.full_name ? (
+              landlordProfile.full_name
+                .split(" ")
+                .map((n) => n[0])
+                .join("")
+                .toUpperCase()
+                .slice(0, 2)
+            ) : (
+              "L"
+            )}
           </div>
           <div>
-            <p className="text-sm font-semibold text-text-main">
-              {landlordProfile?.full_name ?? "Landlord"}
-            </p>
+            <div className="flex items-center gap-2">
+              <p className="text-sm font-semibold text-text-main">
+                {landlordProfile?.full_name ?? "Landlord"}
+              </p>
+              {landlordProfile?.kyc_status === "verified" && (
+                <VerifiedBadge size="large" showLabel />
+              )}
+            </div>
             <p className="text-xs text-slate-400">Property Owner</p>
           </div>
         </div>

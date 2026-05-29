@@ -10,7 +10,7 @@ export default async function PublicListingsPage({
 
   const { data: listings } = await supabase
     .from("listings")
-    .select("*, profiles(full_name, avatar_url)")
+    .select("*, profiles(full_name, avatar_url, kyc_status)")
     .order("created_at", { ascending: false });
 
   const { location } = await searchParams;

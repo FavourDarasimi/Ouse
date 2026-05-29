@@ -14,7 +14,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useUnreadCount } from "@/hooks/useUnreadCount";
 
 interface SidebarProps {
-  profile?: { full_name?: string | null } | null;
+  profile?: { full_name?: string | null; avatar_url?: string | null } | null;
   unreadCount?: number;
 }
 
@@ -78,8 +78,12 @@ export function Sidebar({ profile, unreadCount: serverUnreadCount = 0 }: Sidebar
       </nav>
 
       <div className="mt-auto flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-slate-50 dark:hover:bg-surface-elevated transition-colors duration-150">
-        <div className="w-9 h-9 rounded-full bg-secondary flex items-center justify-center text-white text-sm font-semibold shrink-0">
-          {getInitials(profile?.full_name)}
+        <div className="w-9 h-9 rounded-full bg-secondary flex items-center justify-center text-white text-sm font-semibold shrink-0 overflow-hidden">
+          {profile?.avatar_url ? (
+            <img src={profile.avatar_url} alt={profile.full_name ?? ""} className="w-full h-full object-cover" />
+          ) : (
+            getInitials(profile?.full_name)
+          )}
         </div>
         <div className="min-w-0">
           <p className="text-sm font-medium text-text-main truncate">

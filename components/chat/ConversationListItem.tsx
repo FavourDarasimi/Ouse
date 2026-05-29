@@ -8,6 +8,7 @@ import { getInitials } from "@/lib/utils/getInitials";
 interface ConversationListItemProps {
   conversationId: string;
   tenantName: string | null;
+  tenantAvatarUrl?: string | null;
   listingTitle: string;
   lastMessage: string | null;
   lastMessageTime: string | null;
@@ -17,6 +18,7 @@ interface ConversationListItemProps {
 export function ConversationListItem({
   conversationId,
   tenantName,
+  tenantAvatarUrl,
   listingTitle,
   lastMessage,
   lastMessageTime,
@@ -31,8 +33,12 @@ export function ConversationListItem({
         href={`/landlord/messages/${conversationId}`}
         className="flex items-start gap-3 rounded-2xl border border-slate-100 bg-surface p-3 transition-colors hover:border-primary/30"
       >
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary">
-          {getInitials(tenantName)}
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary overflow-hidden">
+          {tenantAvatarUrl ? (
+            <img src={tenantAvatarUrl} alt={tenantName ?? ""} className="w-full h-full object-cover" />
+          ) : (
+            getInitials(tenantName)
+          )}
         </div>
 
         <div className="min-w-0 flex-1">

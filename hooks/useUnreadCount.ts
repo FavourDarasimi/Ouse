@@ -10,16 +10,13 @@ export function useUnreadCount(
 ): number {
   const [unreadCount, setUnreadCount] = useState(initialCount);
   const convIdsRef = useRef<Set<string>>(new Set());
-  const channelNameRef = useRef(
-    userId ? `unread-${userId}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}` : ""
-  );
+  const channelRef = useRef<RealtimeChannel | null>(null);
 
   useEffect(() => {
     if (!userId) return;
 
     const supabase = createClient();
-    const channelName = channelNameRef.current || `unread-${userId}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-    let channel: RealtimeChannel | null = null;
+    const channelName = `unread-${userId}`;
     let mounted = true;
 
     async function init() {
@@ -33,7 +30,7 @@ export function useUnreadCount(
       const convIds = new Set(conversations?.map((c) => c.id) ?? []);
       convIdsRef.current = convIds;
 
-      channel = supabase
+      const ch = supabase
         .channel(channelName)
         .on(
           "postgres_changes",
@@ -97,14 +94,16 @@ export function useUnreadCount(
           }
         )
         .subscribe();
+      channelRef.current = ch;
     }
 
     init();
 
     return () => {
       mounted = false;
-      if (channel) {
-        supabase.removeChannel(channel);
+      if (channelRef.current) {
+        supabase.removeChannel(channelRef.current);
+        channelRef.current = null;
       }
     };
   }, [userId]);

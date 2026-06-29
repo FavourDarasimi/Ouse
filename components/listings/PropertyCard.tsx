@@ -73,6 +73,7 @@ export function PropertyCard({ listing }: PropertyCardProps) {
             src={listing.images[0]}
             alt=""
             className="w-full h-full object-cover"
+            loading="lazy"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-slate-300 dark:text-text-muted text-sm">

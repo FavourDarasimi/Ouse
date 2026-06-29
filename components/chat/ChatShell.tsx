@@ -1,13 +1,11 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Search,
   ArrowLeft,
-  User,
-  MoreHorizontal,
   MessageCircle,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
@@ -59,7 +57,10 @@ export function ChatShell({
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const convIdsRef = useRef(new Set(initialConversations.map((t) => t.id)));
   const activeConvIdRef = useRef(activeConversationId);
-  activeConvIdRef.current = activeConversationId;
+
+  useEffect(() => {
+    activeConvIdRef.current = activeConversationId;
+  }, [activeConversationId]);
 
   useEffect(() => {
     if (!activeConversationId) return;
@@ -145,21 +146,24 @@ export function ChatShell({
           const msg = payload.new as Message;
           if (!convIdsRef.current.has(msg.conversation_id)) return;
 
-          setThreads((prev) =>
-            prev.map((t) => {
-              if (t.id !== msg.conversation_id) return t;
-              return {
-                ...t,
-                lastMessage: msg.body,
-                lastMessageTime: msg.created_at,
-                unreadCount:
-                  msg.sender_id === currentUserId ||
-                  t.id === activeConvIdRef.current
-                    ? t.unreadCount
-                    : t.unreadCount + 1,
-              };
-            }),
-          );
+          setThreads((prev) => {
+            const idx = prev.findIndex((t) => t.id === msg.conversation_id);
+            if (idx === -1) return prev;
+            const t = prev[idx];
+            const updated = {
+              ...t,
+              lastMessage: msg.body,
+              lastMessageTime: msg.created_at,
+              unreadCount:
+                msg.sender_id === currentUserId ||
+                t.id === activeConvIdRef.current
+                  ? t.unreadCount
+                  : t.unreadCount + 1,
+            };
+            const next = prev.slice();
+            next[idx] = updated;
+            return next;
+          });
         },
       )
       .subscribe();
@@ -243,28 +247,40 @@ export function ChatShell({
   const inboxPath =
     role === "landlord" ? "/landlord/messages" : "/tenant/messages";
 
-  const filteredThreads = threads.filter((t) =>
-    t.otherUserName?.toLowerCase().includes(searchQuery.toLowerCase()),
+  const filteredThreads = useMemo(
+    () =>
+      threads.filter((t) =>
+        t.otherUserName?.toLowerCase().includes(searchQuery.toLowerCase()),
+      ),
+    [threads, searchQuery],
   );
 
-  const groupedMessages = localMessages.reduce<
-    { date: string; messages: Message[] }[]
-  >((groups, msg) => {
-    const date = new Date(msg.created_at).toLocaleDateString("en-NG", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    });
-    const last = groups[groups.length - 1];
-    if (last && last.date === date) {
-      last.messages.push(msg);
-    } else {
-      groups.push({ date, messages: [msg] });
-    }
-    return groups;
-  }, []);
+  const groupedMessages = useMemo(
+    () =>
+      localMessages.reduce<{ date: string; messages: Message[] }[]>(
+        (groups, msg) => {
+          const date = new Date(msg.created_at).toLocaleDateString("en-NG", {
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+          });
+          const last = groups[groups.length - 1];
+          if (last && last.date === date) {
+            last.messages.push(msg);
+          } else {
+            groups.push({ date, messages: [msg] });
+          }
+          return groups;
+        },
+        [],
+      ),
+    [localMessages],
+  );
 
-  const isOwnMessage = (msg: Message) => msg.sender_id === currentUserId;
+  const isOwnMessage = useCallback(
+    (msg: Message) => msg.sender_id === currentUserId,
+    [currentUserId],
+  );
 
   return (
     <div className="h-full w-full flex bg-surface">
@@ -320,7 +336,7 @@ export function ChatShell({
                     ? `/landlord/messages/${thread.id}`
                     : `/tenant/messages/${thread.id}`;
                 return (
-                  <motion.div key={thread.id} layout>
+                  <div key={thread.id}>
                     <Link
                       href={href}
                       className={`flex items-start gap-3 w-full px-4 py-3.5 transition-colors duration-150  ${
@@ -329,7 +345,7 @@ export function ChatShell({
                     >
                       <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold text-sm shrink-0 overflow-hidden">
                         {thread.otherUserAvatar ? (
-                          <img src={thread.otherUserAvatar} alt={thread.otherUserName ?? ""} className="w-full h-full object-cover" />
+                          <img src={thread.otherUserAvatar} alt={thread.otherUserName ?? ""} className="w-full h-full object-cover" loading="lazy" />
                         ) : (
                           getInitials(thread.otherUserName)
                         )}
@@ -378,7 +394,7 @@ export function ChatShell({
                         )}
                       </div>
                     </Link>
-                  </motion.div>
+                  </div>
                 );
               })}
             </div>
@@ -411,7 +427,7 @@ export function ChatShell({
                 </Link>
                 <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold text-sm shrink-0 overflow-hidden">
                   {otherParty?.avatar_url ? (
-                    <img src={otherParty.avatar_url} alt={otherParty.full_name ?? ""} className="w-full h-full object-cover" />
+                    <img src={otherParty.avatar_url} alt={otherParty.full_name ?? ""} className="w-full h-full object-cover" loading="lazy" />
                   ) : (
                     getInitials(otherParty?.full_name)
                   )}
@@ -446,6 +462,7 @@ export function ChatShell({
                     src={listing.images[0]}
                     alt={listing?.title ?? ""}
                     className="w-full h-full object-cover"
+                    loading="lazy"
                   />
                 ) : (
                   "No img"

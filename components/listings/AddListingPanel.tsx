@@ -12,7 +12,7 @@ import { X, Plus, Loader2, GripVertical, Upload, ShieldAlert } from "lucide-reac
 import { useAddListing } from "@/context/AddListingContext";
 import { useAuth } from "@/context/AuthContext";
 import { createClient } from "@/lib/supabase/client";
-import type { PropertyType, RentType, Listing } from "@/types";
+import type { PropertyType, RentType } from "@/types";
 
 const propertyTypes: { value: PropertyType; label: string }[] = [
   { value: "house", label: "House" },
@@ -62,6 +62,8 @@ export function AddListingPanel() {
   const isEditing = !!listing;
   const isVerified = kyc_status === "verified";
 
+  const blobUrlsRef = useRef<string[]>([]);
+
   useEffect(() => {
     if (open && listing) {
       setTitle(listing.title);
@@ -86,21 +88,15 @@ export function AddListingPanel() {
   }, [open, listing]);
 
   useEffect(() => {
+    const urls = blobUrlsRef.current;
     return () => {
-      imageItems.forEach((item) => {
-        if (item.type === "file" && item.preview.startsWith("blob:")) {
-          URL.revokeObjectURL(item.preview);
-        }
-      });
+      urls.forEach((url) => URL.revokeObjectURL(url));
     };
   }, []);
 
   const resetForm = () => {
-    imageItems.forEach((item) => {
-      if (item.type === "file" && item.preview.startsWith("blob:")) {
-        URL.revokeObjectURL(item.preview);
-      }
-    });
+    blobUrlsRef.current.forEach((url) => URL.revokeObjectURL(url));
+    blobUrlsRef.current = [];
     setTitle("");
     setDescription("");
     setPrice("");
@@ -122,12 +118,16 @@ export function AddListingPanel() {
   };
 
   const handleFileSelect = (files: FileList) => {
-    const newItems: ImageItem[] = Array.from(files).map((file) => ({
-      id: nextImageId(),
-      type: "file",
-      file,
-      preview: URL.createObjectURL(file),
-    }));
+    const newItems: ImageItem[] = Array.from(files).map((file) => {
+      const preview = URL.createObjectURL(file);
+      blobUrlsRef.current.push(preview);
+      return {
+        id: nextImageId(),
+        type: "file",
+        file,
+        preview,
+      };
+    });
     setImageItems((prev) => [...prev, ...newItems]);
   };
 
@@ -136,6 +136,7 @@ export function AddListingPanel() {
       const item = prev.find((i) => i.id === id);
       if (item?.type === "file" && item.preview.startsWith("blob:")) {
         URL.revokeObjectURL(item.preview);
+        blobUrlsRef.current = blobUrlsRef.current.filter((u) => u !== item.preview);
       }
       return prev.filter((i) => i.id !== id);
     });
@@ -604,6 +605,7 @@ export function AddListingPanel() {
                             src={item.preview}
                             alt=""
                             className="w-full h-full object-cover pointer-events-none"
+                            loading="lazy"
                           />
                           <div className="absolute inset-x-0 top-0 flex items-center justify-between p-1 opacity-0 group-hover:opacity-100 transition-opacity bg-gradient-to-b from-black/40 to-transparent">
                             <GripVertical className="h-4 w-4 text-white drop-shadow" />

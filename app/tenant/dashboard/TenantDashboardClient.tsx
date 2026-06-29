@@ -410,7 +410,7 @@ export function TenantDashboardClient({
                           }`}
                         >
                           {chat.otherUserAvatar ? (
-                            <img src={chat.otherUserAvatar} alt={chat.otherUserName ?? ""} className="w-full h-full object-cover" />
+                            <img src={chat.otherUserAvatar} alt={chat.otherUserName ?? ""} className="w-full h-full object-cover" loading="lazy" />
                           ) : chat.otherUserName ? (
                             getInitials(chat.otherUserName)
                           ) : (

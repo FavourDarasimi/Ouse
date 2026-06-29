@@ -35,7 +35,7 @@ export function ConversationListItem({
       >
         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary overflow-hidden">
           {tenantAvatarUrl ? (
-            <img src={tenantAvatarUrl} alt={tenantName ?? ""} className="w-full h-full object-cover" />
+            <img src={tenantAvatarUrl} alt={tenantName ?? ""} className="w-full h-full object-cover" loading="lazy" />
           ) : (
             getInitials(tenantName)
           )}

@@ -5,6 +5,8 @@ import {
   useContext,
   useState,
   useCallback,
+  useRef,
+  useEffect,
   type ReactNode,
 } from "react";
 import { useRouter } from "next/navigation";
@@ -51,6 +53,11 @@ const ChatContext = createContext<ChatContextValue | null>(null);
 export function ChatProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<ChatState>(defaultState);
   const router = useRouter();
+  const stateRef = useRef(state);
+
+  useEffect(() => {
+    stateRef.current = state;
+  }, [state]);
 
   const openChat = useCallback(async (conversationId: string) => {
     const supabase = createClient();
@@ -116,13 +123,14 @@ export function ChatProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const expandChat = useCallback(() => {
+    const s = stateRef.current;
     const path =
-      state.role === "landlord"
-        ? `/landlord/messages/${state.conversationId}`
-        : `/tenant/messages/${state.conversationId}`;
+      s.role === "landlord"
+        ? `/landlord/messages/${s.conversationId}`
+        : `/tenant/messages/${s.conversationId}`;
     setState(defaultState);
     router.push(path);
-  }, [state.role, state.conversationId, router]);
+  }, [router]);
 
   const toggleChat = useCallback(() => {
     setState((prev) => ({ ...prev, isOpen: !prev.isOpen }));

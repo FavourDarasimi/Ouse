@@ -63,6 +63,23 @@ export function HeroSection() {
                 Explore Listings
               </Link>
             </motion.div>
+
+            <motion.div
+              variants={fadeUp}
+              className="mt-14 grid grid-cols-4 gap-6"
+            >
+              {[
+                { value: "2,400+", label: "Listings" },
+                { value: "850+", label: "Landlords" },
+                { value: "15,000+", label: "Happy Tenants" },
+                { value: "98%", label: "Satisfaction" },
+              ].map(({ value, label }) => (
+                <div key={label}>
+                  <p className="text-2xl font-bold text-text-main">{value}</p>
+                  <p className="text-xs text-slate-400 mt-0.5">{label}</p>
+                </div>
+              ))}
+            </motion.div>
           </motion.div>
 
           <motion.div

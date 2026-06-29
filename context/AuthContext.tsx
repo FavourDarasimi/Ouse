@@ -125,22 +125,32 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     window.location.href = "/";
   };
 
+  const value = useMemo(
+    () => ({
+      user,
+      profile,
+      role: profile?.role ?? null,
+      onboarded: profile?.onboarded ?? false,
+      isAuthInitialized,
+      isLoggingOut,
+      signOut,
+      refreshProfile,
+      kyc_status: profile?.kyc_status ?? "unverified",
+      kyc_method: profile?.kyc_method ?? null,
+      kyc_verified_at: profile?.kyc_verified_at ?? null,
+    }),
+    [
+      user,
+      profile,
+      isAuthInitialized,
+      isLoggingOut,
+      signOut,
+      refreshProfile,
+    ],
+  );
+
   return (
-    <AuthContext.Provider
-      value={{
-        user,
-        profile,
-        role: profile?.role ?? null,
-        onboarded: profile?.onboarded ?? false,
-        isAuthInitialized,
-        isLoggingOut,
-        signOut,
-        refreshProfile,
-        kyc_status: profile?.kyc_status ?? "unverified",
-        kyc_method: profile?.kyc_method ?? null,
-        kyc_verified_at: profile?.kyc_verified_at ?? null,
-      }}
-    >
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );

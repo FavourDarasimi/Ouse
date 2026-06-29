@@ -80,7 +80,7 @@ export function Sidebar({ profile, unreadCount: serverUnreadCount = 0 }: Sidebar
       <div className="mt-auto flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-slate-50 dark:hover:bg-surface-elevated transition-colors duration-150">
         <div className="w-9 h-9 rounded-full bg-secondary flex items-center justify-center text-white text-sm font-semibold shrink-0 overflow-hidden">
           {profile?.avatar_url ? (
-            <img src={profile.avatar_url} alt={profile.full_name ?? ""} className="w-full h-full object-cover" />
+            <img src={profile.avatar_url} alt={profile.full_name ?? ""} className="w-full h-full object-cover" loading="lazy" />
           ) : (
             getInitials(profile?.full_name)
           )}

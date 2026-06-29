@@ -55,8 +55,9 @@ export default async function LandlordDashboardPage() {
 
   const { data: allConversations } = await supabase
     .from("conversations")
-    .select("id")
-    .eq("landlord_id", user.id);
+    .select("id, listing_id, tenant_id, created_at")
+    .eq("landlord_id", user.id)
+    .order("created_at", { ascending: false });
 
   const allConversationIds = allConversations?.map((c) => c.id) ?? [];
 
@@ -78,12 +79,7 @@ export default async function LandlordDashboardPage() {
         : Promise.resolve({ count: 0, error: null }),
     ]);
 
-  const { data: conversations } = await supabase
-    .from("conversations")
-    .select("id, listing_id, tenant_id, created_at")
-    .eq("landlord_id", user.id)
-    .order("created_at", { ascending: false })
-    .limit(5);
+  const conversations = allConversations?.slice(0, 5);
 
   const conversationIds = conversations?.map((c) => c.id) ?? [];
   const tenantIds = conversations?.map((c) => c.tenant_id) ?? [];
@@ -115,7 +111,7 @@ export default async function LandlordDashboardPage() {
   const profileMap = new Map(profileResult?.data?.map((p) => [p.id, p]) ?? []);
   const listingMap = new Map(listingResult?.data?.map((l) => [l.id, l]) ?? []);
 
-  let latestMessageMap = new Map<
+  const latestMessageMap = new Map<
     string,
     { body: string; created_at: string; read: boolean; sender_id: string }
   >();

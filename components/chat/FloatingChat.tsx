@@ -5,13 +5,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useChat } from "@/context/ChatContext";
 import { getMessages, sendMessage } from "@/lib/actions/messages";
 import { formatRelativeTime } from "@/lib/utils/formatDate";
-import { formatPrice } from "@/lib/utils/formatPrice";
 import { createClient } from "@/lib/supabase/client";
 import type { Message } from "@/types";
 import { Send, ExternalLink, Minus, X, Building2 } from "lucide-react";
 
 export function FloatingChat() {
-  const { state, closeChat, expandChat, toggleChat } = useChat();
+  const { state, closeChat, expandChat } = useChat();
   const {
     conversationId,
     isOpen,
@@ -20,7 +19,6 @@ export function FloatingChat() {
     otherPersonInitials,
     propertyTitle,
     propertyPrice,
-    propertyLocation,
     listingId,
     userId,
     role,
@@ -31,10 +29,13 @@ export function FloatingChat() {
   const [minimised, setMinimised] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const inputValueRef = useRef(inputValue);
+
+  useEffect(() => {
+    inputValueRef.current = inputValue;
+  }, [inputValue]);
 
   const supabase = createClient();
-  const inboxPath =
-    role === "landlord" ? "/landlord/messages" : "/tenant/messages";
 
   useEffect(() => {
     if (!conversationId) {
@@ -81,22 +82,20 @@ export function FloatingChat() {
   }, [messages]);
 
   const handleSend = useCallback(async () => {
-    if (!inputValue.trim() || !conversationId) return;
+    const body = inputValueRef.current.trim();
+    if (!body || !conversationId) return;
     const tempId = crypto.randomUUID();
     const optimistic: Message = {
       id: tempId,
       conversation_id: conversationId,
       sender_id: userId,
-      body: inputValue.trim(),
+      body,
       read: true,
       created_at: new Date().toISOString(),
     };
     setMessages((prev) => [...prev, optimistic]);
     setInputValue("");
-    const { data, error } = await sendMessage(
-      conversationId,
-      inputValue.trim(),
-    );
+    const { data, error } = await sendMessage(conversationId, body);
     if (error) {
       setMessages((prev) => prev.filter((m) => m.id !== tempId));
       return;
@@ -104,7 +103,7 @@ export function FloatingChat() {
     if (data) {
       setMessages((prev) => prev.map((m) => (m.id === tempId ? data : m)));
     }
-  }, [inputValue, conversationId, userId]);
+  }, [conversationId, userId]);
 
   return (
     <AnimatePresence>
@@ -125,7 +124,7 @@ export function FloatingChat() {
             <div className="flex items-center gap-2.5 min-w-0">
               <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white text-xs font-semibold shrink-0 overflow-hidden">
                 {otherPersonAvatar ? (
-                  <img src={otherPersonAvatar} alt={otherPersonName} className="w-full h-full object-cover" />
+                  <img src={otherPersonAvatar} alt={otherPersonName} className="w-full h-full object-cover" loading="lazy" />
                 ) : (
                   otherPersonInitials
                 )}
